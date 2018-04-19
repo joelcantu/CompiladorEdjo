@@ -774,33 +774,90 @@ def p_Turtle(p):
 	'''
 
 def p_Forward(p):
-	'''Forward	:	TUR POINT FORWARD LPAREN ExpI RPAREN SEMICOLON
+	'''Forward	:	TUR POINT FORWARD LPAREN ExpI RPAREN SEMICOLON crea_cuadruplo_forward
 	'''
+
+def p_crea_cuadruplo_forward(p):
+	'''crea_cuadruplo_forward	: 
+	'''
+	operando = edjo.pilaOperandos.pop()
+	cuadruplo = Cuadruplo(edjo.numCuadruplo, 'TUR_FORWARD', operando, None, None)
+	edjo.cuadruplos.append(cuadruplo)
+	edjo.numCuadruplo += 1
+ 
 
 def p_Right(p):
-	'''Right	:	TUR POINT RIGHT LPAREN ExpI RPAREN SEMICOLON
+	'''Right	:	TUR POINT RIGHT LPAREN ExpI RPAREN SEMICOLON crea_quadruplo_right
 	'''
+
+def p_crea_quadruplo_right(p):
+	'''crea_quadruplo_right	: 
+	'''
+	operando = edjo.pilaOperandos.pop()
+	cuadruplo = Cuadruplo(edjo.numCuadruplo, 'TUR_RIGHT', operando, None, None)
+	edjo.cuadruplos.append(cuadruplo)
+	edjo.numCuadruplo += 1
 
 def p_Left(p):
-	'''Left		:	TUR POINT LEFT LPAREN ExpI RPAREN SEMICOLON
+	'''Left		:	TUR POINT LEFT LPAREN ExpI RPAREN SEMICOLON crea_cuadruplo_left
 	'''
+
+def p_crea_cuadruplo_left(p):
+	'''crea_cuadruplo_left	: 
+	'''
+	operando = edjo.pilaOperandos.pop()
+	cuadruplo = Cuadruplo(edjo.numCuadruplo, 'TUR_LEFT', operando, None, None)
+	edjo.cuadruplos.append(cuadruplo)
+	edjo.numCuadruplo += 1
+
 
 def p_Circle(p):
-	'''Circle	:	TUR POINT CIRCLE LPAREN ExpI RPAREN SEMICOLON
+	'''Circle	:	TUR POINT CIRCLE LPAREN ExpI RPAREN SEMICOLON crea_cuadruplo_circle
 	'''
+
+def p_crea_cuadruplo_circle(p):
+	'''crea_cuadruplo_circle	: 
+	'''
+	operando = edjo.pilaOperandos.pop()
+	cuadruplo = Cuadruplo(edjo.numCuadruplo, 'TUR_CIRCLE', operando, None, None)
+	edjo.cuadruplos.append(cuadruplo)
+	edjo.numCuadruplo += 1	
 
 def p_Position(p):
-	'''Position	:	TUR POINT POS LPAREN ExpI COMMA ExpI RPAREN SEMICOLON
+	'''Position	:	TUR POINT POS LPAREN ExpI COMMA ExpI RPAREN SEMICOLON crea_cuadruplo_pos
 	'''
+
+def p_crea_cuadruplo_pos(p):
+	'''crea_cuadruplo_pos	: 
+	'''
+	y = edjo.pilaOperandos.pop()
+	x = edjo.pilaOperandos.pop()
+	cuadruplo = Cuadruplo(edjo.numCuadruplo, 'TUR_POS', x, y, None)
+	edjo.cuadruplos.append(cuadruplo)
+	edjo.numCuadruplo += 1
+
 
 def p_IniciaTurtle(p):
-	'''IniciaTurtle	:	TUR POINT TURTLE LPAREN RPAREN SEMICOLON
+	'''IniciaTurtle	:	TUR POINT TURTLE LPAREN RPAREN SEMICOLON crea_cuadruplo_inicia
 	'''
+
+def p_crea_cuadruplo_inicia(p):
+	'''crea_cuadruplo_inicia	: 
+	'''
+	cuadruplo = Cuadruplo(edjo.numCuadruplo, 'TUR_INICIA', None, None, None)
+	edjo.cuadruplos.append(cuadruplo)
+	edjo.numCuadruplo += 1
 
 def p_TerminaTurtle(p):
-	'''TerminaTurtle	:	TUR POINT FINISH LPAREN RPAREN SEMICOLON
+	'''TerminaTurtle	:	TUR POINT FINISH LPAREN RPAREN SEMICOLON crea_cuadruplo_termina
 	'''
 
+def p_crea_cuadruplo_termina(p):
+	'''crea_cuadruplo_termina	: 
+	'''
+	cuadruplo = Cuadruplo(edjo.numCuadruplo, 'TUR_TERMINA', None, None, None)
+	edjo.cuadruplos.append(cuadruplo)
+	edjo.numCuadruplo += 1
 
 import ply.yacc as yacc
 import pprint

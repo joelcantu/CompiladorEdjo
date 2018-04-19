@@ -13,6 +13,13 @@ main(){
 	else{
 		print(a);
 	}
+	turtle.Turtle();
+	turtle.forward(a);
+	turtle.right(a);
+	turtle.left(a);
+	turtle.pos(1,2);
+	turtle.circle(a);
+	turtle.finish();
 Return zero;
 }
 
