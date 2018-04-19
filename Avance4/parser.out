@@ -1,0 +1,3267 @@
+Created by PLY version 3.10 (http://www.dabeaz.com/ply)
+
+Unused terminals:
+
+    POINT
+    LEFT
+    FORWARD
+    FINISH
+    TUR
+    RIGHT
+    VAR_CHAR
+    CIRCLE
+    IMPORT
+    FROM
+    FALSE
+    TRUE
+    POS
+    TURTLE
+    IFELSE
+
+Grammar
+
+Rule 0     S' -> program
+Rule 1     program -> START EDJO VAR_ID crea_primer_cuadruplo crea_funcion_global SEMICOLON Vars funciones Main
+Rule 2     crea_primer_cuadruplo -> <empty>
+Rule 3     crea_funcion_global -> <empty>
+Rule 4     Vars -> Tipo VAR_ID mas_vars agrega_var_funcion SEMICOLON Vars
+Rule 5     Vars -> <empty>
+Rule 6     Tipo -> INT
+Rule 7     Tipo -> DECIMAL
+Rule 8     Tipo -> STRING
+Rule 9     Tipo -> CHAR
+Rule 10    Tipo -> BOOL
+Rule 11    mas_vars -> COMMA VAR_ID mas_vars
+Rule 12    mas_vars -> <empty>
+Rule 13    agrega_var_funcion -> <empty>
+Rule 14    Asignacion -> VAR_ID push_var_PilaOperandos ASSIGN push_operador_PilaOperadores ExpI SEMICOLON resuelve_asignacion
+Rule 15    push_var_PilaOperandos -> <empty>
+Rule 16    push_operador_PilaOperadores -> <empty>
+Rule 17    resuelve_asignacion -> <empty>
+Rule 18    ExpI -> ExpK resuelve_operadores_relacionales
+Rule 19    ExpI -> ExpK Operandos push_operador_PilaOperadores ExpK resuelve_operadores_relacionales
+Rule 20    Operandos -> LT
+Rule 21    Operandos -> GT
+Rule 22    Operandos -> NE
+Rule 23    Operandos -> LE
+Rule 24    Operandos -> GE
+Rule 25    Operandos -> EQ
+Rule 26    resuelve_operadores_relacionales -> <empty>
+Rule 27    ExpK -> ExpT resuelve_termino
+Rule 28    ExpK -> ExpT resuelve_termino pos_SUMRES push_operador_PilaOperadores ExpK
+Rule 29    resuelve_termino -> <empty>
+Rule 30    pos_SUMRES -> PLUS
+Rule 31    pos_SUMRES -> MINUS
+Rule 32    ExpT -> ExpF resuelve_factor
+Rule 33    ExpT -> ExpF resuelve_factor pos_MULTDIV push_operador_PilaOperadores ExpT
+Rule 34    resuelve_factor -> <empty>
+Rule 35    pos_MULTDIV -> MULT
+Rule 36    pos_MULTDIV -> DIV
+Rule 37    ExpF -> VAR_CTE
+Rule 38    ExpF -> LPAREN agrega_falso ExpI RPAREN quita_falso
+Rule 39    ExpF -> VAR_ID push_var_PilaOperandos pos_arreglo
+Rule 40    ExpF -> llama_funcion
+Rule 41    VAR_CTE -> VAR_INT push_int_PilaOperandos
+Rule 42    VAR_CTE -> VAR_DECIMAL push_decimal_PilaOperandos
+Rule 43    push_int_PilaOperandos -> <empty>
+Rule 44    push_decimal_PilaOperandos -> <empty>
+Rule 45    agrega_falso -> <empty>
+Rule 46    quita_falso -> <empty>
+Rule 47    llama_funcion -> VAR_ID LPAREN agrega_falso checa_funcion_si_existe argumentos RPAREN quita_falso resuelve_llamada_funcion guarda_resultado_funcion
+Rule 48    checa_funcion_si_existe -> <empty>
+Rule 49    argumentos -> ExpI resuelve_argumentos mas_argumentos
+Rule 50    argumentos -> <empty>
+Rule 51    mas_argumentos -> COMMA ExpI resuelve_argumentos mas_argumentos
+Rule 52    mas_argumentos -> <empty>
+Rule 53    resuelve_argumentos -> <empty>
+Rule 54    resuelve_llamada_funcion -> <empty>
+Rule 55    guarda_resultado_funcion -> <empty>
+Rule 56    pos_arreglo -> SLBRACKET ExpI SRBRACKET
+Rule 57    pos_arreglo -> <empty>
+Rule 58    funciones -> FUNC tipo_funcion VAR_ID LPAREN param RPAREN agrega_funcion LBRACKET Vars reg_brack RBRACKET fin_func_quad funciones
+Rule 59    funciones -> <empty>
+Rule 60    tipo_funcion -> VOID
+Rule 61    tipo_funcion -> Tipo
+Rule 62    param -> Tipo VAR_ID pos_commaf
+Rule 63    param -> <empty>
+Rule 64    pos_commaf -> COMMA Tipo VAR_ID pos_commaf
+Rule 65    pos_commaf -> <empty>
+Rule 66    agrega_funcion -> <empty>
+Rule 67    fin_func_quad -> <empty>
+Rule 68    reg_brack -> Estatutos reg_brack
+Rule 69    reg_brack -> <empty>
+Rule 70    Estatutos -> Condicion
+Rule 71    Estatutos -> Ciclo
+Rule 72    Estatutos -> Return
+Rule 73    Estatutos -> Asignacion
+Rule 74    Estatutos -> Print
+Rule 75    Estatutos -> Llamada_Func
+Rule 76    Condicion -> IF LPAREN ExpI RPAREN crea_GOTOF LBRACKET reg_brack RBRACKET pos_else llena_cuadruplo_if
+Rule 77    crea_GOTOF -> <empty>
+Rule 78    llena_cuadruplo_if -> <empty>
+Rule 79    pos_else -> ELSE crea_else_cuadruplo LBRACKET reg_brack RBRACKET
+Rule 80    pos_else -> <empty>
+Rule 81    crea_else_cuadruplo -> <empty>
+Rule 82    Return -> RETURN ExpI SEMICOLON resuelve_return
+Rule 83    resuelve_return -> <empty>
+Rule 84    Print -> PRINT LPAREN VAR_STRING RPAREN SEMICOLON
+Rule 85    Print -> PRINT LPAREN ExpI RPAREN SEMICOLON crea_print
+Rule 86    crea_print -> <empty>
+Rule 87    Llamada_Func -> VAR_ID LPAREN agrega_falso checa_funcion_si_existe argumentos RPAREN quita_falso resuelve_llamada_funcion SEMICOLON checa_void
+Rule 88    checa_void -> <empty>
+Rule 89    Ciclo -> For
+Rule 90    Ciclo -> While
+Rule 91    Ciclo -> DoWhile
+Rule 92    While -> WHILE guarda_numero_cuadruplo LPAREN ExpI RPAREN crea_GOTOF LBRACKET reg_brack RBRACKET regresa_inicio_while
+Rule 93    guarda_numero_cuadruplo -> <empty>
+Rule 94    regresa_inicio_while -> <empty>
+Rule 95    DoWhile -> DO LBRACKET reg_brack RBRACKET WHILE LPAREN ExpI RPAREN SEMICOLON
+Rule 96    For -> FOR LPAREN VAR_ID ASSIGN ExpI SEMICOLON ExpI SEMICOLON VAR_ID Exp_ciclo RPAREN LBRACKET reg_brack RBRACKET
+Rule 97    Exp_ciclo -> PLUS VAR_INT
+Rule 98    Exp_ciclo -> MINUS VAR_INT
+Rule 99    Exp_ciclo -> MULT VAR_INT
+Rule 100   Exp_ciclo -> DIV VAR_INT
+Rule 101   Exp_ciclo -> PLUSPLUS
+Rule 102   Exp_ciclo -> MINUSMINUS
+Rule 103   Main -> MAIN agrega_main_funcion LPAREN RPAREN LBRACKET Vars reg_brack RET ZERO SEMICOLON RBRACKET
+Rule 104   agrega_main_funcion -> <empty>
+
+Terminals, with rules where they appear
+
+ASSIGN               : 14 96
+BOOL                 : 10
+CHAR                 : 9
+CIRCLE               : 
+COMMA                : 11 51 64
+DECIMAL              : 7
+DIV                  : 36 100
+DO                   : 95
+EDJO                 : 1
+ELSE                 : 79
+EQ                   : 25
+FALSE                : 
+FINISH               : 
+FOR                  : 96
+FORWARD              : 
+FROM                 : 
+FUNC                 : 58
+GE                   : 24
+GT                   : 21
+IF                   : 76
+IFELSE               : 
+IMPORT               : 
+INT                  : 6
+LBRACKET             : 58 76 79 92 95 96 103
+LE                   : 23
+LEFT                 : 
+LPAREN               : 38 47 58 76 84 85 87 92 95 96 103
+LT                   : 20
+MAIN                 : 103
+MINUS                : 31 98
+MINUSMINUS           : 102
+MULT                 : 35 99
+NE                   : 22
+PLUS                 : 30 97
+PLUSPLUS             : 101
+POINT                : 
+POS                  : 
+PRINT                : 84 85
+RBRACKET             : 58 76 79 92 95 96 103
+RET                  : 103
+RETURN               : 82
+RIGHT                : 
+RPAREN               : 38 47 58 76 84 85 87 92 95 96 103
+SEMICOLON            : 1 4 14 82 84 85 87 95 96 96 103
+SLBRACKET            : 56
+SRBRACKET            : 56
+START                : 1
+STRING               : 8
+TRUE                 : 
+TUR                  : 
+TURTLE               : 
+VAR_CHAR             : 
+VAR_DECIMAL          : 42
+VAR_ID               : 1 4 11 14 39 47 58 62 64 87 96 96
+VAR_INT              : 41 97 98 99 100
+VAR_STRING           : 84
+VOID                 : 60
+WHILE                : 92 95
+ZERO                 : 103
+error                : 
+
+Nonterminals, with rules where they appear
+
+Asignacion           : 73
+Ciclo                : 71
+Condicion            : 70
+DoWhile              : 91
+Estatutos            : 68
+ExpF                 : 32 33
+ExpI                 : 14 38 49 51 56 76 82 85 92 95 96 96
+ExpK                 : 18 19 19 28
+ExpT                 : 27 28 33
+Exp_ciclo            : 96
+For                  : 89
+Llamada_Func         : 75
+Main                 : 1
+Operandos            : 19
+Print                : 74
+Return               : 72
+Tipo                 : 4 61 62 64
+VAR_CTE              : 37
+Vars                 : 1 4 58 103
+While                : 90
+agrega_falso         : 38 47 87
+agrega_funcion       : 58
+agrega_main_funcion  : 103
+agrega_var_funcion   : 4
+argumentos           : 47 87
+checa_funcion_si_existe : 47 87
+checa_void           : 87
+crea_GOTOF           : 76 92
+crea_else_cuadruplo  : 79
+crea_funcion_global  : 1
+crea_primer_cuadruplo : 1
+crea_print           : 85
+fin_func_quad        : 58
+funciones            : 1 58
+guarda_numero_cuadruplo : 92
+guarda_resultado_funcion : 47
+llama_funcion        : 40
+llena_cuadruplo_if   : 76
+mas_argumentos       : 49 51
+mas_vars             : 4 11
+param                : 58
+pos_MULTDIV          : 33
+pos_SUMRES           : 28
+pos_arreglo          : 39
+pos_commaf           : 62 64
+pos_else             : 76
+program              : 0
+push_decimal_PilaOperandos : 42
+push_int_PilaOperandos : 41
+push_operador_PilaOperadores : 14 19 28 33
+push_var_PilaOperandos : 14 39
+quita_falso          : 38 47 87
+reg_brack            : 58 68 76 79 92 95 96 103
+regresa_inicio_while : 92
+resuelve_argumentos  : 49 51
+resuelve_asignacion  : 14
+resuelve_factor      : 32 33
+resuelve_llamada_funcion : 47 87
+resuelve_operadores_relacionales : 18 19
+resuelve_return      : 82
+resuelve_termino     : 27 28
+tipo_funcion         : 58
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . program
+    (1) program -> . START EDJO VAR_ID crea_primer_cuadruplo crea_funcion_global SEMICOLON Vars funciones Main
+
+    START           shift and go to state 1
+
+    program                        shift and go to state 2
+
+state 1
+
+    (1) program -> START . EDJO VAR_ID crea_primer_cuadruplo crea_funcion_global SEMICOLON Vars funciones Main
+
+    EDJO            shift and go to state 3
+
+
+state 2
+
+    (0) S' -> program .
+
+
+
+state 3
+
+    (1) program -> START EDJO . VAR_ID crea_primer_cuadruplo crea_funcion_global SEMICOLON Vars funciones Main
+
+    VAR_ID          shift and go to state 4
+
+
+state 4
+
+    (1) program -> START EDJO VAR_ID . crea_primer_cuadruplo crea_funcion_global SEMICOLON Vars funciones Main
+    (2) crea_primer_cuadruplo -> .
+
+    SEMICOLON       reduce using rule 2 (crea_primer_cuadruplo -> .)
+
+    crea_primer_cuadruplo          shift and go to state 5
+
+state 5
+
+    (1) program -> START EDJO VAR_ID crea_primer_cuadruplo . crea_funcion_global SEMICOLON Vars funciones Main
+    (3) crea_funcion_global -> .
+
+    SEMICOLON       reduce using rule 3 (crea_funcion_global -> .)
+
+    crea_funcion_global            shift and go to state 6
+
+state 6
+
+    (1) program -> START EDJO VAR_ID crea_primer_cuadruplo crea_funcion_global . SEMICOLON Vars funciones Main
+
+    SEMICOLON       shift and go to state 7
+
+
+state 7
+
+    (1) program -> START EDJO VAR_ID crea_primer_cuadruplo crea_funcion_global SEMICOLON . Vars funciones Main
+    (4) Vars -> . Tipo VAR_ID mas_vars agrega_var_funcion SEMICOLON Vars
+    (5) Vars -> .
+    (6) Tipo -> . INT
+    (7) Tipo -> . DECIMAL
+    (8) Tipo -> . STRING
+    (9) Tipo -> . CHAR
+    (10) Tipo -> . BOOL
+
+    FUNC            reduce using rule 5 (Vars -> .)
+    MAIN            reduce using rule 5 (Vars -> .)
+    INT             shift and go to state 14
+    DECIMAL         shift and go to state 10
+    STRING          shift and go to state 11
+    CHAR            shift and go to state 8
+    BOOL            shift and go to state 13
+
+    Tipo                           shift and go to state 12
+    Vars                           shift and go to state 9
+
+state 8
+
+    (9) Tipo -> CHAR .
+
+    VAR_ID          reduce using rule 9 (Tipo -> CHAR .)
+
+
+state 9
+
+    (1) program -> START EDJO VAR_ID crea_primer_cuadruplo crea_funcion_global SEMICOLON Vars . funciones Main
+    (58) funciones -> . FUNC tipo_funcion VAR_ID LPAREN param RPAREN agrega_funcion LBRACKET Vars reg_brack RBRACKET fin_func_quad funciones
+    (59) funciones -> .
+
+    FUNC            shift and go to state 15
+    MAIN            reduce using rule 59 (funciones -> .)
+
+    funciones                      shift and go to state 16
+
+state 10
+
+    (7) Tipo -> DECIMAL .
+
+    VAR_ID          reduce using rule 7 (Tipo -> DECIMAL .)
+
+
+state 11
+
+    (8) Tipo -> STRING .
+
+    VAR_ID          reduce using rule 8 (Tipo -> STRING .)
+
+
+state 12
+
+    (4) Vars -> Tipo . VAR_ID mas_vars agrega_var_funcion SEMICOLON Vars
+
+    VAR_ID          shift and go to state 17
+
+
+state 13
+
+    (10) Tipo -> BOOL .
+
+    VAR_ID          reduce using rule 10 (Tipo -> BOOL .)
+
+
+state 14
+
+    (6) Tipo -> INT .
+
+    VAR_ID          reduce using rule 6 (Tipo -> INT .)
+
+
+state 15
+
+    (58) funciones -> FUNC . tipo_funcion VAR_ID LPAREN param RPAREN agrega_funcion LBRACKET Vars reg_brack RBRACKET fin_func_quad funciones
+    (60) tipo_funcion -> . VOID
+    (61) tipo_funcion -> . Tipo
+    (6) Tipo -> . INT
+    (7) Tipo -> . DECIMAL
+    (8) Tipo -> . STRING
+    (9) Tipo -> . CHAR
+    (10) Tipo -> . BOOL
+
+    VOID            shift and go to state 20
+    INT             shift and go to state 14
+    DECIMAL         shift and go to state 10
+    STRING          shift and go to state 11
+    CHAR            shift and go to state 8
+    BOOL            shift and go to state 13
+
+    tipo_funcion                   shift and go to state 18
+    Tipo                           shift and go to state 19
+
+state 16
+
+    (1) program -> START EDJO VAR_ID crea_primer_cuadruplo crea_funcion_global SEMICOLON Vars funciones . Main
+    (103) Main -> . MAIN agrega_main_funcion LPAREN RPAREN LBRACKET Vars reg_brack RET ZERO SEMICOLON RBRACKET
+
+    MAIN            shift and go to state 22
+
+    Main                           shift and go to state 21
+
+state 17
+
+    (4) Vars -> Tipo VAR_ID . mas_vars agrega_var_funcion SEMICOLON Vars
+    (11) mas_vars -> . COMMA VAR_ID mas_vars
+    (12) mas_vars -> .
+
+    COMMA           shift and go to state 24
+    SEMICOLON       reduce using rule 12 (mas_vars -> .)
+
+    mas_vars                       shift and go to state 23
+
+state 18
+
+    (58) funciones -> FUNC tipo_funcion . VAR_ID LPAREN param RPAREN agrega_funcion LBRACKET Vars reg_brack RBRACKET fin_func_quad funciones
+
+    VAR_ID          shift and go to state 25
+
+
+state 19
+
+    (61) tipo_funcion -> Tipo .
+
+    VAR_ID          reduce using rule 61 (tipo_funcion -> Tipo .)
+
+
+state 20
+
+    (60) tipo_funcion -> VOID .
+
+    VAR_ID          reduce using rule 60 (tipo_funcion -> VOID .)
+
+
+state 21
+
+    (1) program -> START EDJO VAR_ID crea_primer_cuadruplo crea_funcion_global SEMICOLON Vars funciones Main .
+
+    $end            reduce using rule 1 (program -> START EDJO VAR_ID crea_primer_cuadruplo crea_funcion_global SEMICOLON Vars funciones Main .)
+
+
+state 22
+
+    (103) Main -> MAIN . agrega_main_funcion LPAREN RPAREN LBRACKET Vars reg_brack RET ZERO SEMICOLON RBRACKET
+    (104) agrega_main_funcion -> .
+
+    LPAREN          reduce using rule 104 (agrega_main_funcion -> .)
+
+    agrega_main_funcion            shift and go to state 26
+
+state 23
+
+    (4) Vars -> Tipo VAR_ID mas_vars . agrega_var_funcion SEMICOLON Vars
+    (13) agrega_var_funcion -> .
+
+    SEMICOLON       reduce using rule 13 (agrega_var_funcion -> .)
+
+    agrega_var_funcion             shift and go to state 27
+
+state 24
+
+    (11) mas_vars -> COMMA . VAR_ID mas_vars
+
+    VAR_ID          shift and go to state 28
+
+
+state 25
+
+    (58) funciones -> FUNC tipo_funcion VAR_ID . LPAREN param RPAREN agrega_funcion LBRACKET Vars reg_brack RBRACKET fin_func_quad funciones
+
+    LPAREN          shift and go to state 29
+
+
+state 26
+
+    (103) Main -> MAIN agrega_main_funcion . LPAREN RPAREN LBRACKET Vars reg_brack RET ZERO SEMICOLON RBRACKET
+
+    LPAREN          shift and go to state 30
+
+
+state 27
+
+    (4) Vars -> Tipo VAR_ID mas_vars agrega_var_funcion . SEMICOLON Vars
+
+    SEMICOLON       shift and go to state 31
+
+
+state 28
+
+    (11) mas_vars -> COMMA VAR_ID . mas_vars
+    (11) mas_vars -> . COMMA VAR_ID mas_vars
+    (12) mas_vars -> .
+
+    COMMA           shift and go to state 24
+    SEMICOLON       reduce using rule 12 (mas_vars -> .)
+
+    mas_vars                       shift and go to state 32
+
+state 29
+
+    (58) funciones -> FUNC tipo_funcion VAR_ID LPAREN . param RPAREN agrega_funcion LBRACKET Vars reg_brack RBRACKET fin_func_quad funciones
+    (62) param -> . Tipo VAR_ID pos_commaf
+    (63) param -> .
+    (6) Tipo -> . INT
+    (7) Tipo -> . DECIMAL
+    (8) Tipo -> . STRING
+    (9) Tipo -> . CHAR
+    (10) Tipo -> . BOOL
+
+    RPAREN          reduce using rule 63 (param -> .)
+    INT             shift and go to state 14
+    DECIMAL         shift and go to state 10
+    STRING          shift and go to state 11
+    CHAR            shift and go to state 8
+    BOOL            shift and go to state 13
+
+    Tipo                           shift and go to state 33
+    param                          shift and go to state 34
+
+state 30
+
+    (103) Main -> MAIN agrega_main_funcion LPAREN . RPAREN LBRACKET Vars reg_brack RET ZERO SEMICOLON RBRACKET
+
+    RPAREN          shift and go to state 35
+
+
+state 31
+
+    (4) Vars -> Tipo VAR_ID mas_vars agrega_var_funcion SEMICOLON . Vars
+    (4) Vars -> . Tipo VAR_ID mas_vars agrega_var_funcion SEMICOLON Vars
+    (5) Vars -> .
+    (6) Tipo -> . INT
+    (7) Tipo -> . DECIMAL
+    (8) Tipo -> . STRING
+    (9) Tipo -> . CHAR
+    (10) Tipo -> . BOOL
+
+    FUNC            reduce using rule 5 (Vars -> .)
+    MAIN            reduce using rule 5 (Vars -> .)
+    IF              reduce using rule 5 (Vars -> .)
+    RETURN          reduce using rule 5 (Vars -> .)
+    VAR_ID          reduce using rule 5 (Vars -> .)
+    PRINT           reduce using rule 5 (Vars -> .)
+    FOR             reduce using rule 5 (Vars -> .)
+    WHILE           reduce using rule 5 (Vars -> .)
+    DO              reduce using rule 5 (Vars -> .)
+    RET             reduce using rule 5 (Vars -> .)
+    RBRACKET        reduce using rule 5 (Vars -> .)
+    INT             shift and go to state 14
+    DECIMAL         shift and go to state 10
+    STRING          shift and go to state 11
+    CHAR            shift and go to state 8
+    BOOL            shift and go to state 13
+
+    Tipo                           shift and go to state 12
+    Vars                           shift and go to state 36
+
+state 32
+
+    (11) mas_vars -> COMMA VAR_ID mas_vars .
+
+    SEMICOLON       reduce using rule 11 (mas_vars -> COMMA VAR_ID mas_vars .)
+
+
+state 33
+
+    (62) param -> Tipo . VAR_ID pos_commaf
+
+    VAR_ID          shift and go to state 37
+
+
+state 34
+
+    (58) funciones -> FUNC tipo_funcion VAR_ID LPAREN param . RPAREN agrega_funcion LBRACKET Vars reg_brack RBRACKET fin_func_quad funciones
+
+    RPAREN          shift and go to state 38
+
+
+state 35
+
+    (103) Main -> MAIN agrega_main_funcion LPAREN RPAREN . LBRACKET Vars reg_brack RET ZERO SEMICOLON RBRACKET
+
+    LBRACKET        shift and go to state 39
+
+
+state 36
+
+    (4) Vars -> Tipo VAR_ID mas_vars agrega_var_funcion SEMICOLON Vars .
+
+    IF              reduce using rule 4 (Vars -> Tipo VAR_ID mas_vars agrega_var_funcion SEMICOLON Vars .)
+    RETURN          reduce using rule 4 (Vars -> Tipo VAR_ID mas_vars agrega_var_funcion SEMICOLON Vars .)
+    VAR_ID          reduce using rule 4 (Vars -> Tipo VAR_ID mas_vars agrega_var_funcion SEMICOLON Vars .)
+    PRINT           reduce using rule 4 (Vars -> Tipo VAR_ID mas_vars agrega_var_funcion SEMICOLON Vars .)
+    FOR             reduce using rule 4 (Vars -> Tipo VAR_ID mas_vars agrega_var_funcion SEMICOLON Vars .)
+    WHILE           reduce using rule 4 (Vars -> Tipo VAR_ID mas_vars agrega_var_funcion SEMICOLON Vars .)
+    DO              reduce using rule 4 (Vars -> Tipo VAR_ID mas_vars agrega_var_funcion SEMICOLON Vars .)
+    RET             reduce using rule 4 (Vars -> Tipo VAR_ID mas_vars agrega_var_funcion SEMICOLON Vars .)
+    RBRACKET        reduce using rule 4 (Vars -> Tipo VAR_ID mas_vars agrega_var_funcion SEMICOLON Vars .)
+    FUNC            reduce using rule 4 (Vars -> Tipo VAR_ID mas_vars agrega_var_funcion SEMICOLON Vars .)
+    MAIN            reduce using rule 4 (Vars -> Tipo VAR_ID mas_vars agrega_var_funcion SEMICOLON Vars .)
+
+
+state 37
+
+    (62) param -> Tipo VAR_ID . pos_commaf
+    (64) pos_commaf -> . COMMA Tipo VAR_ID pos_commaf
+    (65) pos_commaf -> .
+
+    COMMA           shift and go to state 41
+    RPAREN          reduce using rule 65 (pos_commaf -> .)
+
+    pos_commaf                     shift and go to state 40
+
+state 38
+
+    (58) funciones -> FUNC tipo_funcion VAR_ID LPAREN param RPAREN . agrega_funcion LBRACKET Vars reg_brack RBRACKET fin_func_quad funciones
+    (66) agrega_funcion -> .
+
+    LBRACKET        reduce using rule 66 (agrega_funcion -> .)
+
+    agrega_funcion                 shift and go to state 42
+
+state 39
+
+    (103) Main -> MAIN agrega_main_funcion LPAREN RPAREN LBRACKET . Vars reg_brack RET ZERO SEMICOLON RBRACKET
+    (4) Vars -> . Tipo VAR_ID mas_vars agrega_var_funcion SEMICOLON Vars
+    (5) Vars -> .
+    (6) Tipo -> . INT
+    (7) Tipo -> . DECIMAL
+    (8) Tipo -> . STRING
+    (9) Tipo -> . CHAR
+    (10) Tipo -> . BOOL
+
+    IF              reduce using rule 5 (Vars -> .)
+    RETURN          reduce using rule 5 (Vars -> .)
+    VAR_ID          reduce using rule 5 (Vars -> .)
+    PRINT           reduce using rule 5 (Vars -> .)
+    FOR             reduce using rule 5 (Vars -> .)
+    WHILE           reduce using rule 5 (Vars -> .)
+    DO              reduce using rule 5 (Vars -> .)
+    RET             reduce using rule 5 (Vars -> .)
+    INT             shift and go to state 14
+    DECIMAL         shift and go to state 10
+    STRING          shift and go to state 11
+    CHAR            shift and go to state 8
+    BOOL            shift and go to state 13
+
+    Tipo                           shift and go to state 12
+    Vars                           shift and go to state 43
+
+state 40
+
+    (62) param -> Tipo VAR_ID pos_commaf .
+
+    RPAREN          reduce using rule 62 (param -> Tipo VAR_ID pos_commaf .)
+
+
+state 41
+
+    (64) pos_commaf -> COMMA . Tipo VAR_ID pos_commaf
+    (6) Tipo -> . INT
+    (7) Tipo -> . DECIMAL
+    (8) Tipo -> . STRING
+    (9) Tipo -> . CHAR
+    (10) Tipo -> . BOOL
+
+    INT             shift and go to state 14
+    DECIMAL         shift and go to state 10
+    STRING          shift and go to state 11
+    CHAR            shift and go to state 8
+    BOOL            shift and go to state 13
+
+    Tipo                           shift and go to state 44
+
+state 42
+
+    (58) funciones -> FUNC tipo_funcion VAR_ID LPAREN param RPAREN agrega_funcion . LBRACKET Vars reg_brack RBRACKET fin_func_quad funciones
+
+    LBRACKET        shift and go to state 45
+
+
+state 43
+
+    (103) Main -> MAIN agrega_main_funcion LPAREN RPAREN LBRACKET Vars . reg_brack RET ZERO SEMICOLON RBRACKET
+    (68) reg_brack -> . Estatutos reg_brack
+    (69) reg_brack -> .
+    (70) Estatutos -> . Condicion
+    (71) Estatutos -> . Ciclo
+    (72) Estatutos -> . Return
+    (73) Estatutos -> . Asignacion
+    (74) Estatutos -> . Print
+    (75) Estatutos -> . Llamada_Func
+    (76) Condicion -> . IF LPAREN ExpI RPAREN crea_GOTOF LBRACKET reg_brack RBRACKET pos_else llena_cuadruplo_if
+    (89) Ciclo -> . For
+    (90) Ciclo -> . While
+    (91) Ciclo -> . DoWhile
+    (82) Return -> . RETURN ExpI SEMICOLON resuelve_return
+    (14) Asignacion -> . VAR_ID push_var_PilaOperandos ASSIGN push_operador_PilaOperadores ExpI SEMICOLON resuelve_asignacion
+    (84) Print -> . PRINT LPAREN VAR_STRING RPAREN SEMICOLON
+    (85) Print -> . PRINT LPAREN ExpI RPAREN SEMICOLON crea_print
+    (87) Llamada_Func -> . VAR_ID LPAREN agrega_falso checa_funcion_si_existe argumentos RPAREN quita_falso resuelve_llamada_funcion SEMICOLON checa_void
+    (96) For -> . FOR LPAREN VAR_ID ASSIGN ExpI SEMICOLON ExpI SEMICOLON VAR_ID Exp_ciclo RPAREN LBRACKET reg_brack RBRACKET
+    (92) While -> . WHILE guarda_numero_cuadruplo LPAREN ExpI RPAREN crea_GOTOF LBRACKET reg_brack RBRACKET regresa_inicio_while
+    (95) DoWhile -> . DO LBRACKET reg_brack RBRACKET WHILE LPAREN ExpI RPAREN SEMICOLON
+
+    RET             reduce using rule 69 (reg_brack -> .)
+    IF              shift and go to state 53
+    RETURN          shift and go to state 52
+    VAR_ID          shift and go to state 55
+    PRINT           shift and go to state 54
+    FOR             shift and go to state 60
+    WHILE           shift and go to state 61
+    DO              shift and go to state 49
+
+    DoWhile                        shift and go to state 46
+    While                          shift and go to state 56
+    Condicion                      shift and go to state 47
+    Llamada_Func                   shift and go to state 58
+    Print                          shift and go to state 57
+    Return                         shift and go to state 48
+    Asignacion                     shift and go to state 59
+    Ciclo                          shift and go to state 63
+    reg_brack                      shift and go to state 50
+    For                            shift and go to state 51
+    Estatutos                      shift and go to state 62
+
+state 44
+
+    (64) pos_commaf -> COMMA Tipo . VAR_ID pos_commaf
+
+    VAR_ID          shift and go to state 64
+
+
+state 45
+
+    (58) funciones -> FUNC tipo_funcion VAR_ID LPAREN param RPAREN agrega_funcion LBRACKET . Vars reg_brack RBRACKET fin_func_quad funciones
+    (4) Vars -> . Tipo VAR_ID mas_vars agrega_var_funcion SEMICOLON Vars
+    (5) Vars -> .
+    (6) Tipo -> . INT
+    (7) Tipo -> . DECIMAL
+    (8) Tipo -> . STRING
+    (9) Tipo -> . CHAR
+    (10) Tipo -> . BOOL
+
+    IF              reduce using rule 5 (Vars -> .)
+    RETURN          reduce using rule 5 (Vars -> .)
+    VAR_ID          reduce using rule 5 (Vars -> .)
+    PRINT           reduce using rule 5 (Vars -> .)
+    FOR             reduce using rule 5 (Vars -> .)
+    WHILE           reduce using rule 5 (Vars -> .)
+    DO              reduce using rule 5 (Vars -> .)
+    RBRACKET        reduce using rule 5 (Vars -> .)
+    INT             shift and go to state 14
+    DECIMAL         shift and go to state 10
+    STRING          shift and go to state 11
+    CHAR            shift and go to state 8
+    BOOL            shift and go to state 13
+
+    Tipo                           shift and go to state 12
+    Vars                           shift and go to state 65
+
+state 46
+
+    (91) Ciclo -> DoWhile .
+
+    IF              reduce using rule 91 (Ciclo -> DoWhile .)
+    RETURN          reduce using rule 91 (Ciclo -> DoWhile .)
+    VAR_ID          reduce using rule 91 (Ciclo -> DoWhile .)
+    PRINT           reduce using rule 91 (Ciclo -> DoWhile .)
+    FOR             reduce using rule 91 (Ciclo -> DoWhile .)
+    WHILE           reduce using rule 91 (Ciclo -> DoWhile .)
+    DO              reduce using rule 91 (Ciclo -> DoWhile .)
+    RBRACKET        reduce using rule 91 (Ciclo -> DoWhile .)
+    RET             reduce using rule 91 (Ciclo -> DoWhile .)
+
+
+state 47
+
+    (70) Estatutos -> Condicion .
+
+    IF              reduce using rule 70 (Estatutos -> Condicion .)
+    RETURN          reduce using rule 70 (Estatutos -> Condicion .)
+    VAR_ID          reduce using rule 70 (Estatutos -> Condicion .)
+    PRINT           reduce using rule 70 (Estatutos -> Condicion .)
+    FOR             reduce using rule 70 (Estatutos -> Condicion .)
+    WHILE           reduce using rule 70 (Estatutos -> Condicion .)
+    DO              reduce using rule 70 (Estatutos -> Condicion .)
+    RET             reduce using rule 70 (Estatutos -> Condicion .)
+    RBRACKET        reduce using rule 70 (Estatutos -> Condicion .)
+
+
+state 48
+
+    (72) Estatutos -> Return .
+
+    IF              reduce using rule 72 (Estatutos -> Return .)
+    RETURN          reduce using rule 72 (Estatutos -> Return .)
+    VAR_ID          reduce using rule 72 (Estatutos -> Return .)
+    PRINT           reduce using rule 72 (Estatutos -> Return .)
+    FOR             reduce using rule 72 (Estatutos -> Return .)
+    WHILE           reduce using rule 72 (Estatutos -> Return .)
+    DO              reduce using rule 72 (Estatutos -> Return .)
+    RET             reduce using rule 72 (Estatutos -> Return .)
+    RBRACKET        reduce using rule 72 (Estatutos -> Return .)
+
+
+state 49
+
+    (95) DoWhile -> DO . LBRACKET reg_brack RBRACKET WHILE LPAREN ExpI RPAREN SEMICOLON
+
+    LBRACKET        shift and go to state 66
+
+
+state 50
+
+    (103) Main -> MAIN agrega_main_funcion LPAREN RPAREN LBRACKET Vars reg_brack . RET ZERO SEMICOLON RBRACKET
+
+    RET             shift and go to state 67
+
+
+state 51
+
+    (89) Ciclo -> For .
+
+    IF              reduce using rule 89 (Ciclo -> For .)
+    RETURN          reduce using rule 89 (Ciclo -> For .)
+    VAR_ID          reduce using rule 89 (Ciclo -> For .)
+    PRINT           reduce using rule 89 (Ciclo -> For .)
+    FOR             reduce using rule 89 (Ciclo -> For .)
+    WHILE           reduce using rule 89 (Ciclo -> For .)
+    DO              reduce using rule 89 (Ciclo -> For .)
+    RBRACKET        reduce using rule 89 (Ciclo -> For .)
+    RET             reduce using rule 89 (Ciclo -> For .)
+
+
+state 52
+
+    (82) Return -> RETURN . ExpI SEMICOLON resuelve_return
+    (18) ExpI -> . ExpK resuelve_operadores_relacionales
+    (19) ExpI -> . ExpK Operandos push_operador_PilaOperadores ExpK resuelve_operadores_relacionales
+    (27) ExpK -> . ExpT resuelve_termino
+    (28) ExpK -> . ExpT resuelve_termino pos_SUMRES push_operador_PilaOperadores ExpK
+    (32) ExpT -> . ExpF resuelve_factor
+    (33) ExpT -> . ExpF resuelve_factor pos_MULTDIV push_operador_PilaOperadores ExpT
+    (37) ExpF -> . VAR_CTE
+    (38) ExpF -> . LPAREN agrega_falso ExpI RPAREN quita_falso
+    (39) ExpF -> . VAR_ID push_var_PilaOperandos pos_arreglo
+    (40) ExpF -> . llama_funcion
+    (41) VAR_CTE -> . VAR_INT push_int_PilaOperandos
+    (42) VAR_CTE -> . VAR_DECIMAL push_decimal_PilaOperandos
+    (47) llama_funcion -> . VAR_ID LPAREN agrega_falso checa_funcion_si_existe argumentos RPAREN quita_falso resuelve_llamada_funcion guarda_resultado_funcion
+
+    LPAREN          shift and go to state 71
+    VAR_ID          shift and go to state 70
+    VAR_INT         shift and go to state 68
+    VAR_DECIMAL     shift and go to state 72
+
+    ExpK                           shift and go to state 69
+    VAR_CTE                        shift and go to state 73
+    llama_funcion                  shift and go to state 74
+    ExpI                           shift and go to state 75
+    ExpT                           shift and go to state 76
+    ExpF                           shift and go to state 77
+
+state 53
+
+    (76) Condicion -> IF . LPAREN ExpI RPAREN crea_GOTOF LBRACKET reg_brack RBRACKET pos_else llena_cuadruplo_if
+
+    LPAREN          shift and go to state 78
+
+
+state 54
+
+    (84) Print -> PRINT . LPAREN VAR_STRING RPAREN SEMICOLON
+    (85) Print -> PRINT . LPAREN ExpI RPAREN SEMICOLON crea_print
+
+    LPAREN          shift and go to state 79
+
+
+state 55
+
+    (14) Asignacion -> VAR_ID . push_var_PilaOperandos ASSIGN push_operador_PilaOperadores ExpI SEMICOLON resuelve_asignacion
+    (87) Llamada_Func -> VAR_ID . LPAREN agrega_falso checa_funcion_si_existe argumentos RPAREN quita_falso resuelve_llamada_funcion SEMICOLON checa_void
+    (15) push_var_PilaOperandos -> .
+
+    LPAREN          shift and go to state 81
+    ASSIGN          reduce using rule 15 (push_var_PilaOperandos -> .)
+
+    push_var_PilaOperandos         shift and go to state 80
+
+state 56
+
+    (90) Ciclo -> While .
+
+    IF              reduce using rule 90 (Ciclo -> While .)
+    RETURN          reduce using rule 90 (Ciclo -> While .)
+    VAR_ID          reduce using rule 90 (Ciclo -> While .)
+    PRINT           reduce using rule 90 (Ciclo -> While .)
+    FOR             reduce using rule 90 (Ciclo -> While .)
+    WHILE           reduce using rule 90 (Ciclo -> While .)
+    DO              reduce using rule 90 (Ciclo -> While .)
+    RBRACKET        reduce using rule 90 (Ciclo -> While .)
+    RET             reduce using rule 90 (Ciclo -> While .)
+
+
+state 57
+
+    (74) Estatutos -> Print .
+
+    IF              reduce using rule 74 (Estatutos -> Print .)
+    RETURN          reduce using rule 74 (Estatutos -> Print .)
+    VAR_ID          reduce using rule 74 (Estatutos -> Print .)
+    PRINT           reduce using rule 74 (Estatutos -> Print .)
+    FOR             reduce using rule 74 (Estatutos -> Print .)
+    WHILE           reduce using rule 74 (Estatutos -> Print .)
+    DO              reduce using rule 74 (Estatutos -> Print .)
+    RET             reduce using rule 74 (Estatutos -> Print .)
+    RBRACKET        reduce using rule 74 (Estatutos -> Print .)
+
+
+state 58
+
+    (75) Estatutos -> Llamada_Func .
+
+    IF              reduce using rule 75 (Estatutos -> Llamada_Func .)
+    RETURN          reduce using rule 75 (Estatutos -> Llamada_Func .)
+    VAR_ID          reduce using rule 75 (Estatutos -> Llamada_Func .)
+    PRINT           reduce using rule 75 (Estatutos -> Llamada_Func .)
+    FOR             reduce using rule 75 (Estatutos -> Llamada_Func .)
+    WHILE           reduce using rule 75 (Estatutos -> Llamada_Func .)
+    DO              reduce using rule 75 (Estatutos -> Llamada_Func .)
+    RET             reduce using rule 75 (Estatutos -> Llamada_Func .)
+    RBRACKET        reduce using rule 75 (Estatutos -> Llamada_Func .)
+
+
+state 59
+
+    (73) Estatutos -> Asignacion .
+
+    IF              reduce using rule 73 (Estatutos -> Asignacion .)
+    RETURN          reduce using rule 73 (Estatutos -> Asignacion .)
+    VAR_ID          reduce using rule 73 (Estatutos -> Asignacion .)
+    PRINT           reduce using rule 73 (Estatutos -> Asignacion .)
+    FOR             reduce using rule 73 (Estatutos -> Asignacion .)
+    WHILE           reduce using rule 73 (Estatutos -> Asignacion .)
+    DO              reduce using rule 73 (Estatutos -> Asignacion .)
+    RET             reduce using rule 73 (Estatutos -> Asignacion .)
+    RBRACKET        reduce using rule 73 (Estatutos -> Asignacion .)
+
+
+state 60
+
+    (96) For -> FOR . LPAREN VAR_ID ASSIGN ExpI SEMICOLON ExpI SEMICOLON VAR_ID Exp_ciclo RPAREN LBRACKET reg_brack RBRACKET
+
+    LPAREN          shift and go to state 82
+
+
+state 61
+
+    (92) While -> WHILE . guarda_numero_cuadruplo LPAREN ExpI RPAREN crea_GOTOF LBRACKET reg_brack RBRACKET regresa_inicio_while
+    (93) guarda_numero_cuadruplo -> .
+
+    LPAREN          reduce using rule 93 (guarda_numero_cuadruplo -> .)
+
+    guarda_numero_cuadruplo        shift and go to state 83
+
+state 62
+
+    (68) reg_brack -> Estatutos . reg_brack
+    (68) reg_brack -> . Estatutos reg_brack
+    (69) reg_brack -> .
+    (70) Estatutos -> . Condicion
+    (71) Estatutos -> . Ciclo
+    (72) Estatutos -> . Return
+    (73) Estatutos -> . Asignacion
+    (74) Estatutos -> . Print
+    (75) Estatutos -> . Llamada_Func
+    (76) Condicion -> . IF LPAREN ExpI RPAREN crea_GOTOF LBRACKET reg_brack RBRACKET pos_else llena_cuadruplo_if
+    (89) Ciclo -> . For
+    (90) Ciclo -> . While
+    (91) Ciclo -> . DoWhile
+    (82) Return -> . RETURN ExpI SEMICOLON resuelve_return
+    (14) Asignacion -> . VAR_ID push_var_PilaOperandos ASSIGN push_operador_PilaOperadores ExpI SEMICOLON resuelve_asignacion
+    (84) Print -> . PRINT LPAREN VAR_STRING RPAREN SEMICOLON
+    (85) Print -> . PRINT LPAREN ExpI RPAREN SEMICOLON crea_print
+    (87) Llamada_Func -> . VAR_ID LPAREN agrega_falso checa_funcion_si_existe argumentos RPAREN quita_falso resuelve_llamada_funcion SEMICOLON checa_void
+    (96) For -> . FOR LPAREN VAR_ID ASSIGN ExpI SEMICOLON ExpI SEMICOLON VAR_ID Exp_ciclo RPAREN LBRACKET reg_brack RBRACKET
+    (92) While -> . WHILE guarda_numero_cuadruplo LPAREN ExpI RPAREN crea_GOTOF LBRACKET reg_brack RBRACKET regresa_inicio_while
+    (95) DoWhile -> . DO LBRACKET reg_brack RBRACKET WHILE LPAREN ExpI RPAREN SEMICOLON
+
+    RET             reduce using rule 69 (reg_brack -> .)
+    RBRACKET        reduce using rule 69 (reg_brack -> .)
+    IF              shift and go to state 53
+    RETURN          shift and go to state 52
+    VAR_ID          shift and go to state 55
+    PRINT           shift and go to state 54
+    FOR             shift and go to state 60
+    WHILE           shift and go to state 61
+    DO              shift and go to state 49
+
+    DoWhile                        shift and go to state 46
+    While                          shift and go to state 56
+    Condicion                      shift and go to state 47
+    Llamada_Func                   shift and go to state 58
+    Print                          shift and go to state 57
+    Return                         shift and go to state 48
+    Asignacion                     shift and go to state 59
+    reg_brack                      shift and go to state 84
+    For                            shift and go to state 51
+    Estatutos                      shift and go to state 62
+    Ciclo                          shift and go to state 63
+
+state 63
+
+    (71) Estatutos -> Ciclo .
+
+    IF              reduce using rule 71 (Estatutos -> Ciclo .)
+    RETURN          reduce using rule 71 (Estatutos -> Ciclo .)
+    VAR_ID          reduce using rule 71 (Estatutos -> Ciclo .)
+    PRINT           reduce using rule 71 (Estatutos -> Ciclo .)
+    FOR             reduce using rule 71 (Estatutos -> Ciclo .)
+    WHILE           reduce using rule 71 (Estatutos -> Ciclo .)
+    DO              reduce using rule 71 (Estatutos -> Ciclo .)
+    RET             reduce using rule 71 (Estatutos -> Ciclo .)
+    RBRACKET        reduce using rule 71 (Estatutos -> Ciclo .)
+
+
+state 64
+
+    (64) pos_commaf -> COMMA Tipo VAR_ID . pos_commaf
+    (64) pos_commaf -> . COMMA Tipo VAR_ID pos_commaf
+    (65) pos_commaf -> .
+
+    COMMA           shift and go to state 41
+    RPAREN          reduce using rule 65 (pos_commaf -> .)
+
+    pos_commaf                     shift and go to state 85
+
+state 65
+
+    (58) funciones -> FUNC tipo_funcion VAR_ID LPAREN param RPAREN agrega_funcion LBRACKET Vars . reg_brack RBRACKET fin_func_quad funciones
+    (68) reg_brack -> . Estatutos reg_brack
+    (69) reg_brack -> .
+    (70) Estatutos -> . Condicion
+    (71) Estatutos -> . Ciclo
+    (72) Estatutos -> . Return
+    (73) Estatutos -> . Asignacion
+    (74) Estatutos -> . Print
+    (75) Estatutos -> . Llamada_Func
+    (76) Condicion -> . IF LPAREN ExpI RPAREN crea_GOTOF LBRACKET reg_brack RBRACKET pos_else llena_cuadruplo_if
+    (89) Ciclo -> . For
+    (90) Ciclo -> . While
+    (91) Ciclo -> . DoWhile
+    (82) Return -> . RETURN ExpI SEMICOLON resuelve_return
+    (14) Asignacion -> . VAR_ID push_var_PilaOperandos ASSIGN push_operador_PilaOperadores ExpI SEMICOLON resuelve_asignacion
+    (84) Print -> . PRINT LPAREN VAR_STRING RPAREN SEMICOLON
+    (85) Print -> . PRINT LPAREN ExpI RPAREN SEMICOLON crea_print
+    (87) Llamada_Func -> . VAR_ID LPAREN agrega_falso checa_funcion_si_existe argumentos RPAREN quita_falso resuelve_llamada_funcion SEMICOLON checa_void
+    (96) For -> . FOR LPAREN VAR_ID ASSIGN ExpI SEMICOLON ExpI SEMICOLON VAR_ID Exp_ciclo RPAREN LBRACKET reg_brack RBRACKET
+    (92) While -> . WHILE guarda_numero_cuadruplo LPAREN ExpI RPAREN crea_GOTOF LBRACKET reg_brack RBRACKET regresa_inicio_while
+    (95) DoWhile -> . DO LBRACKET reg_brack RBRACKET WHILE LPAREN ExpI RPAREN SEMICOLON
+
+    RBRACKET        reduce using rule 69 (reg_brack -> .)
+    IF              shift and go to state 53
+    RETURN          shift and go to state 52
+    VAR_ID          shift and go to state 55
+    PRINT           shift and go to state 54
+    FOR             shift and go to state 60
+    WHILE           shift and go to state 61
+    DO              shift and go to state 49
+
+    DoWhile                        shift and go to state 46
+    While                          shift and go to state 56
+    Condicion                      shift and go to state 47
+    Return                         shift and go to state 48
+    Print                          shift and go to state 57
+    reg_brack                      shift and go to state 86
+    Asignacion                     shift and go to state 59
+    Ciclo                          shift and go to state 63
+    For                            shift and go to state 51
+    Estatutos                      shift and go to state 62
+    Llamada_Func                   shift and go to state 58
+
+state 66
+
+    (95) DoWhile -> DO LBRACKET . reg_brack RBRACKET WHILE LPAREN ExpI RPAREN SEMICOLON
+    (68) reg_brack -> . Estatutos reg_brack
+    (69) reg_brack -> .
+    (70) Estatutos -> . Condicion
+    (71) Estatutos -> . Ciclo
+    (72) Estatutos -> . Return
+    (73) Estatutos -> . Asignacion
+    (74) Estatutos -> . Print
+    (75) Estatutos -> . Llamada_Func
+    (76) Condicion -> . IF LPAREN ExpI RPAREN crea_GOTOF LBRACKET reg_brack RBRACKET pos_else llena_cuadruplo_if
+    (89) Ciclo -> . For
+    (90) Ciclo -> . While
+    (91) Ciclo -> . DoWhile
+    (82) Return -> . RETURN ExpI SEMICOLON resuelve_return
+    (14) Asignacion -> . VAR_ID push_var_PilaOperandos ASSIGN push_operador_PilaOperadores ExpI SEMICOLON resuelve_asignacion
+    (84) Print -> . PRINT LPAREN VAR_STRING RPAREN SEMICOLON
+    (85) Print -> . PRINT LPAREN ExpI RPAREN SEMICOLON crea_print
+    (87) Llamada_Func -> . VAR_ID LPAREN agrega_falso checa_funcion_si_existe argumentos RPAREN quita_falso resuelve_llamada_funcion SEMICOLON checa_void
+    (96) For -> . FOR LPAREN VAR_ID ASSIGN ExpI SEMICOLON ExpI SEMICOLON VAR_ID Exp_ciclo RPAREN LBRACKET reg_brack RBRACKET
+    (92) While -> . WHILE guarda_numero_cuadruplo LPAREN ExpI RPAREN crea_GOTOF LBRACKET reg_brack RBRACKET regresa_inicio_while
+    (95) DoWhile -> . DO LBRACKET reg_brack RBRACKET WHILE LPAREN ExpI RPAREN SEMICOLON
+
+    RBRACKET        reduce using rule 69 (reg_brack -> .)
+    IF              shift and go to state 53
+    RETURN          shift and go to state 52
+    VAR_ID          shift and go to state 55
+    PRINT           shift and go to state 54
+    FOR             shift and go to state 60
+    WHILE           shift and go to state 61
+    DO              shift and go to state 49
+
+    DoWhile                        shift and go to state 46
+    While                          shift and go to state 56
+    Condicion                      shift and go to state 47
+    Print                          shift and go to state 57
+    Llamada_Func                   shift and go to state 58
+    Return                         shift and go to state 48
+    Asignacion                     shift and go to state 59
+    reg_brack                      shift and go to state 87
+    For                            shift and go to state 51
+    Estatutos                      shift and go to state 62
+    Ciclo                          shift and go to state 63
+
+state 67
+
+    (103) Main -> MAIN agrega_main_funcion LPAREN RPAREN LBRACKET Vars reg_brack RET . ZERO SEMICOLON RBRACKET
+
+    ZERO            shift and go to state 88
+
+
+state 68
+
+    (41) VAR_CTE -> VAR_INT . push_int_PilaOperandos
+    (43) push_int_PilaOperandos -> .
+
+    MULT            reduce using rule 43 (push_int_PilaOperandos -> .)
+    DIV             reduce using rule 43 (push_int_PilaOperandos -> .)
+    PLUS            reduce using rule 43 (push_int_PilaOperandos -> .)
+    MINUS           reduce using rule 43 (push_int_PilaOperandos -> .)
+    LT              reduce using rule 43 (push_int_PilaOperandos -> .)
+    GT              reduce using rule 43 (push_int_PilaOperandos -> .)
+    NE              reduce using rule 43 (push_int_PilaOperandos -> .)
+    LE              reduce using rule 43 (push_int_PilaOperandos -> .)
+    GE              reduce using rule 43 (push_int_PilaOperandos -> .)
+    EQ              reduce using rule 43 (push_int_PilaOperandos -> .)
+    SEMICOLON       reduce using rule 43 (push_int_PilaOperandos -> .)
+    RPAREN          reduce using rule 43 (push_int_PilaOperandos -> .)
+    SRBRACKET       reduce using rule 43 (push_int_PilaOperandos -> .)
+    COMMA           reduce using rule 43 (push_int_PilaOperandos -> .)
+
+    push_int_PilaOperandos         shift and go to state 89
+
+state 69
+
+    (18) ExpI -> ExpK . resuelve_operadores_relacionales
+    (19) ExpI -> ExpK . Operandos push_operador_PilaOperadores ExpK resuelve_operadores_relacionales
+    (26) resuelve_operadores_relacionales -> .
+    (20) Operandos -> . LT
+    (21) Operandos -> . GT
+    (22) Operandos -> . NE
+    (23) Operandos -> . LE
+    (24) Operandos -> . GE
+    (25) Operandos -> . EQ
+
+    SEMICOLON       reduce using rule 26 (resuelve_operadores_relacionales -> .)
+    RPAREN          reduce using rule 26 (resuelve_operadores_relacionales -> .)
+    SRBRACKET       reduce using rule 26 (resuelve_operadores_relacionales -> .)
+    COMMA           reduce using rule 26 (resuelve_operadores_relacionales -> .)
+    LT              shift and go to state 96
+    GT              shift and go to state 97
+    NE              shift and go to state 94
+    LE              shift and go to state 93
+    GE              shift and go to state 95
+    EQ              shift and go to state 92
+
+    Operandos                      shift and go to state 90
+    resuelve_operadores_relacionales shift and go to state 91
+
+state 70
+
+    (39) ExpF -> VAR_ID . push_var_PilaOperandos pos_arreglo
+    (47) llama_funcion -> VAR_ID . LPAREN agrega_falso checa_funcion_si_existe argumentos RPAREN quita_falso resuelve_llamada_funcion guarda_resultado_funcion
+    (15) push_var_PilaOperandos -> .
+
+    LPAREN          shift and go to state 99
+    SLBRACKET       reduce using rule 15 (push_var_PilaOperandos -> .)
+    MULT            reduce using rule 15 (push_var_PilaOperandos -> .)
+    DIV             reduce using rule 15 (push_var_PilaOperandos -> .)
+    PLUS            reduce using rule 15 (push_var_PilaOperandos -> .)
+    MINUS           reduce using rule 15 (push_var_PilaOperandos -> .)
+    LT              reduce using rule 15 (push_var_PilaOperandos -> .)
+    GT              reduce using rule 15 (push_var_PilaOperandos -> .)
+    NE              reduce using rule 15 (push_var_PilaOperandos -> .)
+    LE              reduce using rule 15 (push_var_PilaOperandos -> .)
+    GE              reduce using rule 15 (push_var_PilaOperandos -> .)
+    EQ              reduce using rule 15 (push_var_PilaOperandos -> .)
+    SEMICOLON       reduce using rule 15 (push_var_PilaOperandos -> .)
+    RPAREN          reduce using rule 15 (push_var_PilaOperandos -> .)
+    SRBRACKET       reduce using rule 15 (push_var_PilaOperandos -> .)
+    COMMA           reduce using rule 15 (push_var_PilaOperandos -> .)
+
+    push_var_PilaOperandos         shift and go to state 98
+
+state 71
+
+    (38) ExpF -> LPAREN . agrega_falso ExpI RPAREN quita_falso
+    (45) agrega_falso -> .
+
+    LPAREN          reduce using rule 45 (agrega_falso -> .)
+    VAR_ID          reduce using rule 45 (agrega_falso -> .)
+    VAR_INT         reduce using rule 45 (agrega_falso -> .)
+    VAR_DECIMAL     reduce using rule 45 (agrega_falso -> .)
+
+    agrega_falso                   shift and go to state 100
+
+state 72
+
+    (42) VAR_CTE -> VAR_DECIMAL . push_decimal_PilaOperandos
+    (44) push_decimal_PilaOperandos -> .
+
+    MULT            reduce using rule 44 (push_decimal_PilaOperandos -> .)
+    DIV             reduce using rule 44 (push_decimal_PilaOperandos -> .)
+    PLUS            reduce using rule 44 (push_decimal_PilaOperandos -> .)
+    MINUS           reduce using rule 44 (push_decimal_PilaOperandos -> .)
+    LT              reduce using rule 44 (push_decimal_PilaOperandos -> .)
+    GT              reduce using rule 44 (push_decimal_PilaOperandos -> .)
+    NE              reduce using rule 44 (push_decimal_PilaOperandos -> .)
+    LE              reduce using rule 44 (push_decimal_PilaOperandos -> .)
+    GE              reduce using rule 44 (push_decimal_PilaOperandos -> .)
+    EQ              reduce using rule 44 (push_decimal_PilaOperandos -> .)
+    SEMICOLON       reduce using rule 44 (push_decimal_PilaOperandos -> .)
+    RPAREN          reduce using rule 44 (push_decimal_PilaOperandos -> .)
+    SRBRACKET       reduce using rule 44 (push_decimal_PilaOperandos -> .)
+    COMMA           reduce using rule 44 (push_decimal_PilaOperandos -> .)
+
+    push_decimal_PilaOperandos     shift and go to state 101
+
+state 73
+
+    (37) ExpF -> VAR_CTE .
+
+    MULT            reduce using rule 37 (ExpF -> VAR_CTE .)
+    DIV             reduce using rule 37 (ExpF -> VAR_CTE .)
+    PLUS            reduce using rule 37 (ExpF -> VAR_CTE .)
+    MINUS           reduce using rule 37 (ExpF -> VAR_CTE .)
+    LT              reduce using rule 37 (ExpF -> VAR_CTE .)
+    GT              reduce using rule 37 (ExpF -> VAR_CTE .)
+    NE              reduce using rule 37 (ExpF -> VAR_CTE .)
+    LE              reduce using rule 37 (ExpF -> VAR_CTE .)
+    GE              reduce using rule 37 (ExpF -> VAR_CTE .)
+    EQ              reduce using rule 37 (ExpF -> VAR_CTE .)
+    RPAREN          reduce using rule 37 (ExpF -> VAR_CTE .)
+    SEMICOLON       reduce using rule 37 (ExpF -> VAR_CTE .)
+    SRBRACKET       reduce using rule 37 (ExpF -> VAR_CTE .)
+    COMMA           reduce using rule 37 (ExpF -> VAR_CTE .)
+
+
+state 74
+
+    (40) ExpF -> llama_funcion .
+
+    MULT            reduce using rule 40 (ExpF -> llama_funcion .)
+    DIV             reduce using rule 40 (ExpF -> llama_funcion .)
+    PLUS            reduce using rule 40 (ExpF -> llama_funcion .)
+    MINUS           reduce using rule 40 (ExpF -> llama_funcion .)
+    LT              reduce using rule 40 (ExpF -> llama_funcion .)
+    GT              reduce using rule 40 (ExpF -> llama_funcion .)
+    NE              reduce using rule 40 (ExpF -> llama_funcion .)
+    LE              reduce using rule 40 (ExpF -> llama_funcion .)
+    GE              reduce using rule 40 (ExpF -> llama_funcion .)
+    EQ              reduce using rule 40 (ExpF -> llama_funcion .)
+    RPAREN          reduce using rule 40 (ExpF -> llama_funcion .)
+    SEMICOLON       reduce using rule 40 (ExpF -> llama_funcion .)
+    SRBRACKET       reduce using rule 40 (ExpF -> llama_funcion .)
+    COMMA           reduce using rule 40 (ExpF -> llama_funcion .)
+
+
+state 75
+
+    (82) Return -> RETURN ExpI . SEMICOLON resuelve_return
+
+    SEMICOLON       shift and go to state 102
+
+
+state 76
+
+    (27) ExpK -> ExpT . resuelve_termino
+    (28) ExpK -> ExpT . resuelve_termino pos_SUMRES push_operador_PilaOperadores ExpK
+    (29) resuelve_termino -> .
+
+    PLUS            reduce using rule 29 (resuelve_termino -> .)
+    MINUS           reduce using rule 29 (resuelve_termino -> .)
+    LT              reduce using rule 29 (resuelve_termino -> .)
+    GT              reduce using rule 29 (resuelve_termino -> .)
+    NE              reduce using rule 29 (resuelve_termino -> .)
+    LE              reduce using rule 29 (resuelve_termino -> .)
+    GE              reduce using rule 29 (resuelve_termino -> .)
+    EQ              reduce using rule 29 (resuelve_termino -> .)
+    SEMICOLON       reduce using rule 29 (resuelve_termino -> .)
+    RPAREN          reduce using rule 29 (resuelve_termino -> .)
+    SRBRACKET       reduce using rule 29 (resuelve_termino -> .)
+    COMMA           reduce using rule 29 (resuelve_termino -> .)
+
+    resuelve_termino               shift and go to state 103
+
+state 77
+
+    (32) ExpT -> ExpF . resuelve_factor
+    (33) ExpT -> ExpF . resuelve_factor pos_MULTDIV push_operador_PilaOperadores ExpT
+    (34) resuelve_factor -> .
+
+    MULT            reduce using rule 34 (resuelve_factor -> .)
+    DIV             reduce using rule 34 (resuelve_factor -> .)
+    PLUS            reduce using rule 34 (resuelve_factor -> .)
+    MINUS           reduce using rule 34 (resuelve_factor -> .)
+    LT              reduce using rule 34 (resuelve_factor -> .)
+    GT              reduce using rule 34 (resuelve_factor -> .)
+    NE              reduce using rule 34 (resuelve_factor -> .)
+    LE              reduce using rule 34 (resuelve_factor -> .)
+    GE              reduce using rule 34 (resuelve_factor -> .)
+    EQ              reduce using rule 34 (resuelve_factor -> .)
+    SEMICOLON       reduce using rule 34 (resuelve_factor -> .)
+    RPAREN          reduce using rule 34 (resuelve_factor -> .)
+    SRBRACKET       reduce using rule 34 (resuelve_factor -> .)
+    COMMA           reduce using rule 34 (resuelve_factor -> .)
+
+    resuelve_factor                shift and go to state 104
+
+state 78
+
+    (76) Condicion -> IF LPAREN . ExpI RPAREN crea_GOTOF LBRACKET reg_brack RBRACKET pos_else llena_cuadruplo_if
+    (18) ExpI -> . ExpK resuelve_operadores_relacionales
+    (19) ExpI -> . ExpK Operandos push_operador_PilaOperadores ExpK resuelve_operadores_relacionales
+    (27) ExpK -> . ExpT resuelve_termino
+    (28) ExpK -> . ExpT resuelve_termino pos_SUMRES push_operador_PilaOperadores ExpK
+    (32) ExpT -> . ExpF resuelve_factor
+    (33) ExpT -> . ExpF resuelve_factor pos_MULTDIV push_operador_PilaOperadores ExpT
+    (37) ExpF -> . VAR_CTE
+    (38) ExpF -> . LPAREN agrega_falso ExpI RPAREN quita_falso
+    (39) ExpF -> . VAR_ID push_var_PilaOperandos pos_arreglo
+    (40) ExpF -> . llama_funcion
+    (41) VAR_CTE -> . VAR_INT push_int_PilaOperandos
+    (42) VAR_CTE -> . VAR_DECIMAL push_decimal_PilaOperandos
+    (47) llama_funcion -> . VAR_ID LPAREN agrega_falso checa_funcion_si_existe argumentos RPAREN quita_falso resuelve_llamada_funcion guarda_resultado_funcion
+
+    LPAREN          shift and go to state 71
+    VAR_ID          shift and go to state 70
+    VAR_INT         shift and go to state 68
+    VAR_DECIMAL     shift and go to state 72
+
+    ExpK                           shift and go to state 69
+    VAR_CTE                        shift and go to state 73
+    llama_funcion                  shift and go to state 74
+    ExpF                           shift and go to state 77
+    ExpT                           shift and go to state 76
+    ExpI                           shift and go to state 105
+
+state 79
+
+    (84) Print -> PRINT LPAREN . VAR_STRING RPAREN SEMICOLON
+    (85) Print -> PRINT LPAREN . ExpI RPAREN SEMICOLON crea_print
+    (18) ExpI -> . ExpK resuelve_operadores_relacionales
+    (19) ExpI -> . ExpK Operandos push_operador_PilaOperadores ExpK resuelve_operadores_relacionales
+    (27) ExpK -> . ExpT resuelve_termino
+    (28) ExpK -> . ExpT resuelve_termino pos_SUMRES push_operador_PilaOperadores ExpK
+    (32) ExpT -> . ExpF resuelve_factor
+    (33) ExpT -> . ExpF resuelve_factor pos_MULTDIV push_operador_PilaOperadores ExpT
+    (37) ExpF -> . VAR_CTE
+    (38) ExpF -> . LPAREN agrega_falso ExpI RPAREN quita_falso
+    (39) ExpF -> . VAR_ID push_var_PilaOperandos pos_arreglo
+    (40) ExpF -> . llama_funcion
+    (41) VAR_CTE -> . VAR_INT push_int_PilaOperandos
+    (42) VAR_CTE -> . VAR_DECIMAL push_decimal_PilaOperandos
+    (47) llama_funcion -> . VAR_ID LPAREN agrega_falso checa_funcion_si_existe argumentos RPAREN quita_falso resuelve_llamada_funcion guarda_resultado_funcion
+
+    VAR_STRING      shift and go to state 107
+    LPAREN          shift and go to state 71
+    VAR_ID          shift and go to state 70
+    VAR_INT         shift and go to state 68
+    VAR_DECIMAL     shift and go to state 72
+
+    ExpK                           shift and go to state 69
+    VAR_CTE                        shift and go to state 73
+    llama_funcion                  shift and go to state 74
+    ExpI                           shift and go to state 106
+    ExpT                           shift and go to state 76
+    ExpF                           shift and go to state 77
+
+state 80
+
+    (14) Asignacion -> VAR_ID push_var_PilaOperandos . ASSIGN push_operador_PilaOperadores ExpI SEMICOLON resuelve_asignacion
+
+    ASSIGN          shift and go to state 108
+
+
+state 81
+
+    (87) Llamada_Func -> VAR_ID LPAREN . agrega_falso checa_funcion_si_existe argumentos RPAREN quita_falso resuelve_llamada_funcion SEMICOLON checa_void
+    (45) agrega_falso -> .
+
+    LPAREN          reduce using rule 45 (agrega_falso -> .)
+    VAR_ID          reduce using rule 45 (agrega_falso -> .)
+    VAR_INT         reduce using rule 45 (agrega_falso -> .)
+    VAR_DECIMAL     reduce using rule 45 (agrega_falso -> .)
+    RPAREN          reduce using rule 45 (agrega_falso -> .)
+
+    agrega_falso                   shift and go to state 109
+
+state 82
+
+    (96) For -> FOR LPAREN . VAR_ID ASSIGN ExpI SEMICOLON ExpI SEMICOLON VAR_ID Exp_ciclo RPAREN LBRACKET reg_brack RBRACKET
+
+    VAR_ID          shift and go to state 110
+
+
+state 83
+
+    (92) While -> WHILE guarda_numero_cuadruplo . LPAREN ExpI RPAREN crea_GOTOF LBRACKET reg_brack RBRACKET regresa_inicio_while
+
+    LPAREN          shift and go to state 111
+
+
+state 84
+
+    (68) reg_brack -> Estatutos reg_brack .
+
+    RBRACKET        reduce using rule 68 (reg_brack -> Estatutos reg_brack .)
+    RET             reduce using rule 68 (reg_brack -> Estatutos reg_brack .)
+
+
+state 85
+
+    (64) pos_commaf -> COMMA Tipo VAR_ID pos_commaf .
+
+    RPAREN          reduce using rule 64 (pos_commaf -> COMMA Tipo VAR_ID pos_commaf .)
+
+
+state 86
+
+    (58) funciones -> FUNC tipo_funcion VAR_ID LPAREN param RPAREN agrega_funcion LBRACKET Vars reg_brack . RBRACKET fin_func_quad funciones
+
+    RBRACKET        shift and go to state 112
+
+
+state 87
+
+    (95) DoWhile -> DO LBRACKET reg_brack . RBRACKET WHILE LPAREN ExpI RPAREN SEMICOLON
+
+    RBRACKET        shift and go to state 113
+
+
+state 88
+
+    (103) Main -> MAIN agrega_main_funcion LPAREN RPAREN LBRACKET Vars reg_brack RET ZERO . SEMICOLON RBRACKET
+
+    SEMICOLON       shift and go to state 114
+
+
+state 89
+
+    (41) VAR_CTE -> VAR_INT push_int_PilaOperandos .
+
+    MULT            reduce using rule 41 (VAR_CTE -> VAR_INT push_int_PilaOperandos .)
+    DIV             reduce using rule 41 (VAR_CTE -> VAR_INT push_int_PilaOperandos .)
+    PLUS            reduce using rule 41 (VAR_CTE -> VAR_INT push_int_PilaOperandos .)
+    MINUS           reduce using rule 41 (VAR_CTE -> VAR_INT push_int_PilaOperandos .)
+    LT              reduce using rule 41 (VAR_CTE -> VAR_INT push_int_PilaOperandos .)
+    GT              reduce using rule 41 (VAR_CTE -> VAR_INT push_int_PilaOperandos .)
+    NE              reduce using rule 41 (VAR_CTE -> VAR_INT push_int_PilaOperandos .)
+    LE              reduce using rule 41 (VAR_CTE -> VAR_INT push_int_PilaOperandos .)
+    GE              reduce using rule 41 (VAR_CTE -> VAR_INT push_int_PilaOperandos .)
+    EQ              reduce using rule 41 (VAR_CTE -> VAR_INT push_int_PilaOperandos .)
+    COMMA           reduce using rule 41 (VAR_CTE -> VAR_INT push_int_PilaOperandos .)
+    RPAREN          reduce using rule 41 (VAR_CTE -> VAR_INT push_int_PilaOperandos .)
+    SEMICOLON       reduce using rule 41 (VAR_CTE -> VAR_INT push_int_PilaOperandos .)
+    SRBRACKET       reduce using rule 41 (VAR_CTE -> VAR_INT push_int_PilaOperandos .)
+
+
+state 90
+
+    (19) ExpI -> ExpK Operandos . push_operador_PilaOperadores ExpK resuelve_operadores_relacionales
+    (16) push_operador_PilaOperadores -> .
+
+    LPAREN          reduce using rule 16 (push_operador_PilaOperadores -> .)
+    VAR_ID          reduce using rule 16 (push_operador_PilaOperadores -> .)
+    VAR_INT         reduce using rule 16 (push_operador_PilaOperadores -> .)
+    VAR_DECIMAL     reduce using rule 16 (push_operador_PilaOperadores -> .)
+
+    push_operador_PilaOperadores   shift and go to state 115
+
+state 91
+
+    (18) ExpI -> ExpK resuelve_operadores_relacionales .
+
+    SRBRACKET       reduce using rule 18 (ExpI -> ExpK resuelve_operadores_relacionales .)
+    SEMICOLON       reduce using rule 18 (ExpI -> ExpK resuelve_operadores_relacionales .)
+    RPAREN          reduce using rule 18 (ExpI -> ExpK resuelve_operadores_relacionales .)
+    COMMA           reduce using rule 18 (ExpI -> ExpK resuelve_operadores_relacionales .)
+
+
+state 92
+
+    (25) Operandos -> EQ .
+
+    LPAREN          reduce using rule 25 (Operandos -> EQ .)
+    VAR_ID          reduce using rule 25 (Operandos -> EQ .)
+    VAR_INT         reduce using rule 25 (Operandos -> EQ .)
+    VAR_DECIMAL     reduce using rule 25 (Operandos -> EQ .)
+
+
+state 93
+
+    (23) Operandos -> LE .
+
+    LPAREN          reduce using rule 23 (Operandos -> LE .)
+    VAR_ID          reduce using rule 23 (Operandos -> LE .)
+    VAR_INT         reduce using rule 23 (Operandos -> LE .)
+    VAR_DECIMAL     reduce using rule 23 (Operandos -> LE .)
+
+
+state 94
+
+    (22) Operandos -> NE .
+
+    LPAREN          reduce using rule 22 (Operandos -> NE .)
+    VAR_ID          reduce using rule 22 (Operandos -> NE .)
+    VAR_INT         reduce using rule 22 (Operandos -> NE .)
+    VAR_DECIMAL     reduce using rule 22 (Operandos -> NE .)
+
+
+state 95
+
+    (24) Operandos -> GE .
+
+    LPAREN          reduce using rule 24 (Operandos -> GE .)
+    VAR_ID          reduce using rule 24 (Operandos -> GE .)
+    VAR_INT         reduce using rule 24 (Operandos -> GE .)
+    VAR_DECIMAL     reduce using rule 24 (Operandos -> GE .)
+
+
+state 96
+
+    (20) Operandos -> LT .
+
+    LPAREN          reduce using rule 20 (Operandos -> LT .)
+    VAR_ID          reduce using rule 20 (Operandos -> LT .)
+    VAR_INT         reduce using rule 20 (Operandos -> LT .)
+    VAR_DECIMAL     reduce using rule 20 (Operandos -> LT .)
+
+
+state 97
+
+    (21) Operandos -> GT .
+
+    LPAREN          reduce using rule 21 (Operandos -> GT .)
+    VAR_ID          reduce using rule 21 (Operandos -> GT .)
+    VAR_INT         reduce using rule 21 (Operandos -> GT .)
+    VAR_DECIMAL     reduce using rule 21 (Operandos -> GT .)
+
+
+state 98
+
+    (39) ExpF -> VAR_ID push_var_PilaOperandos . pos_arreglo
+    (56) pos_arreglo -> . SLBRACKET ExpI SRBRACKET
+    (57) pos_arreglo -> .
+
+    SLBRACKET       shift and go to state 117
+    MULT            reduce using rule 57 (pos_arreglo -> .)
+    DIV             reduce using rule 57 (pos_arreglo -> .)
+    PLUS            reduce using rule 57 (pos_arreglo -> .)
+    MINUS           reduce using rule 57 (pos_arreglo -> .)
+    LT              reduce using rule 57 (pos_arreglo -> .)
+    GT              reduce using rule 57 (pos_arreglo -> .)
+    NE              reduce using rule 57 (pos_arreglo -> .)
+    LE              reduce using rule 57 (pos_arreglo -> .)
+    GE              reduce using rule 57 (pos_arreglo -> .)
+    EQ              reduce using rule 57 (pos_arreglo -> .)
+    SEMICOLON       reduce using rule 57 (pos_arreglo -> .)
+    RPAREN          reduce using rule 57 (pos_arreglo -> .)
+    SRBRACKET       reduce using rule 57 (pos_arreglo -> .)
+    COMMA           reduce using rule 57 (pos_arreglo -> .)
+
+    pos_arreglo                    shift and go to state 116
+
+state 99
+
+    (47) llama_funcion -> VAR_ID LPAREN . agrega_falso checa_funcion_si_existe argumentos RPAREN quita_falso resuelve_llamada_funcion guarda_resultado_funcion
+    (45) agrega_falso -> .
+
+    LPAREN          reduce using rule 45 (agrega_falso -> .)
+    VAR_ID          reduce using rule 45 (agrega_falso -> .)
+    VAR_INT         reduce using rule 45 (agrega_falso -> .)
+    VAR_DECIMAL     reduce using rule 45 (agrega_falso -> .)
+    RPAREN          reduce using rule 45 (agrega_falso -> .)
+
+    agrega_falso                   shift and go to state 118
+
+state 100
+
+    (38) ExpF -> LPAREN agrega_falso . ExpI RPAREN quita_falso
+    (18) ExpI -> . ExpK resuelve_operadores_relacionales
+    (19) ExpI -> . ExpK Operandos push_operador_PilaOperadores ExpK resuelve_operadores_relacionales
+    (27) ExpK -> . ExpT resuelve_termino
+    (28) ExpK -> . ExpT resuelve_termino pos_SUMRES push_operador_PilaOperadores ExpK
+    (32) ExpT -> . ExpF resuelve_factor
+    (33) ExpT -> . ExpF resuelve_factor pos_MULTDIV push_operador_PilaOperadores ExpT
+    (37) ExpF -> . VAR_CTE
+    (38) ExpF -> . LPAREN agrega_falso ExpI RPAREN quita_falso
+    (39) ExpF -> . VAR_ID push_var_PilaOperandos pos_arreglo
+    (40) ExpF -> . llama_funcion
+    (41) VAR_CTE -> . VAR_INT push_int_PilaOperandos
+    (42) VAR_CTE -> . VAR_DECIMAL push_decimal_PilaOperandos
+    (47) llama_funcion -> . VAR_ID LPAREN agrega_falso checa_funcion_si_existe argumentos RPAREN quita_falso resuelve_llamada_funcion guarda_resultado_funcion
+
+    LPAREN          shift and go to state 71
+    VAR_ID          shift and go to state 70
+    VAR_INT         shift and go to state 68
+    VAR_DECIMAL     shift and go to state 72
+
+    ExpK                           shift and go to state 69
+    VAR_CTE                        shift and go to state 73
+    llama_funcion                  shift and go to state 74
+    ExpI                           shift and go to state 119
+    ExpT                           shift and go to state 76
+    ExpF                           shift and go to state 77
+
+state 101
+
+    (42) VAR_CTE -> VAR_DECIMAL push_decimal_PilaOperandos .
+
+    MULT            reduce using rule 42 (VAR_CTE -> VAR_DECIMAL push_decimal_PilaOperandos .)
+    DIV             reduce using rule 42 (VAR_CTE -> VAR_DECIMAL push_decimal_PilaOperandos .)
+    PLUS            reduce using rule 42 (VAR_CTE -> VAR_DECIMAL push_decimal_PilaOperandos .)
+    MINUS           reduce using rule 42 (VAR_CTE -> VAR_DECIMAL push_decimal_PilaOperandos .)
+    LT              reduce using rule 42 (VAR_CTE -> VAR_DECIMAL push_decimal_PilaOperandos .)
+    GT              reduce using rule 42 (VAR_CTE -> VAR_DECIMAL push_decimal_PilaOperandos .)
+    NE              reduce using rule 42 (VAR_CTE -> VAR_DECIMAL push_decimal_PilaOperandos .)
+    LE              reduce using rule 42 (VAR_CTE -> VAR_DECIMAL push_decimal_PilaOperandos .)
+    GE              reduce using rule 42 (VAR_CTE -> VAR_DECIMAL push_decimal_PilaOperandos .)
+    EQ              reduce using rule 42 (VAR_CTE -> VAR_DECIMAL push_decimal_PilaOperandos .)
+    COMMA           reduce using rule 42 (VAR_CTE -> VAR_DECIMAL push_decimal_PilaOperandos .)
+    RPAREN          reduce using rule 42 (VAR_CTE -> VAR_DECIMAL push_decimal_PilaOperandos .)
+    SEMICOLON       reduce using rule 42 (VAR_CTE -> VAR_DECIMAL push_decimal_PilaOperandos .)
+    SRBRACKET       reduce using rule 42 (VAR_CTE -> VAR_DECIMAL push_decimal_PilaOperandos .)
+
+
+state 102
+
+    (82) Return -> RETURN ExpI SEMICOLON . resuelve_return
+    (83) resuelve_return -> .
+
+    IF              reduce using rule 83 (resuelve_return -> .)
+    RETURN          reduce using rule 83 (resuelve_return -> .)
+    VAR_ID          reduce using rule 83 (resuelve_return -> .)
+    PRINT           reduce using rule 83 (resuelve_return -> .)
+    FOR             reduce using rule 83 (resuelve_return -> .)
+    WHILE           reduce using rule 83 (resuelve_return -> .)
+    DO              reduce using rule 83 (resuelve_return -> .)
+    RET             reduce using rule 83 (resuelve_return -> .)
+    RBRACKET        reduce using rule 83 (resuelve_return -> .)
+
+    resuelve_return                shift and go to state 120
+
+state 103
+
+    (27) ExpK -> ExpT resuelve_termino .
+    (28) ExpK -> ExpT resuelve_termino . pos_SUMRES push_operador_PilaOperadores ExpK
+    (30) pos_SUMRES -> . PLUS
+    (31) pos_SUMRES -> . MINUS
+
+    LT              reduce using rule 27 (ExpK -> ExpT resuelve_termino .)
+    GT              reduce using rule 27 (ExpK -> ExpT resuelve_termino .)
+    NE              reduce using rule 27 (ExpK -> ExpT resuelve_termino .)
+    LE              reduce using rule 27 (ExpK -> ExpT resuelve_termino .)
+    GE              reduce using rule 27 (ExpK -> ExpT resuelve_termino .)
+    EQ              reduce using rule 27 (ExpK -> ExpT resuelve_termino .)
+    RPAREN          reduce using rule 27 (ExpK -> ExpT resuelve_termino .)
+    COMMA           reduce using rule 27 (ExpK -> ExpT resuelve_termino .)
+    SEMICOLON       reduce using rule 27 (ExpK -> ExpT resuelve_termino .)
+    SRBRACKET       reduce using rule 27 (ExpK -> ExpT resuelve_termino .)
+    PLUS            shift and go to state 122
+    MINUS           shift and go to state 123
+
+    pos_SUMRES                     shift and go to state 121
+
+state 104
+
+    (32) ExpT -> ExpF resuelve_factor .
+    (33) ExpT -> ExpF resuelve_factor . pos_MULTDIV push_operador_PilaOperadores ExpT
+    (35) pos_MULTDIV -> . MULT
+    (36) pos_MULTDIV -> . DIV
+
+    PLUS            reduce using rule 32 (ExpT -> ExpF resuelve_factor .)
+    MINUS           reduce using rule 32 (ExpT -> ExpF resuelve_factor .)
+    LT              reduce using rule 32 (ExpT -> ExpF resuelve_factor .)
+    GT              reduce using rule 32 (ExpT -> ExpF resuelve_factor .)
+    NE              reduce using rule 32 (ExpT -> ExpF resuelve_factor .)
+    LE              reduce using rule 32 (ExpT -> ExpF resuelve_factor .)
+    GE              reduce using rule 32 (ExpT -> ExpF resuelve_factor .)
+    EQ              reduce using rule 32 (ExpT -> ExpF resuelve_factor .)
+    RPAREN          reduce using rule 32 (ExpT -> ExpF resuelve_factor .)
+    SRBRACKET       reduce using rule 32 (ExpT -> ExpF resuelve_factor .)
+    COMMA           reduce using rule 32 (ExpT -> ExpF resuelve_factor .)
+    SEMICOLON       reduce using rule 32 (ExpT -> ExpF resuelve_factor .)
+    MULT            shift and go to state 126
+    DIV             shift and go to state 124
+
+    pos_MULTDIV                    shift and go to state 125
+
+state 105
+
+    (76) Condicion -> IF LPAREN ExpI . RPAREN crea_GOTOF LBRACKET reg_brack RBRACKET pos_else llena_cuadruplo_if
+
+    RPAREN          shift and go to state 127
+
+
+state 106
+
+    (85) Print -> PRINT LPAREN ExpI . RPAREN SEMICOLON crea_print
+
+    RPAREN          shift and go to state 128
+
+
+state 107
+
+    (84) Print -> PRINT LPAREN VAR_STRING . RPAREN SEMICOLON
+
+    RPAREN          shift and go to state 129
+
+
+state 108
+
+    (14) Asignacion -> VAR_ID push_var_PilaOperandos ASSIGN . push_operador_PilaOperadores ExpI SEMICOLON resuelve_asignacion
+    (16) push_operador_PilaOperadores -> .
+
+    LPAREN          reduce using rule 16 (push_operador_PilaOperadores -> .)
+    VAR_ID          reduce using rule 16 (push_operador_PilaOperadores -> .)
+    VAR_INT         reduce using rule 16 (push_operador_PilaOperadores -> .)
+    VAR_DECIMAL     reduce using rule 16 (push_operador_PilaOperadores -> .)
+
+    push_operador_PilaOperadores   shift and go to state 130
+
+state 109
+
+    (87) Llamada_Func -> VAR_ID LPAREN agrega_falso . checa_funcion_si_existe argumentos RPAREN quita_falso resuelve_llamada_funcion SEMICOLON checa_void
+    (48) checa_funcion_si_existe -> .
+
+    LPAREN          reduce using rule 48 (checa_funcion_si_existe -> .)
+    VAR_ID          reduce using rule 48 (checa_funcion_si_existe -> .)
+    VAR_INT         reduce using rule 48 (checa_funcion_si_existe -> .)
+    VAR_DECIMAL     reduce using rule 48 (checa_funcion_si_existe -> .)
+    RPAREN          reduce using rule 48 (checa_funcion_si_existe -> .)
+
+    checa_funcion_si_existe        shift and go to state 131
+
+state 110
+
+    (96) For -> FOR LPAREN VAR_ID . ASSIGN ExpI SEMICOLON ExpI SEMICOLON VAR_ID Exp_ciclo RPAREN LBRACKET reg_brack RBRACKET
+
+    ASSIGN          shift and go to state 132
+
+
+state 111
+
+    (92) While -> WHILE guarda_numero_cuadruplo LPAREN . ExpI RPAREN crea_GOTOF LBRACKET reg_brack RBRACKET regresa_inicio_while
+    (18) ExpI -> . ExpK resuelve_operadores_relacionales
+    (19) ExpI -> . ExpK Operandos push_operador_PilaOperadores ExpK resuelve_operadores_relacionales
+    (27) ExpK -> . ExpT resuelve_termino
+    (28) ExpK -> . ExpT resuelve_termino pos_SUMRES push_operador_PilaOperadores ExpK
+    (32) ExpT -> . ExpF resuelve_factor
+    (33) ExpT -> . ExpF resuelve_factor pos_MULTDIV push_operador_PilaOperadores ExpT
+    (37) ExpF -> . VAR_CTE
+    (38) ExpF -> . LPAREN agrega_falso ExpI RPAREN quita_falso
+    (39) ExpF -> . VAR_ID push_var_PilaOperandos pos_arreglo
+    (40) ExpF -> . llama_funcion
+    (41) VAR_CTE -> . VAR_INT push_int_PilaOperandos
+    (42) VAR_CTE -> . VAR_DECIMAL push_decimal_PilaOperandos
+    (47) llama_funcion -> . VAR_ID LPAREN agrega_falso checa_funcion_si_existe argumentos RPAREN quita_falso resuelve_llamada_funcion guarda_resultado_funcion
+
+    LPAREN          shift and go to state 71
+    VAR_ID          shift and go to state 70
+    VAR_INT         shift and go to state 68
+    VAR_DECIMAL     shift and go to state 72
+
+    ExpK                           shift and go to state 69
+    VAR_CTE                        shift and go to state 73
+    llama_funcion                  shift and go to state 74
+    ExpI                           shift and go to state 133
+    ExpT                           shift and go to state 76
+    ExpF                           shift and go to state 77
+
+state 112
+
+    (58) funciones -> FUNC tipo_funcion VAR_ID LPAREN param RPAREN agrega_funcion LBRACKET Vars reg_brack RBRACKET . fin_func_quad funciones
+    (67) fin_func_quad -> .
+
+    FUNC            reduce using rule 67 (fin_func_quad -> .)
+    MAIN            reduce using rule 67 (fin_func_quad -> .)
+
+    fin_func_quad                  shift and go to state 134
+
+state 113
+
+    (95) DoWhile -> DO LBRACKET reg_brack RBRACKET . WHILE LPAREN ExpI RPAREN SEMICOLON
+
+    WHILE           shift and go to state 135
+
+
+state 114
+
+    (103) Main -> MAIN agrega_main_funcion LPAREN RPAREN LBRACKET Vars reg_brack RET ZERO SEMICOLON . RBRACKET
+
+    RBRACKET        shift and go to state 136
+
+
+state 115
+
+    (19) ExpI -> ExpK Operandos push_operador_PilaOperadores . ExpK resuelve_operadores_relacionales
+    (27) ExpK -> . ExpT resuelve_termino
+    (28) ExpK -> . ExpT resuelve_termino pos_SUMRES push_operador_PilaOperadores ExpK
+    (32) ExpT -> . ExpF resuelve_factor
+    (33) ExpT -> . ExpF resuelve_factor pos_MULTDIV push_operador_PilaOperadores ExpT
+    (37) ExpF -> . VAR_CTE
+    (38) ExpF -> . LPAREN agrega_falso ExpI RPAREN quita_falso
+    (39) ExpF -> . VAR_ID push_var_PilaOperandos pos_arreglo
+    (40) ExpF -> . llama_funcion
+    (41) VAR_CTE -> . VAR_INT push_int_PilaOperandos
+    (42) VAR_CTE -> . VAR_DECIMAL push_decimal_PilaOperandos
+    (47) llama_funcion -> . VAR_ID LPAREN agrega_falso checa_funcion_si_existe argumentos RPAREN quita_falso resuelve_llamada_funcion guarda_resultado_funcion
+
+    LPAREN          shift and go to state 71
+    VAR_ID          shift and go to state 70
+    VAR_INT         shift and go to state 68
+    VAR_DECIMAL     shift and go to state 72
+
+    ExpK                           shift and go to state 137
+    VAR_CTE                        shift and go to state 73
+    llama_funcion                  shift and go to state 74
+    ExpF                           shift and go to state 77
+    ExpT                           shift and go to state 76
+
+state 116
+
+    (39) ExpF -> VAR_ID push_var_PilaOperandos pos_arreglo .
+
+    MULT            reduce using rule 39 (ExpF -> VAR_ID push_var_PilaOperandos pos_arreglo .)
+    DIV             reduce using rule 39 (ExpF -> VAR_ID push_var_PilaOperandos pos_arreglo .)
+    PLUS            reduce using rule 39 (ExpF -> VAR_ID push_var_PilaOperandos pos_arreglo .)
+    MINUS           reduce using rule 39 (ExpF -> VAR_ID push_var_PilaOperandos pos_arreglo .)
+    LT              reduce using rule 39 (ExpF -> VAR_ID push_var_PilaOperandos pos_arreglo .)
+    GT              reduce using rule 39 (ExpF -> VAR_ID push_var_PilaOperandos pos_arreglo .)
+    NE              reduce using rule 39 (ExpF -> VAR_ID push_var_PilaOperandos pos_arreglo .)
+    LE              reduce using rule 39 (ExpF -> VAR_ID push_var_PilaOperandos pos_arreglo .)
+    GE              reduce using rule 39 (ExpF -> VAR_ID push_var_PilaOperandos pos_arreglo .)
+    EQ              reduce using rule 39 (ExpF -> VAR_ID push_var_PilaOperandos pos_arreglo .)
+    RPAREN          reduce using rule 39 (ExpF -> VAR_ID push_var_PilaOperandos pos_arreglo .)
+    SEMICOLON       reduce using rule 39 (ExpF -> VAR_ID push_var_PilaOperandos pos_arreglo .)
+    SRBRACKET       reduce using rule 39 (ExpF -> VAR_ID push_var_PilaOperandos pos_arreglo .)
+    COMMA           reduce using rule 39 (ExpF -> VAR_ID push_var_PilaOperandos pos_arreglo .)
+
+
+state 117
+
+    (56) pos_arreglo -> SLBRACKET . ExpI SRBRACKET
+    (18) ExpI -> . ExpK resuelve_operadores_relacionales
+    (19) ExpI -> . ExpK Operandos push_operador_PilaOperadores ExpK resuelve_operadores_relacionales
+    (27) ExpK -> . ExpT resuelve_termino
+    (28) ExpK -> . ExpT resuelve_termino pos_SUMRES push_operador_PilaOperadores ExpK
+    (32) ExpT -> . ExpF resuelve_factor
+    (33) ExpT -> . ExpF resuelve_factor pos_MULTDIV push_operador_PilaOperadores ExpT
+    (37) ExpF -> . VAR_CTE
+    (38) ExpF -> . LPAREN agrega_falso ExpI RPAREN quita_falso
+    (39) ExpF -> . VAR_ID push_var_PilaOperandos pos_arreglo
+    (40) ExpF -> . llama_funcion
+    (41) VAR_CTE -> . VAR_INT push_int_PilaOperandos
+    (42) VAR_CTE -> . VAR_DECIMAL push_decimal_PilaOperandos
+    (47) llama_funcion -> . VAR_ID LPAREN agrega_falso checa_funcion_si_existe argumentos RPAREN quita_falso resuelve_llamada_funcion guarda_resultado_funcion
+
+    LPAREN          shift and go to state 71
+    VAR_ID          shift and go to state 70
+    VAR_INT         shift and go to state 68
+    VAR_DECIMAL     shift and go to state 72
+
+    ExpK                           shift and go to state 69
+    VAR_CTE                        shift and go to state 73
+    llama_funcion                  shift and go to state 74
+    ExpI                           shift and go to state 138
+    ExpT                           shift and go to state 76
+    ExpF                           shift and go to state 77
+
+state 118
+
+    (47) llama_funcion -> VAR_ID LPAREN agrega_falso . checa_funcion_si_existe argumentos RPAREN quita_falso resuelve_llamada_funcion guarda_resultado_funcion
+    (48) checa_funcion_si_existe -> .
+
+    LPAREN          reduce using rule 48 (checa_funcion_si_existe -> .)
+    VAR_ID          reduce using rule 48 (checa_funcion_si_existe -> .)
+    VAR_INT         reduce using rule 48 (checa_funcion_si_existe -> .)
+    VAR_DECIMAL     reduce using rule 48 (checa_funcion_si_existe -> .)
+    RPAREN          reduce using rule 48 (checa_funcion_si_existe -> .)
+
+    checa_funcion_si_existe        shift and go to state 139
+
+state 119
+
+    (38) ExpF -> LPAREN agrega_falso ExpI . RPAREN quita_falso
+
+    RPAREN          shift and go to state 140
+
+
+state 120
+
+    (82) Return -> RETURN ExpI SEMICOLON resuelve_return .
+
+    IF              reduce using rule 82 (Return -> RETURN ExpI SEMICOLON resuelve_return .)
+    RETURN          reduce using rule 82 (Return -> RETURN ExpI SEMICOLON resuelve_return .)
+    VAR_ID          reduce using rule 82 (Return -> RETURN ExpI SEMICOLON resuelve_return .)
+    PRINT           reduce using rule 82 (Return -> RETURN ExpI SEMICOLON resuelve_return .)
+    FOR             reduce using rule 82 (Return -> RETURN ExpI SEMICOLON resuelve_return .)
+    WHILE           reduce using rule 82 (Return -> RETURN ExpI SEMICOLON resuelve_return .)
+    DO              reduce using rule 82 (Return -> RETURN ExpI SEMICOLON resuelve_return .)
+    RBRACKET        reduce using rule 82 (Return -> RETURN ExpI SEMICOLON resuelve_return .)
+    RET             reduce using rule 82 (Return -> RETURN ExpI SEMICOLON resuelve_return .)
+
+
+state 121
+
+    (28) ExpK -> ExpT resuelve_termino pos_SUMRES . push_operador_PilaOperadores ExpK
+    (16) push_operador_PilaOperadores -> .
+
+    LPAREN          reduce using rule 16 (push_operador_PilaOperadores -> .)
+    VAR_ID          reduce using rule 16 (push_operador_PilaOperadores -> .)
+    VAR_INT         reduce using rule 16 (push_operador_PilaOperadores -> .)
+    VAR_DECIMAL     reduce using rule 16 (push_operador_PilaOperadores -> .)
+
+    push_operador_PilaOperadores   shift and go to state 141
+
+state 122
+
+    (30) pos_SUMRES -> PLUS .
+
+    LPAREN          reduce using rule 30 (pos_SUMRES -> PLUS .)
+    VAR_ID          reduce using rule 30 (pos_SUMRES -> PLUS .)
+    VAR_INT         reduce using rule 30 (pos_SUMRES -> PLUS .)
+    VAR_DECIMAL     reduce using rule 30 (pos_SUMRES -> PLUS .)
+
+
+state 123
+
+    (31) pos_SUMRES -> MINUS .
+
+    LPAREN          reduce using rule 31 (pos_SUMRES -> MINUS .)
+    VAR_ID          reduce using rule 31 (pos_SUMRES -> MINUS .)
+    VAR_INT         reduce using rule 31 (pos_SUMRES -> MINUS .)
+    VAR_DECIMAL     reduce using rule 31 (pos_SUMRES -> MINUS .)
+
+
+state 124
+
+    (36) pos_MULTDIV -> DIV .
+
+    LPAREN          reduce using rule 36 (pos_MULTDIV -> DIV .)
+    VAR_ID          reduce using rule 36 (pos_MULTDIV -> DIV .)
+    VAR_INT         reduce using rule 36 (pos_MULTDIV -> DIV .)
+    VAR_DECIMAL     reduce using rule 36 (pos_MULTDIV -> DIV .)
+
+
+state 125
+
+    (33) ExpT -> ExpF resuelve_factor pos_MULTDIV . push_operador_PilaOperadores ExpT
+    (16) push_operador_PilaOperadores -> .
+
+    LPAREN          reduce using rule 16 (push_operador_PilaOperadores -> .)
+    VAR_ID          reduce using rule 16 (push_operador_PilaOperadores -> .)
+    VAR_INT         reduce using rule 16 (push_operador_PilaOperadores -> .)
+    VAR_DECIMAL     reduce using rule 16 (push_operador_PilaOperadores -> .)
+
+    push_operador_PilaOperadores   shift and go to state 142
+
+state 126
+
+    (35) pos_MULTDIV -> MULT .
+
+    LPAREN          reduce using rule 35 (pos_MULTDIV -> MULT .)
+    VAR_ID          reduce using rule 35 (pos_MULTDIV -> MULT .)
+    VAR_INT         reduce using rule 35 (pos_MULTDIV -> MULT .)
+    VAR_DECIMAL     reduce using rule 35 (pos_MULTDIV -> MULT .)
+
+
+state 127
+
+    (76) Condicion -> IF LPAREN ExpI RPAREN . crea_GOTOF LBRACKET reg_brack RBRACKET pos_else llena_cuadruplo_if
+    (77) crea_GOTOF -> .
+
+    LBRACKET        reduce using rule 77 (crea_GOTOF -> .)
+
+    crea_GOTOF                     shift and go to state 143
+
+state 128
+
+    (85) Print -> PRINT LPAREN ExpI RPAREN . SEMICOLON crea_print
+
+    SEMICOLON       shift and go to state 144
+
+
+state 129
+
+    (84) Print -> PRINT LPAREN VAR_STRING RPAREN . SEMICOLON
+
+    SEMICOLON       shift and go to state 145
+
+
+state 130
+
+    (14) Asignacion -> VAR_ID push_var_PilaOperandos ASSIGN push_operador_PilaOperadores . ExpI SEMICOLON resuelve_asignacion
+    (18) ExpI -> . ExpK resuelve_operadores_relacionales
+    (19) ExpI -> . ExpK Operandos push_operador_PilaOperadores ExpK resuelve_operadores_relacionales
+    (27) ExpK -> . ExpT resuelve_termino
+    (28) ExpK -> . ExpT resuelve_termino pos_SUMRES push_operador_PilaOperadores ExpK
+    (32) ExpT -> . ExpF resuelve_factor
+    (33) ExpT -> . ExpF resuelve_factor pos_MULTDIV push_operador_PilaOperadores ExpT
+    (37) ExpF -> . VAR_CTE
+    (38) ExpF -> . LPAREN agrega_falso ExpI RPAREN quita_falso
+    (39) ExpF -> . VAR_ID push_var_PilaOperandos pos_arreglo
+    (40) ExpF -> . llama_funcion
+    (41) VAR_CTE -> . VAR_INT push_int_PilaOperandos
+    (42) VAR_CTE -> . VAR_DECIMAL push_decimal_PilaOperandos
+    (47) llama_funcion -> . VAR_ID LPAREN agrega_falso checa_funcion_si_existe argumentos RPAREN quita_falso resuelve_llamada_funcion guarda_resultado_funcion
+
+    LPAREN          shift and go to state 71
+    VAR_ID          shift and go to state 70
+    VAR_INT         shift and go to state 68
+    VAR_DECIMAL     shift and go to state 72
+
+    ExpK                           shift and go to state 69
+    VAR_CTE                        shift and go to state 73
+    llama_funcion                  shift and go to state 74
+    ExpI                           shift and go to state 146
+    ExpT                           shift and go to state 76
+    ExpF                           shift and go to state 77
+
+state 131
+
+    (87) Llamada_Func -> VAR_ID LPAREN agrega_falso checa_funcion_si_existe . argumentos RPAREN quita_falso resuelve_llamada_funcion SEMICOLON checa_void
+    (49) argumentos -> . ExpI resuelve_argumentos mas_argumentos
+    (50) argumentos -> .
+    (18) ExpI -> . ExpK resuelve_operadores_relacionales
+    (19) ExpI -> . ExpK Operandos push_operador_PilaOperadores ExpK resuelve_operadores_relacionales
+    (27) ExpK -> . ExpT resuelve_termino
+    (28) ExpK -> . ExpT resuelve_termino pos_SUMRES push_operador_PilaOperadores ExpK
+    (32) ExpT -> . ExpF resuelve_factor
+    (33) ExpT -> . ExpF resuelve_factor pos_MULTDIV push_operador_PilaOperadores ExpT
+    (37) ExpF -> . VAR_CTE
+    (38) ExpF -> . LPAREN agrega_falso ExpI RPAREN quita_falso
+    (39) ExpF -> . VAR_ID push_var_PilaOperandos pos_arreglo
+    (40) ExpF -> . llama_funcion
+    (41) VAR_CTE -> . VAR_INT push_int_PilaOperandos
+    (42) VAR_CTE -> . VAR_DECIMAL push_decimal_PilaOperandos
+    (47) llama_funcion -> . VAR_ID LPAREN agrega_falso checa_funcion_si_existe argumentos RPAREN quita_falso resuelve_llamada_funcion guarda_resultado_funcion
+
+    RPAREN          reduce using rule 50 (argumentos -> .)
+    LPAREN          shift and go to state 71
+    VAR_ID          shift and go to state 70
+    VAR_INT         shift and go to state 68
+    VAR_DECIMAL     shift and go to state 72
+
+    argumentos                     shift and go to state 147
+    ExpK                           shift and go to state 69
+    VAR_CTE                        shift and go to state 73
+    llama_funcion                  shift and go to state 74
+    ExpI                           shift and go to state 148
+    ExpT                           shift and go to state 76
+    ExpF                           shift and go to state 77
+
+state 132
+
+    (96) For -> FOR LPAREN VAR_ID ASSIGN . ExpI SEMICOLON ExpI SEMICOLON VAR_ID Exp_ciclo RPAREN LBRACKET reg_brack RBRACKET
+    (18) ExpI -> . ExpK resuelve_operadores_relacionales
+    (19) ExpI -> . ExpK Operandos push_operador_PilaOperadores ExpK resuelve_operadores_relacionales
+    (27) ExpK -> . ExpT resuelve_termino
+    (28) ExpK -> . ExpT resuelve_termino pos_SUMRES push_operador_PilaOperadores ExpK
+    (32) ExpT -> . ExpF resuelve_factor
+    (33) ExpT -> . ExpF resuelve_factor pos_MULTDIV push_operador_PilaOperadores ExpT
+    (37) ExpF -> . VAR_CTE
+    (38) ExpF -> . LPAREN agrega_falso ExpI RPAREN quita_falso
+    (39) ExpF -> . VAR_ID push_var_PilaOperandos pos_arreglo
+    (40) ExpF -> . llama_funcion
+    (41) VAR_CTE -> . VAR_INT push_int_PilaOperandos
+    (42) VAR_CTE -> . VAR_DECIMAL push_decimal_PilaOperandos
+    (47) llama_funcion -> . VAR_ID LPAREN agrega_falso checa_funcion_si_existe argumentos RPAREN quita_falso resuelve_llamada_funcion guarda_resultado_funcion
+
+    LPAREN          shift and go to state 71
+    VAR_ID          shift and go to state 70
+    VAR_INT         shift and go to state 68
+    VAR_DECIMAL     shift and go to state 72
+
+    ExpK                           shift and go to state 69
+    VAR_CTE                        shift and go to state 73
+    llama_funcion                  shift and go to state 74
+    ExpI                           shift and go to state 149
+    ExpT                           shift and go to state 76
+    ExpF                           shift and go to state 77
+
+state 133
+
+    (92) While -> WHILE guarda_numero_cuadruplo LPAREN ExpI . RPAREN crea_GOTOF LBRACKET reg_brack RBRACKET regresa_inicio_while
+
+    RPAREN          shift and go to state 150
+
+
+state 134
+
+    (58) funciones -> FUNC tipo_funcion VAR_ID LPAREN param RPAREN agrega_funcion LBRACKET Vars reg_brack RBRACKET fin_func_quad . funciones
+    (58) funciones -> . FUNC tipo_funcion VAR_ID LPAREN param RPAREN agrega_funcion LBRACKET Vars reg_brack RBRACKET fin_func_quad funciones
+    (59) funciones -> .
+
+    FUNC            shift and go to state 15
+    MAIN            reduce using rule 59 (funciones -> .)
+
+    funciones                      shift and go to state 151
+
+state 135
+
+    (95) DoWhile -> DO LBRACKET reg_brack RBRACKET WHILE . LPAREN ExpI RPAREN SEMICOLON
+
+    LPAREN          shift and go to state 152
+
+
+state 136
+
+    (103) Main -> MAIN agrega_main_funcion LPAREN RPAREN LBRACKET Vars reg_brack RET ZERO SEMICOLON RBRACKET .
+
+    $end            reduce using rule 103 (Main -> MAIN agrega_main_funcion LPAREN RPAREN LBRACKET Vars reg_brack RET ZERO SEMICOLON RBRACKET .)
+
+
+state 137
+
+    (19) ExpI -> ExpK Operandos push_operador_PilaOperadores ExpK . resuelve_operadores_relacionales
+    (26) resuelve_operadores_relacionales -> .
+
+    SEMICOLON       reduce using rule 26 (resuelve_operadores_relacionales -> .)
+    RPAREN          reduce using rule 26 (resuelve_operadores_relacionales -> .)
+    SRBRACKET       reduce using rule 26 (resuelve_operadores_relacionales -> .)
+    COMMA           reduce using rule 26 (resuelve_operadores_relacionales -> .)
+
+    resuelve_operadores_relacionales shift and go to state 153
+
+state 138
+
+    (56) pos_arreglo -> SLBRACKET ExpI . SRBRACKET
+
+    SRBRACKET       shift and go to state 154
+
+
+state 139
+
+    (47) llama_funcion -> VAR_ID LPAREN agrega_falso checa_funcion_si_existe . argumentos RPAREN quita_falso resuelve_llamada_funcion guarda_resultado_funcion
+    (49) argumentos -> . ExpI resuelve_argumentos mas_argumentos
+    (50) argumentos -> .
+    (18) ExpI -> . ExpK resuelve_operadores_relacionales
+    (19) ExpI -> . ExpK Operandos push_operador_PilaOperadores ExpK resuelve_operadores_relacionales
+    (27) ExpK -> . ExpT resuelve_termino
+    (28) ExpK -> . ExpT resuelve_termino pos_SUMRES push_operador_PilaOperadores ExpK
+    (32) ExpT -> . ExpF resuelve_factor
+    (33) ExpT -> . ExpF resuelve_factor pos_MULTDIV push_operador_PilaOperadores ExpT
+    (37) ExpF -> . VAR_CTE
+    (38) ExpF -> . LPAREN agrega_falso ExpI RPAREN quita_falso
+    (39) ExpF -> . VAR_ID push_var_PilaOperandos pos_arreglo
+    (40) ExpF -> . llama_funcion
+    (41) VAR_CTE -> . VAR_INT push_int_PilaOperandos
+    (42) VAR_CTE -> . VAR_DECIMAL push_decimal_PilaOperandos
+    (47) llama_funcion -> . VAR_ID LPAREN agrega_falso checa_funcion_si_existe argumentos RPAREN quita_falso resuelve_llamada_funcion guarda_resultado_funcion
+
+    RPAREN          reduce using rule 50 (argumentos -> .)
+    LPAREN          shift and go to state 71
+    VAR_ID          shift and go to state 70
+    VAR_INT         shift and go to state 68
+    VAR_DECIMAL     shift and go to state 72
+
+    argumentos                     shift and go to state 155
+    ExpK                           shift and go to state 69
+    VAR_CTE                        shift and go to state 73
+    llama_funcion                  shift and go to state 74
+    ExpF                           shift and go to state 77
+    ExpT                           shift and go to state 76
+    ExpI                           shift and go to state 148
+
+state 140
+
+    (38) ExpF -> LPAREN agrega_falso ExpI RPAREN . quita_falso
+    (46) quita_falso -> .
+
+    MULT            reduce using rule 46 (quita_falso -> .)
+    DIV             reduce using rule 46 (quita_falso -> .)
+    PLUS            reduce using rule 46 (quita_falso -> .)
+    MINUS           reduce using rule 46 (quita_falso -> .)
+    LT              reduce using rule 46 (quita_falso -> .)
+    GT              reduce using rule 46 (quita_falso -> .)
+    NE              reduce using rule 46 (quita_falso -> .)
+    LE              reduce using rule 46 (quita_falso -> .)
+    GE              reduce using rule 46 (quita_falso -> .)
+    EQ              reduce using rule 46 (quita_falso -> .)
+    SEMICOLON       reduce using rule 46 (quita_falso -> .)
+    RPAREN          reduce using rule 46 (quita_falso -> .)
+    SRBRACKET       reduce using rule 46 (quita_falso -> .)
+    COMMA           reduce using rule 46 (quita_falso -> .)
+
+    quita_falso                    shift and go to state 156
+
+state 141
+
+    (28) ExpK -> ExpT resuelve_termino pos_SUMRES push_operador_PilaOperadores . ExpK
+    (27) ExpK -> . ExpT resuelve_termino
+    (28) ExpK -> . ExpT resuelve_termino pos_SUMRES push_operador_PilaOperadores ExpK
+    (32) ExpT -> . ExpF resuelve_factor
+    (33) ExpT -> . ExpF resuelve_factor pos_MULTDIV push_operador_PilaOperadores ExpT
+    (37) ExpF -> . VAR_CTE
+    (38) ExpF -> . LPAREN agrega_falso ExpI RPAREN quita_falso
+    (39) ExpF -> . VAR_ID push_var_PilaOperandos pos_arreglo
+    (40) ExpF -> . llama_funcion
+    (41) VAR_CTE -> . VAR_INT push_int_PilaOperandos
+    (42) VAR_CTE -> . VAR_DECIMAL push_decimal_PilaOperandos
+    (47) llama_funcion -> . VAR_ID LPAREN agrega_falso checa_funcion_si_existe argumentos RPAREN quita_falso resuelve_llamada_funcion guarda_resultado_funcion
+
+    LPAREN          shift and go to state 71
+    VAR_ID          shift and go to state 70
+    VAR_INT         shift and go to state 68
+    VAR_DECIMAL     shift and go to state 72
+
+    ExpK                           shift and go to state 157
+    VAR_CTE                        shift and go to state 73
+    llama_funcion                  shift and go to state 74
+    ExpF                           shift and go to state 77
+    ExpT                           shift and go to state 76
+
+state 142
+
+    (33) ExpT -> ExpF resuelve_factor pos_MULTDIV push_operador_PilaOperadores . ExpT
+    (32) ExpT -> . ExpF resuelve_factor
+    (33) ExpT -> . ExpF resuelve_factor pos_MULTDIV push_operador_PilaOperadores ExpT
+    (37) ExpF -> . VAR_CTE
+    (38) ExpF -> . LPAREN agrega_falso ExpI RPAREN quita_falso
+    (39) ExpF -> . VAR_ID push_var_PilaOperandos pos_arreglo
+    (40) ExpF -> . llama_funcion
+    (41) VAR_CTE -> . VAR_INT push_int_PilaOperandos
+    (42) VAR_CTE -> . VAR_DECIMAL push_decimal_PilaOperandos
+    (47) llama_funcion -> . VAR_ID LPAREN agrega_falso checa_funcion_si_existe argumentos RPAREN quita_falso resuelve_llamada_funcion guarda_resultado_funcion
+
+    LPAREN          shift and go to state 71
+    VAR_ID          shift and go to state 70
+    VAR_INT         shift and go to state 68
+    VAR_DECIMAL     shift and go to state 72
+
+    VAR_CTE                        shift and go to state 73
+    llama_funcion                  shift and go to state 74
+    ExpF                           shift and go to state 77
+    ExpT                           shift and go to state 158
+
+state 143
+
+    (76) Condicion -> IF LPAREN ExpI RPAREN crea_GOTOF . LBRACKET reg_brack RBRACKET pos_else llena_cuadruplo_if
+
+    LBRACKET        shift and go to state 159
+
+
+state 144
+
+    (85) Print -> PRINT LPAREN ExpI RPAREN SEMICOLON . crea_print
+    (86) crea_print -> .
+
+    IF              reduce using rule 86 (crea_print -> .)
+    RETURN          reduce using rule 86 (crea_print -> .)
+    VAR_ID          reduce using rule 86 (crea_print -> .)
+    PRINT           reduce using rule 86 (crea_print -> .)
+    FOR             reduce using rule 86 (crea_print -> .)
+    WHILE           reduce using rule 86 (crea_print -> .)
+    DO              reduce using rule 86 (crea_print -> .)
+    RET             reduce using rule 86 (crea_print -> .)
+    RBRACKET        reduce using rule 86 (crea_print -> .)
+
+    crea_print                     shift and go to state 160
+
+state 145
+
+    (84) Print -> PRINT LPAREN VAR_STRING RPAREN SEMICOLON .
+
+    IF              reduce using rule 84 (Print -> PRINT LPAREN VAR_STRING RPAREN SEMICOLON .)
+    RETURN          reduce using rule 84 (Print -> PRINT LPAREN VAR_STRING RPAREN SEMICOLON .)
+    VAR_ID          reduce using rule 84 (Print -> PRINT LPAREN VAR_STRING RPAREN SEMICOLON .)
+    PRINT           reduce using rule 84 (Print -> PRINT LPAREN VAR_STRING RPAREN SEMICOLON .)
+    FOR             reduce using rule 84 (Print -> PRINT LPAREN VAR_STRING RPAREN SEMICOLON .)
+    WHILE           reduce using rule 84 (Print -> PRINT LPAREN VAR_STRING RPAREN SEMICOLON .)
+    DO              reduce using rule 84 (Print -> PRINT LPAREN VAR_STRING RPAREN SEMICOLON .)
+    RBRACKET        reduce using rule 84 (Print -> PRINT LPAREN VAR_STRING RPAREN SEMICOLON .)
+    RET             reduce using rule 84 (Print -> PRINT LPAREN VAR_STRING RPAREN SEMICOLON .)
+
+
+state 146
+
+    (14) Asignacion -> VAR_ID push_var_PilaOperandos ASSIGN push_operador_PilaOperadores ExpI . SEMICOLON resuelve_asignacion
+
+    SEMICOLON       shift and go to state 161
+
+
+state 147
+
+    (87) Llamada_Func -> VAR_ID LPAREN agrega_falso checa_funcion_si_existe argumentos . RPAREN quita_falso resuelve_llamada_funcion SEMICOLON checa_void
+
+    RPAREN          shift and go to state 162
+
+
+state 148
+
+    (49) argumentos -> ExpI . resuelve_argumentos mas_argumentos
+    (53) resuelve_argumentos -> .
+
+    COMMA           reduce using rule 53 (resuelve_argumentos -> .)
+    RPAREN          reduce using rule 53 (resuelve_argumentos -> .)
+
+    resuelve_argumentos            shift and go to state 163
+
+state 149
+
+    (96) For -> FOR LPAREN VAR_ID ASSIGN ExpI . SEMICOLON ExpI SEMICOLON VAR_ID Exp_ciclo RPAREN LBRACKET reg_brack RBRACKET
+
+    SEMICOLON       shift and go to state 164
+
+
+state 150
+
+    (92) While -> WHILE guarda_numero_cuadruplo LPAREN ExpI RPAREN . crea_GOTOF LBRACKET reg_brack RBRACKET regresa_inicio_while
+    (77) crea_GOTOF -> .
+
+    LBRACKET        reduce using rule 77 (crea_GOTOF -> .)
+
+    crea_GOTOF                     shift and go to state 165
+
+state 151
+
+    (58) funciones -> FUNC tipo_funcion VAR_ID LPAREN param RPAREN agrega_funcion LBRACKET Vars reg_brack RBRACKET fin_func_quad funciones .
+
+    MAIN            reduce using rule 58 (funciones -> FUNC tipo_funcion VAR_ID LPAREN param RPAREN agrega_funcion LBRACKET Vars reg_brack RBRACKET fin_func_quad funciones .)
+
+
+state 152
+
+    (95) DoWhile -> DO LBRACKET reg_brack RBRACKET WHILE LPAREN . ExpI RPAREN SEMICOLON
+    (18) ExpI -> . ExpK resuelve_operadores_relacionales
+    (19) ExpI -> . ExpK Operandos push_operador_PilaOperadores ExpK resuelve_operadores_relacionales
+    (27) ExpK -> . ExpT resuelve_termino
+    (28) ExpK -> . ExpT resuelve_termino pos_SUMRES push_operador_PilaOperadores ExpK
+    (32) ExpT -> . ExpF resuelve_factor
+    (33) ExpT -> . ExpF resuelve_factor pos_MULTDIV push_operador_PilaOperadores ExpT
+    (37) ExpF -> . VAR_CTE
+    (38) ExpF -> . LPAREN agrega_falso ExpI RPAREN quita_falso
+    (39) ExpF -> . VAR_ID push_var_PilaOperandos pos_arreglo
+    (40) ExpF -> . llama_funcion
+    (41) VAR_CTE -> . VAR_INT push_int_PilaOperandos
+    (42) VAR_CTE -> . VAR_DECIMAL push_decimal_PilaOperandos
+    (47) llama_funcion -> . VAR_ID LPAREN agrega_falso checa_funcion_si_existe argumentos RPAREN quita_falso resuelve_llamada_funcion guarda_resultado_funcion
+
+    LPAREN          shift and go to state 71
+    VAR_ID          shift and go to state 70
+    VAR_INT         shift and go to state 68
+    VAR_DECIMAL     shift and go to state 72
+
+    ExpK                           shift and go to state 69
+    VAR_CTE                        shift and go to state 73
+    llama_funcion                  shift and go to state 74
+    ExpI                           shift and go to state 166
+    ExpT                           shift and go to state 76
+    ExpF                           shift and go to state 77
+
+state 153
+
+    (19) ExpI -> ExpK Operandos push_operador_PilaOperadores ExpK resuelve_operadores_relacionales .
+
+    SRBRACKET       reduce using rule 19 (ExpI -> ExpK Operandos push_operador_PilaOperadores ExpK resuelve_operadores_relacionales .)
+    SEMICOLON       reduce using rule 19 (ExpI -> ExpK Operandos push_operador_PilaOperadores ExpK resuelve_operadores_relacionales .)
+    RPAREN          reduce using rule 19 (ExpI -> ExpK Operandos push_operador_PilaOperadores ExpK resuelve_operadores_relacionales .)
+    COMMA           reduce using rule 19 (ExpI -> ExpK Operandos push_operador_PilaOperadores ExpK resuelve_operadores_relacionales .)
+
+
+state 154
+
+    (56) pos_arreglo -> SLBRACKET ExpI SRBRACKET .
+
+    MULT            reduce using rule 56 (pos_arreglo -> SLBRACKET ExpI SRBRACKET .)
+    DIV             reduce using rule 56 (pos_arreglo -> SLBRACKET ExpI SRBRACKET .)
+    PLUS            reduce using rule 56 (pos_arreglo -> SLBRACKET ExpI SRBRACKET .)
+    MINUS           reduce using rule 56 (pos_arreglo -> SLBRACKET ExpI SRBRACKET .)
+    LT              reduce using rule 56 (pos_arreglo -> SLBRACKET ExpI SRBRACKET .)
+    GT              reduce using rule 56 (pos_arreglo -> SLBRACKET ExpI SRBRACKET .)
+    NE              reduce using rule 56 (pos_arreglo -> SLBRACKET ExpI SRBRACKET .)
+    LE              reduce using rule 56 (pos_arreglo -> SLBRACKET ExpI SRBRACKET .)
+    GE              reduce using rule 56 (pos_arreglo -> SLBRACKET ExpI SRBRACKET .)
+    EQ              reduce using rule 56 (pos_arreglo -> SLBRACKET ExpI SRBRACKET .)
+    SEMICOLON       reduce using rule 56 (pos_arreglo -> SLBRACKET ExpI SRBRACKET .)
+    RPAREN          reduce using rule 56 (pos_arreglo -> SLBRACKET ExpI SRBRACKET .)
+    SRBRACKET       reduce using rule 56 (pos_arreglo -> SLBRACKET ExpI SRBRACKET .)
+    COMMA           reduce using rule 56 (pos_arreglo -> SLBRACKET ExpI SRBRACKET .)
+
+
+state 155
+
+    (47) llama_funcion -> VAR_ID LPAREN agrega_falso checa_funcion_si_existe argumentos . RPAREN quita_falso resuelve_llamada_funcion guarda_resultado_funcion
+
+    RPAREN          shift and go to state 167
+
+
+state 156
+
+    (38) ExpF -> LPAREN agrega_falso ExpI RPAREN quita_falso .
+
+    MULT            reduce using rule 38 (ExpF -> LPAREN agrega_falso ExpI RPAREN quita_falso .)
+    DIV             reduce using rule 38 (ExpF -> LPAREN agrega_falso ExpI RPAREN quita_falso .)
+    PLUS            reduce using rule 38 (ExpF -> LPAREN agrega_falso ExpI RPAREN quita_falso .)
+    MINUS           reduce using rule 38 (ExpF -> LPAREN agrega_falso ExpI RPAREN quita_falso .)
+    LT              reduce using rule 38 (ExpF -> LPAREN agrega_falso ExpI RPAREN quita_falso .)
+    GT              reduce using rule 38 (ExpF -> LPAREN agrega_falso ExpI RPAREN quita_falso .)
+    NE              reduce using rule 38 (ExpF -> LPAREN agrega_falso ExpI RPAREN quita_falso .)
+    LE              reduce using rule 38 (ExpF -> LPAREN agrega_falso ExpI RPAREN quita_falso .)
+    GE              reduce using rule 38 (ExpF -> LPAREN agrega_falso ExpI RPAREN quita_falso .)
+    EQ              reduce using rule 38 (ExpF -> LPAREN agrega_falso ExpI RPAREN quita_falso .)
+    RPAREN          reduce using rule 38 (ExpF -> LPAREN agrega_falso ExpI RPAREN quita_falso .)
+    SEMICOLON       reduce using rule 38 (ExpF -> LPAREN agrega_falso ExpI RPAREN quita_falso .)
+    SRBRACKET       reduce using rule 38 (ExpF -> LPAREN agrega_falso ExpI RPAREN quita_falso .)
+    COMMA           reduce using rule 38 (ExpF -> LPAREN agrega_falso ExpI RPAREN quita_falso .)
+
+
+state 157
+
+    (28) ExpK -> ExpT resuelve_termino pos_SUMRES push_operador_PilaOperadores ExpK .
+
+    LT              reduce using rule 28 (ExpK -> ExpT resuelve_termino pos_SUMRES push_operador_PilaOperadores ExpK .)
+    GT              reduce using rule 28 (ExpK -> ExpT resuelve_termino pos_SUMRES push_operador_PilaOperadores ExpK .)
+    NE              reduce using rule 28 (ExpK -> ExpT resuelve_termino pos_SUMRES push_operador_PilaOperadores ExpK .)
+    LE              reduce using rule 28 (ExpK -> ExpT resuelve_termino pos_SUMRES push_operador_PilaOperadores ExpK .)
+    GE              reduce using rule 28 (ExpK -> ExpT resuelve_termino pos_SUMRES push_operador_PilaOperadores ExpK .)
+    EQ              reduce using rule 28 (ExpK -> ExpT resuelve_termino pos_SUMRES push_operador_PilaOperadores ExpK .)
+    RPAREN          reduce using rule 28 (ExpK -> ExpT resuelve_termino pos_SUMRES push_operador_PilaOperadores ExpK .)
+    COMMA           reduce using rule 28 (ExpK -> ExpT resuelve_termino pos_SUMRES push_operador_PilaOperadores ExpK .)
+    SEMICOLON       reduce using rule 28 (ExpK -> ExpT resuelve_termino pos_SUMRES push_operador_PilaOperadores ExpK .)
+    SRBRACKET       reduce using rule 28 (ExpK -> ExpT resuelve_termino pos_SUMRES push_operador_PilaOperadores ExpK .)
+
+
+state 158
+
+    (33) ExpT -> ExpF resuelve_factor pos_MULTDIV push_operador_PilaOperadores ExpT .
+
+    PLUS            reduce using rule 33 (ExpT -> ExpF resuelve_factor pos_MULTDIV push_operador_PilaOperadores ExpT .)
+    MINUS           reduce using rule 33 (ExpT -> ExpF resuelve_factor pos_MULTDIV push_operador_PilaOperadores ExpT .)
+    LT              reduce using rule 33 (ExpT -> ExpF resuelve_factor pos_MULTDIV push_operador_PilaOperadores ExpT .)
+    GT              reduce using rule 33 (ExpT -> ExpF resuelve_factor pos_MULTDIV push_operador_PilaOperadores ExpT .)
+    NE              reduce using rule 33 (ExpT -> ExpF resuelve_factor pos_MULTDIV push_operador_PilaOperadores ExpT .)
+    LE              reduce using rule 33 (ExpT -> ExpF resuelve_factor pos_MULTDIV push_operador_PilaOperadores ExpT .)
+    GE              reduce using rule 33 (ExpT -> ExpF resuelve_factor pos_MULTDIV push_operador_PilaOperadores ExpT .)
+    EQ              reduce using rule 33 (ExpT -> ExpF resuelve_factor pos_MULTDIV push_operador_PilaOperadores ExpT .)
+    RPAREN          reduce using rule 33 (ExpT -> ExpF resuelve_factor pos_MULTDIV push_operador_PilaOperadores ExpT .)
+    SRBRACKET       reduce using rule 33 (ExpT -> ExpF resuelve_factor pos_MULTDIV push_operador_PilaOperadores ExpT .)
+    COMMA           reduce using rule 33 (ExpT -> ExpF resuelve_factor pos_MULTDIV push_operador_PilaOperadores ExpT .)
+    SEMICOLON       reduce using rule 33 (ExpT -> ExpF resuelve_factor pos_MULTDIV push_operador_PilaOperadores ExpT .)
+
+
+state 159
+
+    (76) Condicion -> IF LPAREN ExpI RPAREN crea_GOTOF LBRACKET . reg_brack RBRACKET pos_else llena_cuadruplo_if
+    (68) reg_brack -> . Estatutos reg_brack
+    (69) reg_brack -> .
+    (70) Estatutos -> . Condicion
+    (71) Estatutos -> . Ciclo
+    (72) Estatutos -> . Return
+    (73) Estatutos -> . Asignacion
+    (74) Estatutos -> . Print
+    (75) Estatutos -> . Llamada_Func
+    (76) Condicion -> . IF LPAREN ExpI RPAREN crea_GOTOF LBRACKET reg_brack RBRACKET pos_else llena_cuadruplo_if
+    (89) Ciclo -> . For
+    (90) Ciclo -> . While
+    (91) Ciclo -> . DoWhile
+    (82) Return -> . RETURN ExpI SEMICOLON resuelve_return
+    (14) Asignacion -> . VAR_ID push_var_PilaOperandos ASSIGN push_operador_PilaOperadores ExpI SEMICOLON resuelve_asignacion
+    (84) Print -> . PRINT LPAREN VAR_STRING RPAREN SEMICOLON
+    (85) Print -> . PRINT LPAREN ExpI RPAREN SEMICOLON crea_print
+    (87) Llamada_Func -> . VAR_ID LPAREN agrega_falso checa_funcion_si_existe argumentos RPAREN quita_falso resuelve_llamada_funcion SEMICOLON checa_void
+    (96) For -> . FOR LPAREN VAR_ID ASSIGN ExpI SEMICOLON ExpI SEMICOLON VAR_ID Exp_ciclo RPAREN LBRACKET reg_brack RBRACKET
+    (92) While -> . WHILE guarda_numero_cuadruplo LPAREN ExpI RPAREN crea_GOTOF LBRACKET reg_brack RBRACKET regresa_inicio_while
+    (95) DoWhile -> . DO LBRACKET reg_brack RBRACKET WHILE LPAREN ExpI RPAREN SEMICOLON
+
+    RBRACKET        reduce using rule 69 (reg_brack -> .)
+    IF              shift and go to state 53
+    RETURN          shift and go to state 52
+    VAR_ID          shift and go to state 55
+    PRINT           shift and go to state 54
+    FOR             shift and go to state 60
+    WHILE           shift and go to state 61
+    DO              shift and go to state 49
+
+    DoWhile                        shift and go to state 46
+    While                          shift and go to state 56
+    Condicion                      shift and go to state 47
+    Print                          shift and go to state 57
+    Llamada_Func                   shift and go to state 58
+    Return                         shift and go to state 48
+    Asignacion                     shift and go to state 59
+    reg_brack                      shift and go to state 168
+    For                            shift and go to state 51
+    Estatutos                      shift and go to state 62
+    Ciclo                          shift and go to state 63
+
+state 160
+
+    (85) Print -> PRINT LPAREN ExpI RPAREN SEMICOLON crea_print .
+
+    IF              reduce using rule 85 (Print -> PRINT LPAREN ExpI RPAREN SEMICOLON crea_print .)
+    RETURN          reduce using rule 85 (Print -> PRINT LPAREN ExpI RPAREN SEMICOLON crea_print .)
+    VAR_ID          reduce using rule 85 (Print -> PRINT LPAREN ExpI RPAREN SEMICOLON crea_print .)
+    PRINT           reduce using rule 85 (Print -> PRINT LPAREN ExpI RPAREN SEMICOLON crea_print .)
+    FOR             reduce using rule 85 (Print -> PRINT LPAREN ExpI RPAREN SEMICOLON crea_print .)
+    WHILE           reduce using rule 85 (Print -> PRINT LPAREN ExpI RPAREN SEMICOLON crea_print .)
+    DO              reduce using rule 85 (Print -> PRINT LPAREN ExpI RPAREN SEMICOLON crea_print .)
+    RBRACKET        reduce using rule 85 (Print -> PRINT LPAREN ExpI RPAREN SEMICOLON crea_print .)
+    RET             reduce using rule 85 (Print -> PRINT LPAREN ExpI RPAREN SEMICOLON crea_print .)
+
+
+state 161
+
+    (14) Asignacion -> VAR_ID push_var_PilaOperandos ASSIGN push_operador_PilaOperadores ExpI SEMICOLON . resuelve_asignacion
+    (17) resuelve_asignacion -> .
+
+    IF              reduce using rule 17 (resuelve_asignacion -> .)
+    RETURN          reduce using rule 17 (resuelve_asignacion -> .)
+    VAR_ID          reduce using rule 17 (resuelve_asignacion -> .)
+    PRINT           reduce using rule 17 (resuelve_asignacion -> .)
+    FOR             reduce using rule 17 (resuelve_asignacion -> .)
+    WHILE           reduce using rule 17 (resuelve_asignacion -> .)
+    DO              reduce using rule 17 (resuelve_asignacion -> .)
+    RET             reduce using rule 17 (resuelve_asignacion -> .)
+    RBRACKET        reduce using rule 17 (resuelve_asignacion -> .)
+
+    resuelve_asignacion            shift and go to state 169
+
+state 162
+
+    (87) Llamada_Func -> VAR_ID LPAREN agrega_falso checa_funcion_si_existe argumentos RPAREN . quita_falso resuelve_llamada_funcion SEMICOLON checa_void
+    (46) quita_falso -> .
+
+    SEMICOLON       reduce using rule 46 (quita_falso -> .)
+
+    quita_falso                    shift and go to state 170
+
+state 163
+
+    (49) argumentos -> ExpI resuelve_argumentos . mas_argumentos
+    (51) mas_argumentos -> . COMMA ExpI resuelve_argumentos mas_argumentos
+    (52) mas_argumentos -> .
+
+    COMMA           shift and go to state 171
+    RPAREN          reduce using rule 52 (mas_argumentos -> .)
+
+    mas_argumentos                 shift and go to state 172
+
+state 164
+
+    (96) For -> FOR LPAREN VAR_ID ASSIGN ExpI SEMICOLON . ExpI SEMICOLON VAR_ID Exp_ciclo RPAREN LBRACKET reg_brack RBRACKET
+    (18) ExpI -> . ExpK resuelve_operadores_relacionales
+    (19) ExpI -> . ExpK Operandos push_operador_PilaOperadores ExpK resuelve_operadores_relacionales
+    (27) ExpK -> . ExpT resuelve_termino
+    (28) ExpK -> . ExpT resuelve_termino pos_SUMRES push_operador_PilaOperadores ExpK
+    (32) ExpT -> . ExpF resuelve_factor
+    (33) ExpT -> . ExpF resuelve_factor pos_MULTDIV push_operador_PilaOperadores ExpT
+    (37) ExpF -> . VAR_CTE
+    (38) ExpF -> . LPAREN agrega_falso ExpI RPAREN quita_falso
+    (39) ExpF -> . VAR_ID push_var_PilaOperandos pos_arreglo
+    (40) ExpF -> . llama_funcion
+    (41) VAR_CTE -> . VAR_INT push_int_PilaOperandos
+    (42) VAR_CTE -> . VAR_DECIMAL push_decimal_PilaOperandos
+    (47) llama_funcion -> . VAR_ID LPAREN agrega_falso checa_funcion_si_existe argumentos RPAREN quita_falso resuelve_llamada_funcion guarda_resultado_funcion
+
+    LPAREN          shift and go to state 71
+    VAR_ID          shift and go to state 70
+    VAR_INT         shift and go to state 68
+    VAR_DECIMAL     shift and go to state 72
+
+    ExpK                           shift and go to state 69
+    VAR_CTE                        shift and go to state 73
+    llama_funcion                  shift and go to state 74
+    ExpI                           shift and go to state 173
+    ExpT                           shift and go to state 76
+    ExpF                           shift and go to state 77
+
+state 165
+
+    (92) While -> WHILE guarda_numero_cuadruplo LPAREN ExpI RPAREN crea_GOTOF . LBRACKET reg_brack RBRACKET regresa_inicio_while
+
+    LBRACKET        shift and go to state 174
+
+
+state 166
+
+    (95) DoWhile -> DO LBRACKET reg_brack RBRACKET WHILE LPAREN ExpI . RPAREN SEMICOLON
+
+    RPAREN          shift and go to state 175
+
+
+state 167
+
+    (47) llama_funcion -> VAR_ID LPAREN agrega_falso checa_funcion_si_existe argumentos RPAREN . quita_falso resuelve_llamada_funcion guarda_resultado_funcion
+    (46) quita_falso -> .
+
+    MULT            reduce using rule 46 (quita_falso -> .)
+    DIV             reduce using rule 46 (quita_falso -> .)
+    PLUS            reduce using rule 46 (quita_falso -> .)
+    MINUS           reduce using rule 46 (quita_falso -> .)
+    LT              reduce using rule 46 (quita_falso -> .)
+    GT              reduce using rule 46 (quita_falso -> .)
+    NE              reduce using rule 46 (quita_falso -> .)
+    LE              reduce using rule 46 (quita_falso -> .)
+    GE              reduce using rule 46 (quita_falso -> .)
+    EQ              reduce using rule 46 (quita_falso -> .)
+    SEMICOLON       reduce using rule 46 (quita_falso -> .)
+    RPAREN          reduce using rule 46 (quita_falso -> .)
+    SRBRACKET       reduce using rule 46 (quita_falso -> .)
+    COMMA           reduce using rule 46 (quita_falso -> .)
+
+    quita_falso                    shift and go to state 176
+
+state 168
+
+    (76) Condicion -> IF LPAREN ExpI RPAREN crea_GOTOF LBRACKET reg_brack . RBRACKET pos_else llena_cuadruplo_if
+
+    RBRACKET        shift and go to state 177
+
+
+state 169
+
+    (14) Asignacion -> VAR_ID push_var_PilaOperandos ASSIGN push_operador_PilaOperadores ExpI SEMICOLON resuelve_asignacion .
+
+    IF              reduce using rule 14 (Asignacion -> VAR_ID push_var_PilaOperandos ASSIGN push_operador_PilaOperadores ExpI SEMICOLON resuelve_asignacion .)
+    RETURN          reduce using rule 14 (Asignacion -> VAR_ID push_var_PilaOperandos ASSIGN push_operador_PilaOperadores ExpI SEMICOLON resuelve_asignacion .)
+    VAR_ID          reduce using rule 14 (Asignacion -> VAR_ID push_var_PilaOperandos ASSIGN push_operador_PilaOperadores ExpI SEMICOLON resuelve_asignacion .)
+    PRINT           reduce using rule 14 (Asignacion -> VAR_ID push_var_PilaOperandos ASSIGN push_operador_PilaOperadores ExpI SEMICOLON resuelve_asignacion .)
+    FOR             reduce using rule 14 (Asignacion -> VAR_ID push_var_PilaOperandos ASSIGN push_operador_PilaOperadores ExpI SEMICOLON resuelve_asignacion .)
+    WHILE           reduce using rule 14 (Asignacion -> VAR_ID push_var_PilaOperandos ASSIGN push_operador_PilaOperadores ExpI SEMICOLON resuelve_asignacion .)
+    DO              reduce using rule 14 (Asignacion -> VAR_ID push_var_PilaOperandos ASSIGN push_operador_PilaOperadores ExpI SEMICOLON resuelve_asignacion .)
+    RBRACKET        reduce using rule 14 (Asignacion -> VAR_ID push_var_PilaOperandos ASSIGN push_operador_PilaOperadores ExpI SEMICOLON resuelve_asignacion .)
+    RET             reduce using rule 14 (Asignacion -> VAR_ID push_var_PilaOperandos ASSIGN push_operador_PilaOperadores ExpI SEMICOLON resuelve_asignacion .)
+
+
+state 170
+
+    (87) Llamada_Func -> VAR_ID LPAREN agrega_falso checa_funcion_si_existe argumentos RPAREN quita_falso . resuelve_llamada_funcion SEMICOLON checa_void
+    (54) resuelve_llamada_funcion -> .
+
+    SEMICOLON       reduce using rule 54 (resuelve_llamada_funcion -> .)
+
+    resuelve_llamada_funcion       shift and go to state 178
+
+state 171
+
+    (51) mas_argumentos -> COMMA . ExpI resuelve_argumentos mas_argumentos
+    (18) ExpI -> . ExpK resuelve_operadores_relacionales
+    (19) ExpI -> . ExpK Operandos push_operador_PilaOperadores ExpK resuelve_operadores_relacionales
+    (27) ExpK -> . ExpT resuelve_termino
+    (28) ExpK -> . ExpT resuelve_termino pos_SUMRES push_operador_PilaOperadores ExpK
+    (32) ExpT -> . ExpF resuelve_factor
+    (33) ExpT -> . ExpF resuelve_factor pos_MULTDIV push_operador_PilaOperadores ExpT
+    (37) ExpF -> . VAR_CTE
+    (38) ExpF -> . LPAREN agrega_falso ExpI RPAREN quita_falso
+    (39) ExpF -> . VAR_ID push_var_PilaOperandos pos_arreglo
+    (40) ExpF -> . llama_funcion
+    (41) VAR_CTE -> . VAR_INT push_int_PilaOperandos
+    (42) VAR_CTE -> . VAR_DECIMAL push_decimal_PilaOperandos
+    (47) llama_funcion -> . VAR_ID LPAREN agrega_falso checa_funcion_si_existe argumentos RPAREN quita_falso resuelve_llamada_funcion guarda_resultado_funcion
+
+    LPAREN          shift and go to state 71
+    VAR_ID          shift and go to state 70
+    VAR_INT         shift and go to state 68
+    VAR_DECIMAL     shift and go to state 72
+
+    ExpK                           shift and go to state 69
+    VAR_CTE                        shift and go to state 73
+    llama_funcion                  shift and go to state 74
+    ExpI                           shift and go to state 179
+    ExpT                           shift and go to state 76
+    ExpF                           shift and go to state 77
+
+state 172
+
+    (49) argumentos -> ExpI resuelve_argumentos mas_argumentos .
+
+    RPAREN          reduce using rule 49 (argumentos -> ExpI resuelve_argumentos mas_argumentos .)
+
+
+state 173
+
+    (96) For -> FOR LPAREN VAR_ID ASSIGN ExpI SEMICOLON ExpI . SEMICOLON VAR_ID Exp_ciclo RPAREN LBRACKET reg_brack RBRACKET
+
+    SEMICOLON       shift and go to state 180
+
+
+state 174
+
+    (92) While -> WHILE guarda_numero_cuadruplo LPAREN ExpI RPAREN crea_GOTOF LBRACKET . reg_brack RBRACKET regresa_inicio_while
+    (68) reg_brack -> . Estatutos reg_brack
+    (69) reg_brack -> .
+    (70) Estatutos -> . Condicion
+    (71) Estatutos -> . Ciclo
+    (72) Estatutos -> . Return
+    (73) Estatutos -> . Asignacion
+    (74) Estatutos -> . Print
+    (75) Estatutos -> . Llamada_Func
+    (76) Condicion -> . IF LPAREN ExpI RPAREN crea_GOTOF LBRACKET reg_brack RBRACKET pos_else llena_cuadruplo_if
+    (89) Ciclo -> . For
+    (90) Ciclo -> . While
+    (91) Ciclo -> . DoWhile
+    (82) Return -> . RETURN ExpI SEMICOLON resuelve_return
+    (14) Asignacion -> . VAR_ID push_var_PilaOperandos ASSIGN push_operador_PilaOperadores ExpI SEMICOLON resuelve_asignacion
+    (84) Print -> . PRINT LPAREN VAR_STRING RPAREN SEMICOLON
+    (85) Print -> . PRINT LPAREN ExpI RPAREN SEMICOLON crea_print
+    (87) Llamada_Func -> . VAR_ID LPAREN agrega_falso checa_funcion_si_existe argumentos RPAREN quita_falso resuelve_llamada_funcion SEMICOLON checa_void
+    (96) For -> . FOR LPAREN VAR_ID ASSIGN ExpI SEMICOLON ExpI SEMICOLON VAR_ID Exp_ciclo RPAREN LBRACKET reg_brack RBRACKET
+    (92) While -> . WHILE guarda_numero_cuadruplo LPAREN ExpI RPAREN crea_GOTOF LBRACKET reg_brack RBRACKET regresa_inicio_while
+    (95) DoWhile -> . DO LBRACKET reg_brack RBRACKET WHILE LPAREN ExpI RPAREN SEMICOLON
+
+    RBRACKET        reduce using rule 69 (reg_brack -> .)
+    IF              shift and go to state 53
+    RETURN          shift and go to state 52
+    VAR_ID          shift and go to state 55
+    PRINT           shift and go to state 54
+    FOR             shift and go to state 60
+    WHILE           shift and go to state 61
+    DO              shift and go to state 49
+
+    DoWhile                        shift and go to state 46
+    While                          shift and go to state 56
+    Condicion                      shift and go to state 47
+    Print                          shift and go to state 57
+    Llamada_Func                   shift and go to state 58
+    reg_brack                      shift and go to state 181
+    Asignacion                     shift and go to state 59
+    Return                         shift and go to state 48
+    For                            shift and go to state 51
+    Estatutos                      shift and go to state 62
+    Ciclo                          shift and go to state 63
+
+state 175
+
+    (95) DoWhile -> DO LBRACKET reg_brack RBRACKET WHILE LPAREN ExpI RPAREN . SEMICOLON
+
+    SEMICOLON       shift and go to state 182
+
+
+state 176
+
+    (47) llama_funcion -> VAR_ID LPAREN agrega_falso checa_funcion_si_existe argumentos RPAREN quita_falso . resuelve_llamada_funcion guarda_resultado_funcion
+    (54) resuelve_llamada_funcion -> .
+
+    MULT            reduce using rule 54 (resuelve_llamada_funcion -> .)
+    DIV             reduce using rule 54 (resuelve_llamada_funcion -> .)
+    PLUS            reduce using rule 54 (resuelve_llamada_funcion -> .)
+    MINUS           reduce using rule 54 (resuelve_llamada_funcion -> .)
+    LT              reduce using rule 54 (resuelve_llamada_funcion -> .)
+    GT              reduce using rule 54 (resuelve_llamada_funcion -> .)
+    NE              reduce using rule 54 (resuelve_llamada_funcion -> .)
+    LE              reduce using rule 54 (resuelve_llamada_funcion -> .)
+    GE              reduce using rule 54 (resuelve_llamada_funcion -> .)
+    EQ              reduce using rule 54 (resuelve_llamada_funcion -> .)
+    SEMICOLON       reduce using rule 54 (resuelve_llamada_funcion -> .)
+    RPAREN          reduce using rule 54 (resuelve_llamada_funcion -> .)
+    SRBRACKET       reduce using rule 54 (resuelve_llamada_funcion -> .)
+    COMMA           reduce using rule 54 (resuelve_llamada_funcion -> .)
+
+    resuelve_llamada_funcion       shift and go to state 183
+
+state 177
+
+    (76) Condicion -> IF LPAREN ExpI RPAREN crea_GOTOF LBRACKET reg_brack RBRACKET . pos_else llena_cuadruplo_if
+    (79) pos_else -> . ELSE crea_else_cuadruplo LBRACKET reg_brack RBRACKET
+    (80) pos_else -> .
+
+    ELSE            shift and go to state 184
+    IF              reduce using rule 80 (pos_else -> .)
+    RETURN          reduce using rule 80 (pos_else -> .)
+    VAR_ID          reduce using rule 80 (pos_else -> .)
+    PRINT           reduce using rule 80 (pos_else -> .)
+    FOR             reduce using rule 80 (pos_else -> .)
+    WHILE           reduce using rule 80 (pos_else -> .)
+    DO              reduce using rule 80 (pos_else -> .)
+    RET             reduce using rule 80 (pos_else -> .)
+    RBRACKET        reduce using rule 80 (pos_else -> .)
+
+    pos_else                       shift and go to state 185
+
+state 178
+
+    (87) Llamada_Func -> VAR_ID LPAREN agrega_falso checa_funcion_si_existe argumentos RPAREN quita_falso resuelve_llamada_funcion . SEMICOLON checa_void
+
+    SEMICOLON       shift and go to state 186
+
+
+state 179
+
+    (51) mas_argumentos -> COMMA ExpI . resuelve_argumentos mas_argumentos
+    (53) resuelve_argumentos -> .
+
+    COMMA           reduce using rule 53 (resuelve_argumentos -> .)
+    RPAREN          reduce using rule 53 (resuelve_argumentos -> .)
+
+    resuelve_argumentos            shift and go to state 187
+
+state 180
+
+    (96) For -> FOR LPAREN VAR_ID ASSIGN ExpI SEMICOLON ExpI SEMICOLON . VAR_ID Exp_ciclo RPAREN LBRACKET reg_brack RBRACKET
+
+    VAR_ID          shift and go to state 188
+
+
+state 181
+
+    (92) While -> WHILE guarda_numero_cuadruplo LPAREN ExpI RPAREN crea_GOTOF LBRACKET reg_brack . RBRACKET regresa_inicio_while
+
+    RBRACKET        shift and go to state 189
+
+
+state 182
+
+    (95) DoWhile -> DO LBRACKET reg_brack RBRACKET WHILE LPAREN ExpI RPAREN SEMICOLON .
+
+    IF              reduce using rule 95 (DoWhile -> DO LBRACKET reg_brack RBRACKET WHILE LPAREN ExpI RPAREN SEMICOLON .)
+    RETURN          reduce using rule 95 (DoWhile -> DO LBRACKET reg_brack RBRACKET WHILE LPAREN ExpI RPAREN SEMICOLON .)
+    VAR_ID          reduce using rule 95 (DoWhile -> DO LBRACKET reg_brack RBRACKET WHILE LPAREN ExpI RPAREN SEMICOLON .)
+    PRINT           reduce using rule 95 (DoWhile -> DO LBRACKET reg_brack RBRACKET WHILE LPAREN ExpI RPAREN SEMICOLON .)
+    FOR             reduce using rule 95 (DoWhile -> DO LBRACKET reg_brack RBRACKET WHILE LPAREN ExpI RPAREN SEMICOLON .)
+    WHILE           reduce using rule 95 (DoWhile -> DO LBRACKET reg_brack RBRACKET WHILE LPAREN ExpI RPAREN SEMICOLON .)
+    DO              reduce using rule 95 (DoWhile -> DO LBRACKET reg_brack RBRACKET WHILE LPAREN ExpI RPAREN SEMICOLON .)
+    RBRACKET        reduce using rule 95 (DoWhile -> DO LBRACKET reg_brack RBRACKET WHILE LPAREN ExpI RPAREN SEMICOLON .)
+    RET             reduce using rule 95 (DoWhile -> DO LBRACKET reg_brack RBRACKET WHILE LPAREN ExpI RPAREN SEMICOLON .)
+
+
+state 183
+
+    (47) llama_funcion -> VAR_ID LPAREN agrega_falso checa_funcion_si_existe argumentos RPAREN quita_falso resuelve_llamada_funcion . guarda_resultado_funcion
+    (55) guarda_resultado_funcion -> .
+
+    MULT            reduce using rule 55 (guarda_resultado_funcion -> .)
+    DIV             reduce using rule 55 (guarda_resultado_funcion -> .)
+    PLUS            reduce using rule 55 (guarda_resultado_funcion -> .)
+    MINUS           reduce using rule 55 (guarda_resultado_funcion -> .)
+    LT              reduce using rule 55 (guarda_resultado_funcion -> .)
+    GT              reduce using rule 55 (guarda_resultado_funcion -> .)
+    NE              reduce using rule 55 (guarda_resultado_funcion -> .)
+    LE              reduce using rule 55 (guarda_resultado_funcion -> .)
+    GE              reduce using rule 55 (guarda_resultado_funcion -> .)
+    EQ              reduce using rule 55 (guarda_resultado_funcion -> .)
+    SEMICOLON       reduce using rule 55 (guarda_resultado_funcion -> .)
+    RPAREN          reduce using rule 55 (guarda_resultado_funcion -> .)
+    SRBRACKET       reduce using rule 55 (guarda_resultado_funcion -> .)
+    COMMA           reduce using rule 55 (guarda_resultado_funcion -> .)
+
+    guarda_resultado_funcion       shift and go to state 190
+
+state 184
+
+    (79) pos_else -> ELSE . crea_else_cuadruplo LBRACKET reg_brack RBRACKET
+    (81) crea_else_cuadruplo -> .
+
+    LBRACKET        reduce using rule 81 (crea_else_cuadruplo -> .)
+
+    crea_else_cuadruplo            shift and go to state 191
+
+state 185
+
+    (76) Condicion -> IF LPAREN ExpI RPAREN crea_GOTOF LBRACKET reg_brack RBRACKET pos_else . llena_cuadruplo_if
+    (78) llena_cuadruplo_if -> .
+
+    IF              reduce using rule 78 (llena_cuadruplo_if -> .)
+    RETURN          reduce using rule 78 (llena_cuadruplo_if -> .)
+    VAR_ID          reduce using rule 78 (llena_cuadruplo_if -> .)
+    PRINT           reduce using rule 78 (llena_cuadruplo_if -> .)
+    FOR             reduce using rule 78 (llena_cuadruplo_if -> .)
+    WHILE           reduce using rule 78 (llena_cuadruplo_if -> .)
+    DO              reduce using rule 78 (llena_cuadruplo_if -> .)
+    RET             reduce using rule 78 (llena_cuadruplo_if -> .)
+    RBRACKET        reduce using rule 78 (llena_cuadruplo_if -> .)
+
+    llena_cuadruplo_if             shift and go to state 192
+
+state 186
+
+    (87) Llamada_Func -> VAR_ID LPAREN agrega_falso checa_funcion_si_existe argumentos RPAREN quita_falso resuelve_llamada_funcion SEMICOLON . checa_void
+    (88) checa_void -> .
+
+    IF              reduce using rule 88 (checa_void -> .)
+    RETURN          reduce using rule 88 (checa_void -> .)
+    VAR_ID          reduce using rule 88 (checa_void -> .)
+    PRINT           reduce using rule 88 (checa_void -> .)
+    FOR             reduce using rule 88 (checa_void -> .)
+    WHILE           reduce using rule 88 (checa_void -> .)
+    DO              reduce using rule 88 (checa_void -> .)
+    RET             reduce using rule 88 (checa_void -> .)
+    RBRACKET        reduce using rule 88 (checa_void -> .)
+
+    checa_void                     shift and go to state 193
+
+state 187
+
+    (51) mas_argumentos -> COMMA ExpI resuelve_argumentos . mas_argumentos
+    (51) mas_argumentos -> . COMMA ExpI resuelve_argumentos mas_argumentos
+    (52) mas_argumentos -> .
+
+    COMMA           shift and go to state 171
+    RPAREN          reduce using rule 52 (mas_argumentos -> .)
+
+    mas_argumentos                 shift and go to state 194
+
+state 188
+
+    (96) For -> FOR LPAREN VAR_ID ASSIGN ExpI SEMICOLON ExpI SEMICOLON VAR_ID . Exp_ciclo RPAREN LBRACKET reg_brack RBRACKET
+    (97) Exp_ciclo -> . PLUS VAR_INT
+    (98) Exp_ciclo -> . MINUS VAR_INT
+    (99) Exp_ciclo -> . MULT VAR_INT
+    (100) Exp_ciclo -> . DIV VAR_INT
+    (101) Exp_ciclo -> . PLUSPLUS
+    (102) Exp_ciclo -> . MINUSMINUS
+
+    PLUS            shift and go to state 198
+    MINUS           shift and go to state 201
+    MULT            shift and go to state 199
+    DIV             shift and go to state 195
+    PLUSPLUS        shift and go to state 197
+    MINUSMINUS      shift and go to state 200
+
+    Exp_ciclo                      shift and go to state 196
+
+state 189
+
+    (92) While -> WHILE guarda_numero_cuadruplo LPAREN ExpI RPAREN crea_GOTOF LBRACKET reg_brack RBRACKET . regresa_inicio_while
+    (94) regresa_inicio_while -> .
+
+    IF              reduce using rule 94 (regresa_inicio_while -> .)
+    RETURN          reduce using rule 94 (regresa_inicio_while -> .)
+    VAR_ID          reduce using rule 94 (regresa_inicio_while -> .)
+    PRINT           reduce using rule 94 (regresa_inicio_while -> .)
+    FOR             reduce using rule 94 (regresa_inicio_while -> .)
+    WHILE           reduce using rule 94 (regresa_inicio_while -> .)
+    DO              reduce using rule 94 (regresa_inicio_while -> .)
+    RET             reduce using rule 94 (regresa_inicio_while -> .)
+    RBRACKET        reduce using rule 94 (regresa_inicio_while -> .)
+
+    regresa_inicio_while           shift and go to state 202
+
+state 190
+
+    (47) llama_funcion -> VAR_ID LPAREN agrega_falso checa_funcion_si_existe argumentos RPAREN quita_falso resuelve_llamada_funcion guarda_resultado_funcion .
+
+    MULT            reduce using rule 47 (llama_funcion -> VAR_ID LPAREN agrega_falso checa_funcion_si_existe argumentos RPAREN quita_falso resuelve_llamada_funcion guarda_resultado_funcion .)
+    DIV             reduce using rule 47 (llama_funcion -> VAR_ID LPAREN agrega_falso checa_funcion_si_existe argumentos RPAREN quita_falso resuelve_llamada_funcion guarda_resultado_funcion .)
+    PLUS            reduce using rule 47 (llama_funcion -> VAR_ID LPAREN agrega_falso checa_funcion_si_existe argumentos RPAREN quita_falso resuelve_llamada_funcion guarda_resultado_funcion .)
+    MINUS           reduce using rule 47 (llama_funcion -> VAR_ID LPAREN agrega_falso checa_funcion_si_existe argumentos RPAREN quita_falso resuelve_llamada_funcion guarda_resultado_funcion .)
+    LT              reduce using rule 47 (llama_funcion -> VAR_ID LPAREN agrega_falso checa_funcion_si_existe argumentos RPAREN quita_falso resuelve_llamada_funcion guarda_resultado_funcion .)
+    GT              reduce using rule 47 (llama_funcion -> VAR_ID LPAREN agrega_falso checa_funcion_si_existe argumentos RPAREN quita_falso resuelve_llamada_funcion guarda_resultado_funcion .)
+    NE              reduce using rule 47 (llama_funcion -> VAR_ID LPAREN agrega_falso checa_funcion_si_existe argumentos RPAREN quita_falso resuelve_llamada_funcion guarda_resultado_funcion .)
+    LE              reduce using rule 47 (llama_funcion -> VAR_ID LPAREN agrega_falso checa_funcion_si_existe argumentos RPAREN quita_falso resuelve_llamada_funcion guarda_resultado_funcion .)
+    GE              reduce using rule 47 (llama_funcion -> VAR_ID LPAREN agrega_falso checa_funcion_si_existe argumentos RPAREN quita_falso resuelve_llamada_funcion guarda_resultado_funcion .)
+    EQ              reduce using rule 47 (llama_funcion -> VAR_ID LPAREN agrega_falso checa_funcion_si_existe argumentos RPAREN quita_falso resuelve_llamada_funcion guarda_resultado_funcion .)
+    SEMICOLON       reduce using rule 47 (llama_funcion -> VAR_ID LPAREN agrega_falso checa_funcion_si_existe argumentos RPAREN quita_falso resuelve_llamada_funcion guarda_resultado_funcion .)
+    RPAREN          reduce using rule 47 (llama_funcion -> VAR_ID LPAREN agrega_falso checa_funcion_si_existe argumentos RPAREN quita_falso resuelve_llamada_funcion guarda_resultado_funcion .)
+    SRBRACKET       reduce using rule 47 (llama_funcion -> VAR_ID LPAREN agrega_falso checa_funcion_si_existe argumentos RPAREN quita_falso resuelve_llamada_funcion guarda_resultado_funcion .)
+    COMMA           reduce using rule 47 (llama_funcion -> VAR_ID LPAREN agrega_falso checa_funcion_si_existe argumentos RPAREN quita_falso resuelve_llamada_funcion guarda_resultado_funcion .)
+
+
+state 191
+
+    (79) pos_else -> ELSE crea_else_cuadruplo . LBRACKET reg_brack RBRACKET
+
+    LBRACKET        shift and go to state 203
+
+
+state 192
+
+    (76) Condicion -> IF LPAREN ExpI RPAREN crea_GOTOF LBRACKET reg_brack RBRACKET pos_else llena_cuadruplo_if .
+
+    IF              reduce using rule 76 (Condicion -> IF LPAREN ExpI RPAREN crea_GOTOF LBRACKET reg_brack RBRACKET pos_else llena_cuadruplo_if .)
+    RETURN          reduce using rule 76 (Condicion -> IF LPAREN ExpI RPAREN crea_GOTOF LBRACKET reg_brack RBRACKET pos_else llena_cuadruplo_if .)
+    VAR_ID          reduce using rule 76 (Condicion -> IF LPAREN ExpI RPAREN crea_GOTOF LBRACKET reg_brack RBRACKET pos_else llena_cuadruplo_if .)
+    PRINT           reduce using rule 76 (Condicion -> IF LPAREN ExpI RPAREN crea_GOTOF LBRACKET reg_brack RBRACKET pos_else llena_cuadruplo_if .)
+    FOR             reduce using rule 76 (Condicion -> IF LPAREN ExpI RPAREN crea_GOTOF LBRACKET reg_brack RBRACKET pos_else llena_cuadruplo_if .)
+    WHILE           reduce using rule 76 (Condicion -> IF LPAREN ExpI RPAREN crea_GOTOF LBRACKET reg_brack RBRACKET pos_else llena_cuadruplo_if .)
+    DO              reduce using rule 76 (Condicion -> IF LPAREN ExpI RPAREN crea_GOTOF LBRACKET reg_brack RBRACKET pos_else llena_cuadruplo_if .)
+    RET             reduce using rule 76 (Condicion -> IF LPAREN ExpI RPAREN crea_GOTOF LBRACKET reg_brack RBRACKET pos_else llena_cuadruplo_if .)
+    RBRACKET        reduce using rule 76 (Condicion -> IF LPAREN ExpI RPAREN crea_GOTOF LBRACKET reg_brack RBRACKET pos_else llena_cuadruplo_if .)
+
+
+state 193
+
+    (87) Llamada_Func -> VAR_ID LPAREN agrega_falso checa_funcion_si_existe argumentos RPAREN quita_falso resuelve_llamada_funcion SEMICOLON checa_void .
+
+    IF              reduce using rule 87 (Llamada_Func -> VAR_ID LPAREN agrega_falso checa_funcion_si_existe argumentos RPAREN quita_falso resuelve_llamada_funcion SEMICOLON checa_void .)
+    RETURN          reduce using rule 87 (Llamada_Func -> VAR_ID LPAREN agrega_falso checa_funcion_si_existe argumentos RPAREN quita_falso resuelve_llamada_funcion SEMICOLON checa_void .)
+    VAR_ID          reduce using rule 87 (Llamada_Func -> VAR_ID LPAREN agrega_falso checa_funcion_si_existe argumentos RPAREN quita_falso resuelve_llamada_funcion SEMICOLON checa_void .)
+    PRINT           reduce using rule 87 (Llamada_Func -> VAR_ID LPAREN agrega_falso checa_funcion_si_existe argumentos RPAREN quita_falso resuelve_llamada_funcion SEMICOLON checa_void .)
+    FOR             reduce using rule 87 (Llamada_Func -> VAR_ID LPAREN agrega_falso checa_funcion_si_existe argumentos RPAREN quita_falso resuelve_llamada_funcion SEMICOLON checa_void .)
+    WHILE           reduce using rule 87 (Llamada_Func -> VAR_ID LPAREN agrega_falso checa_funcion_si_existe argumentos RPAREN quita_falso resuelve_llamada_funcion SEMICOLON checa_void .)
+    DO              reduce using rule 87 (Llamada_Func -> VAR_ID LPAREN agrega_falso checa_funcion_si_existe argumentos RPAREN quita_falso resuelve_llamada_funcion SEMICOLON checa_void .)
+    RET             reduce using rule 87 (Llamada_Func -> VAR_ID LPAREN agrega_falso checa_funcion_si_existe argumentos RPAREN quita_falso resuelve_llamada_funcion SEMICOLON checa_void .)
+    RBRACKET        reduce using rule 87 (Llamada_Func -> VAR_ID LPAREN agrega_falso checa_funcion_si_existe argumentos RPAREN quita_falso resuelve_llamada_funcion SEMICOLON checa_void .)
+
+
+state 194
+
+    (51) mas_argumentos -> COMMA ExpI resuelve_argumentos mas_argumentos .
+
+    RPAREN          reduce using rule 51 (mas_argumentos -> COMMA ExpI resuelve_argumentos mas_argumentos .)
+
+
+state 195
+
+    (100) Exp_ciclo -> DIV . VAR_INT
+
+    VAR_INT         shift and go to state 204
+
+
+state 196
+
+    (96) For -> FOR LPAREN VAR_ID ASSIGN ExpI SEMICOLON ExpI SEMICOLON VAR_ID Exp_ciclo . RPAREN LBRACKET reg_brack RBRACKET
+
+    RPAREN          shift and go to state 205
+
+
+state 197
+
+    (101) Exp_ciclo -> PLUSPLUS .
+
+    RPAREN          reduce using rule 101 (Exp_ciclo -> PLUSPLUS .)
+
+
+state 198
+
+    (97) Exp_ciclo -> PLUS . VAR_INT
+
+    VAR_INT         shift and go to state 206
+
+
+state 199
+
+    (99) Exp_ciclo -> MULT . VAR_INT
+
+    VAR_INT         shift and go to state 207
+
+
+state 200
+
+    (102) Exp_ciclo -> MINUSMINUS .
+
+    RPAREN          reduce using rule 102 (Exp_ciclo -> MINUSMINUS .)
+
+
+state 201
+
+    (98) Exp_ciclo -> MINUS . VAR_INT
+
+    VAR_INT         shift and go to state 208
+
+
+state 202
+
+    (92) While -> WHILE guarda_numero_cuadruplo LPAREN ExpI RPAREN crea_GOTOF LBRACKET reg_brack RBRACKET regresa_inicio_while .
+
+    IF              reduce using rule 92 (While -> WHILE guarda_numero_cuadruplo LPAREN ExpI RPAREN crea_GOTOF LBRACKET reg_brack RBRACKET regresa_inicio_while .)
+    RETURN          reduce using rule 92 (While -> WHILE guarda_numero_cuadruplo LPAREN ExpI RPAREN crea_GOTOF LBRACKET reg_brack RBRACKET regresa_inicio_while .)
+    VAR_ID          reduce using rule 92 (While -> WHILE guarda_numero_cuadruplo LPAREN ExpI RPAREN crea_GOTOF LBRACKET reg_brack RBRACKET regresa_inicio_while .)
+    PRINT           reduce using rule 92 (While -> WHILE guarda_numero_cuadruplo LPAREN ExpI RPAREN crea_GOTOF LBRACKET reg_brack RBRACKET regresa_inicio_while .)
+    FOR             reduce using rule 92 (While -> WHILE guarda_numero_cuadruplo LPAREN ExpI RPAREN crea_GOTOF LBRACKET reg_brack RBRACKET regresa_inicio_while .)
+    WHILE           reduce using rule 92 (While -> WHILE guarda_numero_cuadruplo LPAREN ExpI RPAREN crea_GOTOF LBRACKET reg_brack RBRACKET regresa_inicio_while .)
+    DO              reduce using rule 92 (While -> WHILE guarda_numero_cuadruplo LPAREN ExpI RPAREN crea_GOTOF LBRACKET reg_brack RBRACKET regresa_inicio_while .)
+    RET             reduce using rule 92 (While -> WHILE guarda_numero_cuadruplo LPAREN ExpI RPAREN crea_GOTOF LBRACKET reg_brack RBRACKET regresa_inicio_while .)
+    RBRACKET        reduce using rule 92 (While -> WHILE guarda_numero_cuadruplo LPAREN ExpI RPAREN crea_GOTOF LBRACKET reg_brack RBRACKET regresa_inicio_while .)
+
+
+state 203
+
+    (79) pos_else -> ELSE crea_else_cuadruplo LBRACKET . reg_brack RBRACKET
+    (68) reg_brack -> . Estatutos reg_brack
+    (69) reg_brack -> .
+    (70) Estatutos -> . Condicion
+    (71) Estatutos -> . Ciclo
+    (72) Estatutos -> . Return
+    (73) Estatutos -> . Asignacion
+    (74) Estatutos -> . Print
+    (75) Estatutos -> . Llamada_Func
+    (76) Condicion -> . IF LPAREN ExpI RPAREN crea_GOTOF LBRACKET reg_brack RBRACKET pos_else llena_cuadruplo_if
+    (89) Ciclo -> . For
+    (90) Ciclo -> . While
+    (91) Ciclo -> . DoWhile
+    (82) Return -> . RETURN ExpI SEMICOLON resuelve_return
+    (14) Asignacion -> . VAR_ID push_var_PilaOperandos ASSIGN push_operador_PilaOperadores ExpI SEMICOLON resuelve_asignacion
+    (84) Print -> . PRINT LPAREN VAR_STRING RPAREN SEMICOLON
+    (85) Print -> . PRINT LPAREN ExpI RPAREN SEMICOLON crea_print
+    (87) Llamada_Func -> . VAR_ID LPAREN agrega_falso checa_funcion_si_existe argumentos RPAREN quita_falso resuelve_llamada_funcion SEMICOLON checa_void
+    (96) For -> . FOR LPAREN VAR_ID ASSIGN ExpI SEMICOLON ExpI SEMICOLON VAR_ID Exp_ciclo RPAREN LBRACKET reg_brack RBRACKET
+    (92) While -> . WHILE guarda_numero_cuadruplo LPAREN ExpI RPAREN crea_GOTOF LBRACKET reg_brack RBRACKET regresa_inicio_while
+    (95) DoWhile -> . DO LBRACKET reg_brack RBRACKET WHILE LPAREN ExpI RPAREN SEMICOLON
+
+    RBRACKET        reduce using rule 69 (reg_brack -> .)
+    IF              shift and go to state 53
+    RETURN          shift and go to state 52
+    VAR_ID          shift and go to state 55
+    PRINT           shift and go to state 54
+    FOR             shift and go to state 60
+    WHILE           shift and go to state 61
+    DO              shift and go to state 49
+
+    DoWhile                        shift and go to state 46
+    While                          shift and go to state 56
+    Condicion                      shift and go to state 47
+    Llamada_Func                   shift and go to state 58
+    Print                          shift and go to state 57
+    Return                         shift and go to state 48
+    Asignacion                     shift and go to state 59
+    reg_brack                      shift and go to state 209
+    For                            shift and go to state 51
+    Estatutos                      shift and go to state 62
+    Ciclo                          shift and go to state 63
+
+state 204
+
+    (100) Exp_ciclo -> DIV VAR_INT .
+
+    RPAREN          reduce using rule 100 (Exp_ciclo -> DIV VAR_INT .)
+
+
+state 205
+
+    (96) For -> FOR LPAREN VAR_ID ASSIGN ExpI SEMICOLON ExpI SEMICOLON VAR_ID Exp_ciclo RPAREN . LBRACKET reg_brack RBRACKET
+
+    LBRACKET        shift and go to state 210
+
+
+state 206
+
+    (97) Exp_ciclo -> PLUS VAR_INT .
+
+    RPAREN          reduce using rule 97 (Exp_ciclo -> PLUS VAR_INT .)
+
+
+state 207
+
+    (99) Exp_ciclo -> MULT VAR_INT .
+
+    RPAREN          reduce using rule 99 (Exp_ciclo -> MULT VAR_INT .)
+
+
+state 208
+
+    (98) Exp_ciclo -> MINUS VAR_INT .
+
+    RPAREN          reduce using rule 98 (Exp_ciclo -> MINUS VAR_INT .)
+
+
+state 209
+
+    (79) pos_else -> ELSE crea_else_cuadruplo LBRACKET reg_brack . RBRACKET
+
+    RBRACKET        shift and go to state 211
+
+
+state 210
+
+    (96) For -> FOR LPAREN VAR_ID ASSIGN ExpI SEMICOLON ExpI SEMICOLON VAR_ID Exp_ciclo RPAREN LBRACKET . reg_brack RBRACKET
+    (68) reg_brack -> . Estatutos reg_brack
+    (69) reg_brack -> .
+    (70) Estatutos -> . Condicion
+    (71) Estatutos -> . Ciclo
+    (72) Estatutos -> . Return
+    (73) Estatutos -> . Asignacion
+    (74) Estatutos -> . Print
+    (75) Estatutos -> . Llamada_Func
+    (76) Condicion -> . IF LPAREN ExpI RPAREN crea_GOTOF LBRACKET reg_brack RBRACKET pos_else llena_cuadruplo_if
+    (89) Ciclo -> . For
+    (90) Ciclo -> . While
+    (91) Ciclo -> . DoWhile
+    (82) Return -> . RETURN ExpI SEMICOLON resuelve_return
+    (14) Asignacion -> . VAR_ID push_var_PilaOperandos ASSIGN push_operador_PilaOperadores ExpI SEMICOLON resuelve_asignacion
+    (84) Print -> . PRINT LPAREN VAR_STRING RPAREN SEMICOLON
+    (85) Print -> . PRINT LPAREN ExpI RPAREN SEMICOLON crea_print
+    (87) Llamada_Func -> . VAR_ID LPAREN agrega_falso checa_funcion_si_existe argumentos RPAREN quita_falso resuelve_llamada_funcion SEMICOLON checa_void
+    (96) For -> . FOR LPAREN VAR_ID ASSIGN ExpI SEMICOLON ExpI SEMICOLON VAR_ID Exp_ciclo RPAREN LBRACKET reg_brack RBRACKET
+    (92) While -> . WHILE guarda_numero_cuadruplo LPAREN ExpI RPAREN crea_GOTOF LBRACKET reg_brack RBRACKET regresa_inicio_while
+    (95) DoWhile -> . DO LBRACKET reg_brack RBRACKET WHILE LPAREN ExpI RPAREN SEMICOLON
+
+    RBRACKET        reduce using rule 69 (reg_brack -> .)
+    IF              shift and go to state 53
+    RETURN          shift and go to state 52
+    VAR_ID          shift and go to state 55
+    PRINT           shift and go to state 54
+    FOR             shift and go to state 60
+    WHILE           shift and go to state 61
+    DO              shift and go to state 49
+
+    DoWhile                        shift and go to state 46
+    Ciclo                          shift and go to state 63
+    While                          shift and go to state 56
+    Condicion                      shift and go to state 47
+    Llamada_Func                   shift and go to state 58
+    Print                          shift and go to state 57
+    Return                         shift and go to state 48
+    Asignacion                     shift and go to state 59
+    reg_brack                      shift and go to state 212
+    For                            shift and go to state 51
+    Estatutos                      shift and go to state 62
+
+state 211
+
+    (79) pos_else -> ELSE crea_else_cuadruplo LBRACKET reg_brack RBRACKET .
+
+    IF              reduce using rule 79 (pos_else -> ELSE crea_else_cuadruplo LBRACKET reg_brack RBRACKET .)
+    RETURN          reduce using rule 79 (pos_else -> ELSE crea_else_cuadruplo LBRACKET reg_brack RBRACKET .)
+    VAR_ID          reduce using rule 79 (pos_else -> ELSE crea_else_cuadruplo LBRACKET reg_brack RBRACKET .)
+    PRINT           reduce using rule 79 (pos_else -> ELSE crea_else_cuadruplo LBRACKET reg_brack RBRACKET .)
+    FOR             reduce using rule 79 (pos_else -> ELSE crea_else_cuadruplo LBRACKET reg_brack RBRACKET .)
+    WHILE           reduce using rule 79 (pos_else -> ELSE crea_else_cuadruplo LBRACKET reg_brack RBRACKET .)
+    DO              reduce using rule 79 (pos_else -> ELSE crea_else_cuadruplo LBRACKET reg_brack RBRACKET .)
+    RET             reduce using rule 79 (pos_else -> ELSE crea_else_cuadruplo LBRACKET reg_brack RBRACKET .)
+    RBRACKET        reduce using rule 79 (pos_else -> ELSE crea_else_cuadruplo LBRACKET reg_brack RBRACKET .)
+
+
+state 212
+
+    (96) For -> FOR LPAREN VAR_ID ASSIGN ExpI SEMICOLON ExpI SEMICOLON VAR_ID Exp_ciclo RPAREN LBRACKET reg_brack . RBRACKET
+
+    RBRACKET        shift and go to state 213
+
+
+state 213
+
+    (96) For -> FOR LPAREN VAR_ID ASSIGN ExpI SEMICOLON ExpI SEMICOLON VAR_ID Exp_ciclo RPAREN LBRACKET reg_brack RBRACKET .
+
+    IF              reduce using rule 96 (For -> FOR LPAREN VAR_ID ASSIGN ExpI SEMICOLON ExpI SEMICOLON VAR_ID Exp_ciclo RPAREN LBRACKET reg_brack RBRACKET .)
+    RETURN          reduce using rule 96 (For -> FOR LPAREN VAR_ID ASSIGN ExpI SEMICOLON ExpI SEMICOLON VAR_ID Exp_ciclo RPAREN LBRACKET reg_brack RBRACKET .)
+    VAR_ID          reduce using rule 96 (For -> FOR LPAREN VAR_ID ASSIGN ExpI SEMICOLON ExpI SEMICOLON VAR_ID Exp_ciclo RPAREN LBRACKET reg_brack RBRACKET .)
+    PRINT           reduce using rule 96 (For -> FOR LPAREN VAR_ID ASSIGN ExpI SEMICOLON ExpI SEMICOLON VAR_ID Exp_ciclo RPAREN LBRACKET reg_brack RBRACKET .)
+    FOR             reduce using rule 96 (For -> FOR LPAREN VAR_ID ASSIGN ExpI SEMICOLON ExpI SEMICOLON VAR_ID Exp_ciclo RPAREN LBRACKET reg_brack RBRACKET .)
+    WHILE           reduce using rule 96 (For -> FOR LPAREN VAR_ID ASSIGN ExpI SEMICOLON ExpI SEMICOLON VAR_ID Exp_ciclo RPAREN LBRACKET reg_brack RBRACKET .)
+    DO              reduce using rule 96 (For -> FOR LPAREN VAR_ID ASSIGN ExpI SEMICOLON ExpI SEMICOLON VAR_ID Exp_ciclo RPAREN LBRACKET reg_brack RBRACKET .)
+    RET             reduce using rule 96 (For -> FOR LPAREN VAR_ID ASSIGN ExpI SEMICOLON ExpI SEMICOLON VAR_ID Exp_ciclo RPAREN LBRACKET reg_brack RBRACKET .)
+    RBRACKET        reduce using rule 96 (For -> FOR LPAREN VAR_ID ASSIGN ExpI SEMICOLON ExpI SEMICOLON VAR_ID Exp_ciclo RPAREN LBRACKET reg_brack RBRACKET .)
+
