@@ -598,8 +598,9 @@ def p_Estatutos(p):
 			|	Asignacion
 			|	Print 
 			|	Llamada_Func 
-
+			|	Turtle
 	'''
+
 def p_Condicion(p):
 	'''Condicion	:	IF LPAREN ExpI RPAREN crea_GOTOF LBRACKET reg_brack RBRACKET pos_else llena_cuadruplo_if
 	'''
@@ -762,8 +763,43 @@ def p_agrega_main_funcion(p):
 	cuadruplo = edjo.cuadruplos[0]
 	cuadruplo.LlenaResultado(edjo.numCuadruplo)
 
+def p_Turtle(p):
+	'''Turtle	:	Forward
+			|	Right
+			|	Left
+			|	Circle
+			|	Position
+			|	IniciaTurtle
+			|	TerminaTurtle
+	'''
 
+def p_Forward(p):
+	'''Forward	:	TUR POINT FORWARD LPAREN ExpI RPAREN SEMICOLON
+	'''
 
+def p_Right(p):
+	'''Right	:	TUR POINT RIGHT LPAREN ExpI RPAREN SEMICOLON
+	'''
+
+def p_Left(p):
+	'''Left		:	TUR POINT LEFT LPAREN ExpI RPAREN SEMICOLON
+	'''
+
+def p_Circle(p):
+	'''Circle	:	TUR POINT CIRCLE LPAREN ExpI RPAREN SEMICOLON
+	'''
+
+def p_Position(p):
+	'''Position	:	TUR POINT POS LPAREN ExpI COMMA ExpI RPAREN SEMICOLON
+	'''
+
+def p_IniciaTurtle(p):
+	'''IniciaTurtle	:	TUR POINT TURTLE LPAREN RPAREN SEMICOLON
+	'''
+
+def p_TerminaTurtle(p):
+	'''TerminaTurtle	:	TUR POINT FINISH LPAREN RPAREN SEMICOLON
+	'''
 
 
 import ply.yacc as yacc
