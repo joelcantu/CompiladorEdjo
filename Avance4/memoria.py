@@ -12,14 +12,14 @@ class TipoSegmento():
 	def __str__(self):
 		return ("Segment : " + self.nombre + "\n" + "Initial address: " + str(self.empiezaMem) + "\n" + "Final address: " + str(self.acabaMem) + "\n" + "Current address " + str(self.memoriaActual) + "\n" + "Addresses " + str(self.segmento))
 
-	def available_space(self):
+	def Disponible(self):
 		if self.memoriaActual <= self.acabaMem:
 			return True
 		else:
 			return False
 
 	def PideDireccion(self, value):
-		if self.available_space():
+		if self.Disponible():
 			direccion = self.memoriaActual
 			self.segmento[direccion] = value
 			self.memoriaActual += 1
