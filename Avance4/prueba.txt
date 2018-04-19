@@ -4,22 +4,13 @@ decimal b;
 string c;
 bool e;
 main(){
-	int a;
+	string h;
+	e = true;
 	a = 1;
-	a = a + 3;
-	if(a < 3){
-		print(a+3.12);
-	}
-	else{
-		print(a);
-	}
-	turtle.Turtle();
-	turtle.forward(a);
-	turtle.right(a);
-	turtle.left(a);
-	turtle.pos(1,2);
-	turtle.circle(a);
-	turtle.finish();
+	e = false;
+	c = "joel";
+	h = "cantu";
+	c = c + h;
 Return zero;
 }
 

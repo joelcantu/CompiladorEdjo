@@ -395,28 +395,62 @@ def p_ExpF(p):
 def p_VAR_CTE(p):
 	'''VAR_CTE	:	VAR_INT push_int_PilaOperandos
 			|	VAR_DECIMAL push_decimal_PilaOperandos
+			|	VAR_STRING push_string_PilaOperandos
+			|	VAR_BOOL push_bool_PilaOperandos
 	'''
+
+def p_VAR_BOOL(p):
+	'''VAR_BOOL	:	FALSE
+			|	TRUE
+	'''
+	p[0] = p[1]
 
 #Push int pila operandos
 def p_push_int_PilaOperandos(p):
 	'''push_int_PilaOperandos	:
 	'''
-	constant_address = edjo.memoria.ChecaConstante('int', int(p[-1]))
-	if constant_address is None:
-		constant_address = edjo.memoria.MemoriaConstante('int', int(p[-1]))
-	edjo.pilaOperandos.append(constant_address)
+	memConst = edjo.memoria.ChecaConstante('int', int(p[-1]))
+	if memConst is None:
+		memConst = edjo.memoria.MemoriaConstante('int', int(p[-1]))
+	edjo.pilaOperandos.append(memConst)
 	edjo.pilaTipos.append('int')
 		
 #Push decimal pila operandos
 def p_push_decimal_PilaOperandos(p):
 	'''push_decimal_PilaOperandos	: 
 	'''
-	constant_address = edjo.memoria.ChecaConstante('decimal', float(p[-1]))
-	if constant_address is None:
-		constant_address = edjo.memoria.MemoriaConstante('decimal', float(p[-1]))
-	edjo.pilaOperandos.append(constant_address)
+	memConst = edjo.memoria.ChecaConstante('decimal', float(p[-1]))
+	if memConst is None:
+		memConst = edjo.memoria.MemoriaConstante('decimal', float(p[-1]))
+	edjo.pilaOperandos.append(memConst)
 	edjo.pilaTipos.append('decimal')
-	
+
+#Push string pila operandos	
+def p_push_string_PilaOperandos(p):
+	'''push_string_PilaOperandos	: 
+	'''
+	memConst = edjo.memoria.ChecaConstante('string', str(p[-1]))
+	if memConst is None:
+		memConst = edjo.memoria.MemoriaConstante('string', str(p[-1]))
+	edjo.pilaOperandos.append(memConst)
+	edjo.pilaTipos.append('string')
+
+#Push bool pila operandos
+def p_push_bool_PilaOperandos(p):
+	'''push_bool_PilaOperandos	: 
+	'''
+	if p[-1] is False:
+		memConst = edjo.memoria.ChecaConstante('bool', False)
+		if memConst is None:
+			memConst = edjo.memoria.MemoriaConstante('bool', False)
+		edjo.pilaOperandos.append(memConst)
+		edjo.pilaTipos.append('bool')
+	else:
+		memConst = edjo.memoria.ChecaConstante('bool', True)
+		if memConst is None:
+			memConst = edjo.memoria.MemoriaConstante('bool', True)
+		edjo.pilaOperandos.append(memConst)
+		edjo.pilaTipos.append('bool')
 
 #Crea la marca falsa 
 def p_agrega_falso(p):
