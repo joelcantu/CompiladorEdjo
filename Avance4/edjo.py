@@ -1,10 +1,7 @@
 import ply.lex as lex
 import sys
-
 from core import Core
 from cuadruplo import Cuadruplo
-
-
 
 #TOKENS#
 tokens = (
@@ -47,7 +44,6 @@ tokens = (
 'VAR_ID',
 'VAR_INT',
 'VAR_DECIMAL',
-'VAR_CHAR',
 'VAR_STRING',
 'TRUE',
 'FALSE',
@@ -166,11 +162,6 @@ def t_VAR_INT(t):
 	t.value = int(t.value)
 	return t
 
-def t_VAR_CHAR(t):
-	r'\"(\\.|[^\\"])\"'
-	t.value = t.value[1:-1]
-	return t
-
 def t_VAR_STRING(t):
 	r'\"(\\.|[^\\"])*\"'
 	t.value = t.value[1:-1]
@@ -191,8 +182,8 @@ lexer.input(file.read())
 #	if not tok:
 #		break
 #	print(tok)
-edjo = Core()
 
+edjo = Core()
 def p_inicio(p):
 	'''program	:	START EDJO VAR_ID crea_primer_cuadruplo crea_funcion_global SEMICOLON Vars funciones Main
 	'''
@@ -333,12 +324,12 @@ def resuelve_operacion(p):
 	operador = edjo.pilaOperadores.pop()
 	resultado = edjo.cuboSemantico.get_semantic_type(tipoOperandoIzq, tipoOperandoDer, operador)
 	if resultado != 'error':
-		temporal_variable_address = edjo.memoria.MemoriaTemporal(resultado)
+		memTemp = edjo.memoria.MemoriaTemporal(resultado)
 		edjo.dirFuncion.AgregaTemporal(edjo.funcionLocal, resultado)
-		cuadruplo = Cuadruplo(edjo.numCuadruplo, operador, operandoIzq, operandoDer, temporal_variable_address)
+		cuadruplo = Cuadruplo(edjo.numCuadruplo, operador, operandoIzq, operandoDer, memTemp)
 		edjo.cuadruplos.append(cuadruplo)
 		edjo.numCuadruplo += 1
-		edjo.pilaOperandos.append(temporal_variable_address)
+		edjo.pilaOperandos.append(memTemp)
 		edjo.pilaTipos.append(resultado)
 	else:
 		print('Operation type mismatch at {0}'.format(p.lexer.lineno))
@@ -456,7 +447,7 @@ def p_push_bool_PilaOperandos(p):
 def p_agrega_falso(p):
 	'''agrega_falso	: 
 	'''
-	edjo.pilaOperadores.append('()')
+	edjo.pilaOperadores.append('(')
 
 #Elimina la marca falsa
 def p_quita_falso(p):
@@ -535,12 +526,12 @@ def p_guarda_resultado_funcion(p):
 	funcion = edjo.dirFuncion.RegresaFuncion(nomFuncion)
 	valorRetorno = funcion['ReturnMemory']
 	tipoFuncion = funcion['Return']
-	temporal_variable_address = edjo.memoria.MemoriaTemporal(tipoFuncion)
+	memTemp = edjo.memoria.MemoriaTemporal(tipoFuncion)
 	edjo.dirFuncion.AgregaTemporal(edjo.funcionLocal, tipoFuncion)
-	cuadruplo = Cuadruplo(edjo.numCuadruplo, '=', valorRetorno, None, temporal_variable_address)
+	cuadruplo = Cuadruplo(edjo.numCuadruplo, '=', valorRetorno, None, memTemp)
 	edjo.cuadruplos.append(cuadruplo)
 	edjo.numCuadruplo += 1
-	edjo.pilaOperandos.append(temporal_variable_address)
+	edjo.pilaOperandos.append(memTemp)
 	edjo.pilaTipos.append(tipoFuncion)
 	
 
@@ -642,9 +633,6 @@ def p_Condicion(p):
 def p_crea_GOTOF(p):
 	'''crea_GOTOF	: 
 	'''
-	cuadruploGOTOF(p)
-
-def cuadruploGOTOF(p):
 	tipoResultado = edjo.pilaTipos.pop()
 	if tipoResultado != 'bool':
 		print('Operation type mismatch in line {0}'.format(p.lexer.lineno))
@@ -660,9 +648,7 @@ def p_llena_cuadruplo_if(p):
 	'''llena_cuadruplo_if	: 
 	'''
 	cuadruploALlenar = edjo.saltos.pop()
-	#print(cuadruploALlenar)
 	cuadruplo = edjo.cuadruplos[cuadruploALlenar]
-	#print(cuadruplo)
 	cuadruplo.LlenaResultado(edjo.numCuadruplo)
 
 
@@ -677,14 +663,10 @@ def p_crea_else_cuadruplo(p):
 	cuadruplo = Cuadruplo(edjo.numCuadruplo, 'GOTO', None, None, None)
 	edjo.cuadruplos.append(cuadruplo)
 	cuadruploALlenar = edjo.saltos.pop()
-	#print(cuadruploALlenar)
 	cuadruplo = edjo.cuadruplos[cuadruploALlenar]
-	#print(cuadruplo)
-	#print(edjo.numCuadruplo)
 	edjo.saltos.append(edjo.numCuadruplo - 1)
 	edjo.numCuadruplo += 1
 	cuadruplo.LlenaResultado(edjo.numCuadruplo)
-	#print(cuadruplo)	
 
 def p_Return(p):
 	'''Return 	:	RETURN ExpI SEMICOLON resuelve_return
@@ -713,8 +695,7 @@ def p_resuelve_return(p):
 	
 
 def p_Print(p):
-	'''Print	:	PRINT LPAREN VAR_STRING RPAREN SEMICOLON
-			|	PRINT LPAREN ExpI RPAREN SEMICOLON crea_print
+	'''Print	:	PRINT LPAREN ExpI RPAREN SEMICOLON crea_print
 	'''
 
 def p_crea_print(p):
@@ -765,9 +746,24 @@ def p_regresa_inicio_while(p):
 	cuadruploWhileALlenar = edjo.cuadruplos[cuadruploALlenar]
 	cuadruploWhileALlenar.LlenaResultado(edjo.numCuadruplo)
 
-def p_DoWhile(p):#todavia no
-	'''DoWhile	:	DO LBRACKET reg_brack RBRACKET WHILE LPAREN ExpI RPAREN SEMICOLON
+def p_DoWhile(p):
+	'''DoWhile	:	DO guarda_numero_cuadruplo LBRACKET reg_brack RBRACKET WHILE LPAREN ExpI RPAREN SEMICOLON crea_GOTOV
 	'''
+
+def p_crea_GOTOV(p):
+	'''crea_GOTOV	: 
+	'''
+	tipoResultado = edjo.pilaTipos.pop()
+	regresarCuadruplo = edjo.saltos.pop()
+	if tipoResultado != 'bool':
+		print('Operation type mismatch in line {0}'.format(p.lexer.lineno))
+		sys.exit()
+	else:
+		resultado = edjo.pilaOperandos.pop()
+		cuadruplo = Cuadruplo(edjo.numCuadruplo, 'GOTOV', resultado, None, regresarCuadruplo)
+		edjo.cuadruplos.append(cuadruplo)
+		edjo.saltos.append(edjo.numCuadruplo - 1)
+		edjo.numCuadruplo += 1
 
 def p_For(p):#todavia no
 	'''For		:	FOR LPAREN VAR_ID ASSIGN ExpI SEMICOLON ExpI SEMICOLON VAR_ID Exp_ciclo RPAREN LBRACKET reg_brack RBRACKET

@@ -4,13 +4,16 @@ decimal b;
 string c;
 bool e;
 main(){
-	string h;
+	a = 3;
 	e = true;
-	a = 1;
-	e = false;
-	c = "joel";
-	h = "cantu";
-	c = c + h;
+	do{
+		a = a - 1;
+		while(a<3){
+			print(a);
+			print("hola");
+			print(e);
+		}	
+	}while(a<3);
 Return zero;
 }
 
