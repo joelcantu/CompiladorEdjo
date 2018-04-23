@@ -28,7 +28,6 @@ tokens = (
 'COMMA',
 'IF',
 'ELSE',
-'IFELSE',
 'INT',
 'DECIMAL',
 'STRING',
@@ -49,8 +48,6 @@ tokens = (
 'FALSE',
 'DO',
 'WHILE',
-'FROM',
-'IMPORT',
 'POINT',
 'POS',
 'FORWARD',
@@ -83,11 +80,8 @@ reserved = {
 'print'		:	'PRINT',
 'start'		:	'START',
 'EDJO'		:	'EDJO',
-'ifelse'	:	'IFELSE',
 'true'		:	'TRUE',
 'false'		:	'FALSE',
-'from'		:	'FROM',
-'import'	:	'IMPORT',
 'turtle'	:	'TUR',
 'Turtle'	:	'TURTLE',
 'pos'		:	'POS',
@@ -542,7 +536,7 @@ def p_pos_arreglo(p): #todavia no tenemos arreglos
 
 
 def p_funciones(p):
-	'''funciones	:	FUNC tipo_funcion VAR_ID LPAREN param RPAREN agrega_funcion LBRACKET Vars reg_brack RBRACKET fin_func_quad funciones
+	'''funciones	:	FUNC tipo_funcion VAR_ID LPAREN param RPAREN agrega_funcion LBRACKET Vars reg_brack RBRACKET fin_func_cuad funciones
 			| 
 	''' 
 
@@ -589,8 +583,8 @@ def p_agrega_funcion(p):
 	del edjo.tiposParametros[:]
 
 #Crea cuadruplo fin de funcion	
-def p_fin_func_quad(p):
-	'''fin_func_quad	: 
+def p_fin_func_cuad(p):
+	'''fin_func_cuad	: 
 	'''
 	tipoFuncion = p[-10]
 	if tipoFuncion == 'void' and edjo.tieneReturn:
@@ -817,11 +811,11 @@ def p_crea_cuadruplo_forward(p):
  
 
 def p_Right(p):
-	'''Right	:	TUR POINT RIGHT LPAREN ExpI RPAREN SEMICOLON crea_quadruplo_right
+	'''Right	:	TUR POINT RIGHT LPAREN ExpI RPAREN SEMICOLON crea_cuadruplo_right
 	'''
 
-def p_crea_quadruplo_right(p):
-	'''crea_quadruplo_right	: 
+def p_crea_cuadruplo_right(p):
+	'''crea_cuadruplo_right	: 
 	'''
 	operando = edjo.pilaOperandos.pop()
 	cuadruplo = Cuadruplo(edjo.numCuadruplo, 'TUR_RIGHT', operando, None, None)
