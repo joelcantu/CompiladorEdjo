@@ -18,6 +18,8 @@ class TablaVariables():
 			return self.listaVariables[nombreVariable]
 		else:
 			return None
+	def AgregaArreglo(self, variable):
+		self.listaVariables[variable['Name']] = variable
 
 	def __str__(self):
 		return self.listaVariables
@@ -125,7 +127,7 @@ class DirFuncion():
 		if funcion is not None:
 			return funcion['Parameters']
 		else:
-			print("The function doesnt exists")
+			print("The function doesn't exists")
 
 	def AsignaNumeroCuadruplo(self, nombreFuncion, numCuadruplo):
 		funcion = self.RegresaFuncion(nombreFuncion)
@@ -141,10 +143,22 @@ class DirFuncion():
 		else:
 			print("The function doesn't exists")
 
-	def RegresaNumeroCuadruplo(self, nombreFuncion,):
+	def RegresaNumeroCuadruplo(self, nombreFuncion):
 		funcion = self.RegresaFuncion(nombreFuncion)
 		if funcion is not None:
 			return funcion['Quadruple']
+		else:
+			print("The function doesn't exists")
+
+	def AgregaArregloFuncion(self, nombreFuncion, variable):
+		funcion = self.RegresaFuncion(nombreFuncion)
+		if funcion is not None:
+			if funcion['Variables'].TieneVariable(variable['Name']):
+				print("Variable already declared")
+			else:
+				funcion['Variables'].AgregaArreglo(variable)
+				for i in range(variable['LimiteSuperior']):
+					funcion['LocalVariables'][variable['Type']] += 1
 		else:
 			print("The function doesn't exists")
 

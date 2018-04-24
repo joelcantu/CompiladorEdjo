@@ -200,8 +200,44 @@ def p_crea_funcion_global(p):
 	
 def p_Vars(p):
 	'''Vars		:	Tipo VAR_ID mas_vars agrega_var_funcion SEMICOLON Vars
+			|	Tipo VAR_ID SLBRACKET VAR_INT push_int_PilaOperandos SRBRACKET agrega_limites_arreglo agrega_arr_funcion SEMICOLON Vars
 			| 
 	'''
+def p_agrega_limites_arreglo(p):
+	'''agrega_limites_arreglo	: 
+	'''
+	#Crea el diccionario de un arreglo con su limite superior
+	nombreArreglo = p[-5]
+	tamanoArregloMemoria = edjo.pilaOperandos.pop()
+	tamanoArreglo = edjo.memoria.Valor(tamanoArregloMemoria)
+	tipoArreglo = edjo.pilaTipos.pop()
+	if tamanoArreglo <= 0:
+		print("Arrays can't be less than or equal to 0")
+		sys.exit()
+	edjo.arreglos = {
+		'Name' : nombreArreglo,
+		'LimiteInferior' : 0,
+		'LimiteSuperior' : tamanoArreglo
+	}
+
+def p_agrega_arr_funcion(p):
+	'''agrega_arr_funcion	: 
+	'''
+	#Mete el arreglo en la funcion
+	tipoVariable = p[-7]
+	variable = edjo.arreglos
+	verificaVariable = edjo.dirFuncion.ChecaVariable(edjo.funcionLocal, variable['Name'])
+	if not verificaVariable:
+		if edjo.funcionLocal == edjo.funcionGlobal:
+			memoriaVariable = edjo.memoria.MemoriaGlobalArreglo(tipoVariable, variable['LimiteSuperior'])
+		else:
+			memoriaVariable = edjo.memoria.MemoriaLocalArreglo(tipoVariable, variable['LimiteSuperior'])
+		variable['Type'] = tipoVariable
+		variable['MemoryAddress'] = memoriaVariable
+		edjo.dirFuncion.AgregaArregloFuncion(edjo.funcionLocal, variable)
+	else:
+		print("Variable " + variable['Name'] + " has already been declared")
+		sys.exit()	
 
 def p_Tipo(p):
 	'''Tipo		:	INT

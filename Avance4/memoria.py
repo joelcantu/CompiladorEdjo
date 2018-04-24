@@ -12,16 +12,16 @@ class TipoSegmento():
 	def __str__(self):
 		return ("Segment : " + self.nombre + "\n" + "Initial address: " + str(self.empiezaMem) + "\n" + "Final address: " + str(self.acabaMem) + "\n" + "Current address " + str(self.memoriaActual) + "\n" + "Addresses " + str(self.segmento))
 
-	def Disponible(self):
-		if self.memoriaActual <= self.acabaMem:
+	def Disponible(self, cantidad = 0):
+		if self.memoriaActual + cantidad <= self.acabaMem:
 			return True
 		else:
 			return False
 
-	def PideDireccion(self, value):
+	def PideDireccion(self, valor):
 		if self.Disponible():
 			direccion = self.memoriaActual
-			self.segmento[direccion] = value
+			self.segmento[direccion] = valor
 			self.memoriaActual += 1
 			return direccion
 		else:
@@ -38,6 +38,20 @@ class TipoSegmento():
 		self.segment.clear()
 		self.memoriaActual = self.empiezaMem
 
+	def Valor(self, direccion):
+		return self.segmento[direccion]
+
+	def PideMemoriaArreglo(self, cantidad, valor):
+		if self.Disponible(cantidad):
+			direccionInicial = self.memoriaActual
+			for i in range(cantidad):
+				self.segmento[self.memoriaActual] = valor
+				self.memoriaActual += 1
+			return direccionInicial
+		else:
+			print("No more memoria space")
+			sys.exit()
+			
 
 
 class MemoriaSegmentada():
@@ -93,7 +107,45 @@ class MemoriaSegmentada():
 		self.segmentoDecimal.Resetea()
 		self.segmentoString.Resetea()
 		self.segmentoBool.Resetea()
+	
+	def Valor(self, direccion):
+		tipoSegmento = self.TipoSegmento(direccion)
+		if tipoSegmento == 'Int':
+			return self.segmentoInt.Valor(direccion)
+		if tipoSegmento == 'Decimal':
+			return self.segmentoDecimal.Valor(direccion)
+		if tipoSegmento == 'String':
+			return self.segmentoString.Valor(direccion)
+		if tipoSegmento == 'Bool':
+			return self.segmentoBool.Valor(direccion)
+	
+	def TipoSegmento(self, direccion):
+		if direccion >= self.empiezaIntMem and direccion <= self.acabaIntMem:
+			return 'Int'
+		if direccion >= self.empiezaDecimalMem and direccion <= self.acabaDecimalMem:
+			return 'Decimal'
+		if direccion >= self.empiezaStringMem and direccion <= self.acabaStringMem:
+			return 'String'
+		if direccion >= self. empiezaBoolMem and direccion <= self.empiezaBoolMem:
+			return 'Bool' 
 
+	def PideMemoriaArreglo(self, tipoVariable, cantidad, valor = None):
+		if tipoVariable == 'int':
+			if valor is None:
+				valor = 0
+			return self.segmentoInt.PideMemoriaArreglo(cantidad, valor)
+		if tipoVariable == 'decimal':
+			if valor is None:
+				valor = 0.0
+			return self.segmentoDecimal.PideMemoriaArreglo(cantidad, valor)
+		if tipoVariable == 'string':
+			if valor is None:
+				valor = ""
+			return self.segmentoString.PideMemoriaArreglo(cantidad, valor)
+		if tipoVariable == 'bool':
+			if valor is None:
+				valor = False
+			return self.segmentoBool.PideMemoriaArreglo(cantidad, valor)
 
 class Memoria():
 
@@ -117,8 +169,34 @@ class Memoria():
 
 	def ChecaConstante(self, tipoVariable, valor):
 		return self.memConstantes.ChecaValor(tipoVariable, valor)
-
+	
 	def ReseteaMemoria(self):
 		self.memLocales.ReseteaMemoria()
 		self.memTemporales.ReseteaMemoria()
 
+	def Valor(self, direccion):
+		tipoVariable = self.TipoMemoria(direccion)
+		if tipoVariable == 'Global':
+			return self.memGlobales.Valor(direccion)
+		if tipoVariable == 'Local':
+			return self.memLocales.Valor(direccion)
+		if tipoVariable == 'Constante':
+			return self.memConstantes.Valor(direccion)
+		if tipoVariable == 'Temporal':
+			return self.memTemporales.Valor(direccion)
+
+	def TipoMemoria(self, direccion):
+		if direccion >= self.memGlobales.empiezaMem and direccion <= self.memGlobales.acabaMem:
+			return 'Global'
+		if direccion >= self.memLocales.empiezaMem and direccion <= self.memLocales.acabaMem:
+			return 'Local'
+		if direccion >= self.memConstantes.empiezaMem and direccion <= self.memConstantes.acabaMem:
+			return 'Constante'
+		if direccion >= self.memTemporales.empiezaMem and direccion <= self.memTemporales.acabaMem:
+			return 'Temporal'	
+
+	def MemoriaGlobalArreglo(self, tipoVariable, cantidad, valor = None):
+		return self.memGlobales.PideMemoriaArreglo(tipoVariable, cantidad, valor)
+	
+	def MemoriaLocalArreglo(self, tipoVariable, cantidad, valor = None):
+		return self.memLocales.PideMemoriaArreglo(tipoVariable, cantidad, valor)

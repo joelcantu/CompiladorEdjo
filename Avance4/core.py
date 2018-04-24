@@ -20,8 +20,8 @@ class Core():
 		self.saltos = []
 		self.regresa = []
 		self.numCuadruplo = 1
-		self.relacionales = ['>', '<', '>=', '<=', '==', '!=']
 		self.tieneReturn = False
+		self.arreglos = {}
 
 	def printCuadruplos(self):
 		for cuadruplo in self.cuadruplos:

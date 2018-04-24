@@ -1,19 +1,8 @@
 start EDJO prueba;
 int a;
-decimal b;
-string c;
-bool e;
 main(){
-	a = 3;
-	e = true;
-	do{
-		a = a - 1;
-		while(a<3){
-			print(a);
-			print("hola");
-			print(e);
-		}	
-	}while(a<3);
+int x[10];
+int z;
 Return zero;
 }
 
