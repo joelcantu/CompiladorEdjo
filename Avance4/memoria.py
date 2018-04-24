@@ -49,7 +49,7 @@ class TipoSegmento():
 				self.memoriaActual += 1
 			return direccionInicial
 		else:
-			print("No more memoria space")
+			print("No more memory space")
 			sys.exit()
 			
 

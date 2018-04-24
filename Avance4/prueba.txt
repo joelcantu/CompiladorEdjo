@@ -1,13 +1,18 @@
 start EDJO prueba;
 int a;
-func void hola(){
-	int x;
+func int hola(int x){
+	if(x < 3){
+		return 0;
+	}
+	else{
+		return hola(x -1);
+	}
 }	
 main(){
-	a = 3;
-	while(a<3){
-		print("hola");
-	}
+	int x[100];
+	int z[100];
+	x = 3;
+	x = hola(x);
 Return zero;
 }
 
