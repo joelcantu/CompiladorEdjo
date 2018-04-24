@@ -342,7 +342,7 @@ def p_resuelve_operadores_relacionales(p):
 	'''resuelve_operadores_relacionales	: 
 	'''
 	if len(edjo.pilaOperadores) > 0 and len(edjo.pilaOperandos) > 1:
-		if edjo.pilaOperadores[-1] in edjo.relacionales:
+		if edjo.pilaOperadores[-1] == '<=' or edjo.pilaOperadores[-1] == '<' or edjo.pilaOperadores[-1] == '>=' or edjo.pilaOperadores[-1] == '>' or edjo.pilaOperadores[-1] == '==' or edjo.pilaOperadores[-1] == '!=':
 			resuelve_operacion(p)
 
 #Resuelve operacion
