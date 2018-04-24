@@ -313,7 +313,7 @@ def p_resuelve_asignacion(p):
 		tipoOperandoDer = edjo.pilaTipos.pop()
 		operandoIzq = edjo.pilaOperandos.pop()
 		tipoOperandoIzq = edjo.pilaTipos.pop()
-		resultado = edjo.cuboSemantico.get_semantic_type(tipoOperandoIzq, tipoOperandoDer, operador)
+		resultado = edjo.cuboSemantico.Tipo(tipoOperandoIzq, tipoOperandoDer, operador)
 		if resultado != 'error':
 			cuadruplo = Cuadruplo(edjo.numCuadruplo, operador, operandoDer, None, operandoIzq)
 			edjo.cuadruplos.append(cuadruplo)
@@ -353,7 +353,7 @@ def resuelve_operacion(p):
 	tipoOperandoDer = edjo.pilaTipos.pop()
 	tipoOperandoIzq = edjo.pilaTipos.pop()
 	operador = edjo.pilaOperadores.pop()
-	resultado = edjo.cuboSemantico.get_semantic_type(tipoOperandoIzq, tipoOperandoDer, operador)
+	resultado = edjo.cuboSemantico.Tipo(tipoOperandoIzq, tipoOperandoDer, operador)
 	if resultado != 'error':
 		memTemp = edjo.memoria.MemoriaTemporal(resultado)
 		edjo.dirFuncion.AgregaTemporal(edjo.funcionLocal, resultado)

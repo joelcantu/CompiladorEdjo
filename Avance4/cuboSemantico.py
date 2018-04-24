@@ -1,6 +1,6 @@
 class CuboSemantico():
     def __init__(self):
-        self.cube = {
+        self.cubo = {
             "int" : {
                 "int" : {
                     "+" : "int",
@@ -219,5 +219,5 @@ class CuboSemantico():
             }
         }
 
-    def get_semantic_type(self, left_type, right_type, operator):
-        return self.cube[left_type][right_type][operator]
+    def Tipo(self, operadorTipoIzq, operadorTipoDer, operador):
+        return self.cubo[operadorTipoIzq][operadorTipoDer][operador]
