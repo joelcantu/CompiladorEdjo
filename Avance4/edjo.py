@@ -485,6 +485,7 @@ def p_quita_falso(p):
 	'''
 	edjo.pilaOperadores.pop()
 
+#Llama funcion con valor diferente a void
 def p_llama_funcion(p):
 	'''llama_funcion	:	VAR_ID LPAREN agrega_falso checa_funcion_si_existe argumentos RPAREN quita_falso resuelve_llamada_funcion guarda_resultado_funcion
 	'''
@@ -736,7 +737,7 @@ def p_crea_print(p):
 	edjo.cuadruplos.append(cuadruplo)
 	edjo.numCuadruplo += 1
 
-
+#Llama funcion tipo void
 def p_Llamada_Func(p):
 	'''Llamada_Func	:	VAR_ID LPAREN agrega_falso checa_funcion_si_existe argumentos RPAREN quita_falso resuelve_llamada_funcion SEMICOLON checa_void
 	'''

@@ -1,7 +1,9 @@
 start EDJO prueba;
 int a;
+func void hola(){
+	int x;
+}	
 main(){
-int x[10];
 int z;
 Return zero;
 }

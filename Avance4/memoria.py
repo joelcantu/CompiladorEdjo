@@ -35,7 +35,7 @@ class TipoSegmento():
 		return None
 
 	def Resetea(self):
-		self.segment.clear()
+		self.segmento.clear()
 		self.memoriaActual = self.empiezaMem
 
 	def Valor(self, direccion):
