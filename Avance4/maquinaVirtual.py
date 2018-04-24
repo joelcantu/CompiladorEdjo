@@ -12,196 +12,193 @@ class MaquinaVirtual():
         self.memoria = memoria
         self.dirFunciones = dirFunciones
         self.instructions =instructions
-        self.cant_instrucciones = len(self.instructions)
-        self.cant_instrucciones_actuales = 0
+        self.cantInstrucciones = len(self.instructions)
+        self.cantInstruccionesActuales = 0
 
 
     def execute(self, print_step_by_step):
-        funcion_llamada = {} # Guarda la funcion cuando es llamada
-        actual_parameter = 0 # Es EL parametro de la funcion (guarda si es el primero, segundo o tercer parametro)
-        memoria_actual = self.memoria 
-        local_segment_pointer_list = [] 
-        temporal_segment_pointer_list = [] 
-        instruction_number_to_back_list = [] # Es el numero de instruccion que regresamos despues de terminar la funcion
+        funcionLlamada = {} # Guarda la funcion cuando es llamada
+        parametroActual = 0 # Es EL parametro de la funcion (guarda si es el primero, segundo o tercer parametro)
+        memoriaActual = self.memoria 
 
         # Imprime de nuevo los cuadruplos
         print("Quadruplos de VM")
-        a = self.cant_instrucciones_actuales
-        b = self.cant_instrucciones
+        a = self.cantInstruccionesActuales
+        b = self.cantInstrucciones
 
         #print(a)
         #print(b)
  
         # Ciclo para generacion de cuadruplos e imprimir
-        while self.cant_instrucciones_actuales < self.cant_instrucciones:
-            instruccion_actual = self.instructions[self.cant_instrucciones_actuales]
+        while self.cantInstruccionesActuales < self.cantInstrucciones:
+            instruccionActual = self.instructions[self.cantInstruccionesActuales]
 
             if print_step_by_step == 'Y':
-                print(instruccion_actual)
+                print(instruccionActual)
 
-            instruccion_diccionario = instruccion_actual.operador # Instruccion_diccionario contiene la "instruccion" del cuadruplo (Ej. '+', 'GOTO', etc)
-            dir_operando_izquierdo = instruccion_actual.operandoIzq
-            dir_operando_derecho = instruccion_actual.operandoDer
-            dir_resultado = instruccion_actual.resultado # Direccion donde el resultado es guardado
+            instruccionDiccionario = instruccionActual.operador # InstruccionDiccionario contiene la "instruccion" del cuadruplo (Ej. '+', 'GOTO', etc)
+            dirOperandoIzquierdo = instruccionActual.operandoIzq
+            dirOperandoDerecho = instruccionActual.operandoDer
+            dirResultado = instruccionActual.resultado # Direccion donde el resultado es guardado
 
 
 
-            if isinstance(dir_operando_izquierdo, dict):
-                dir_operando_izquierdo = memoria_actual.Valor(
-                    dir_operando_izquierdo['index_address'])
+            if isinstance(dirOperandoIzquierdo, dict):
+                dirOperandoIzquierdo = memoriaActual.Valor(
+                    dirOperandoIzquierdo['index_address'])
 
-            if isinstance(dir_operando_derecho, dict):
-                dir_operando_derecho = memoria_actual.Valor(
-                    dir_operando_derecho['index_address'])
+            if isinstance(dirOperandoDerecho, dict):
+                dirOperandoDerecho = memoriaActual.Valor(
+                    dirOperandoDerecho['index_address'])
 
-            if isinstance(dir_resultado, dict):
-                dir_resultado = memoria_actual.Valor(
-                    dir_resultado['index_address'])
+            if isinstance(dirResultado, dict):
+                dirResultado = memoriaActual.Valor(
+                    dirResultado['index_address'])
 
 
             #AQUIIIII EMPIEZAAA MI MADAFUCKIN SWITCH
             def SUMA():
-                    operando_izquierdo = memoria_actual.Valor(dir_operando_izquierdo)
-                    operando_derecho = memoria_actual.Valor(dir_operando_derecho)
-                    resultado = operando_izquierdo + operando_derecho
-                    memoria_actual.ModificaValor(dir_resultado, resultado)
-                    self.cant_instrucciones_actuales += 1 #incrementa el contador deinstructions para continuar con la siguiente intruccion
+                    operandoIzquierdo = memoriaActual.Valor(dirOperandoIzquierdo)
+                    operandoDerecho = memoriaActual.Valor(dirOperandoDerecho)
+                    resultado = operandoIzquierdo + operandoDerecho
+                    memoriaActual.ModificaValor(dirResultado, resultado)
+                    self.cantInstruccionesActuales += 1 #incrementa el contador deinstructions para continuar con la siguiente intruccion
 
             def RESTA():
-                    operando_izquierdo = memoria_actual.Valor(dir_operando_izquierdo)
-                    operando_derecho = memoria_actual.Valor(dir_operando_derecho)
-                    resultado = operando_izquierdo - operando_derecho
-                    memoria_actual.ModificaValor(dir_resultado, resultado)
-                    self.cant_instrucciones_actuales += 1 #incrementa el contador deinstructions para continuar con la siguiente intruccion
+                    operandoIzquierdo = memoriaActual.Valor(dirOperandoIzquierdo)
+                    operandoDerecho = memoriaActual.Valor(dirOperandoDerecho)
+                    resultado = operandoIzquierdo - operandoDerecho
+                    memoriaActual.ModificaValor(dirResultado, resultado)
+                    self.cantInstruccionesActuales += 1 #incrementa el contador deinstructions para continuar con la siguiente intruccion
 
             def MULTIPLICACION():
-                    operando_izquierdo = memoria_actual.Valor(dir_operando_izquierdo)
-                    operando_derecho = memoria_actual.Valor(dir_operando_derecho)
-                    resultado = operando_izquierdo * operando_derecho
-                    memoria_actual.ModificaValor(dir_resultado, resultado)
-                    self.cant_instrucciones_actuales += 1 #incrementa el contador deinstructions para continuar con la siguiente intruccion
+                    operandoIzquierdo = memoriaActual.Valor(dirOperandoIzquierdo)
+                    operandoDerecho = memoriaActual.Valor(dirOperandoDerecho)
+                    resultado = operandoIzquierdo * operandoDerecho
+                    memoriaActual.ModificaValor(dirResultado, resultado)
+                    self.cantInstruccionesActuales += 1 #incrementa el contador deinstructions para continuar con la siguiente intruccion
 
             def DIVISION():
-                    operando_izquierdo = memoria_actual.Valor(dir_operando_izquierdo)
-                    operando_derecho = memoria_actual.Valor(dir_operando_derecho)
+                    operandoIzquierdo = memoriaActual.Valor(dirOperandoIzquierdo)
+                    operandoDerecho = memoriaActual.Valor(dirOperandoDerecho)
 
                     # Valida que no se ejecute una division por 0
-                    if operando_derecho == 0:
+                    if operandoDerecho == 0:
                         print("ERROR! Division por 0 no es valido")
                         sys.exit()
                     else:
-                        if isinstance(operando_izquierdo, float) or isinstance(operando_derecho, float):
-                            resultado = operando_izquierdo / operando_derecho
+                        if isinstance(operandoIzquierdo, float) or isinstance(operandoDerecho, float):
+                            resultado = operandoIzquierdo / operandoDerecho
                         else:
-                            resultado = int(operando_izquierdo / operando_derecho)
+                            resultado = int(operandoIzquierdo / operandoDerecho)
 
-                        memoria_actual.ModificaValor(dir_resultado, resultado)
-                        self.cant_instrucciones_actuales += 1 #incrementa el contador deinstructions para continuar con la siguiente intruccion
+                        memoriaActual.ModificaValor(dirResultado, resultado)
+                        self.cantInstruccionesActuales += 1 #incrementa el contador deinstructions para continuar con la siguiente intruccion
 
             def IGUAL():
-                    operando_izquierdo = memoria_actual.Valor(dir_operando_izquierdo)
-                    resultado = operando_izquierdo
-                    memoria_actual.ModificaValor(dir_resultado, resultado)
-                    self.cant_instrucciones_actuales += 1 #incrementa el contador deinstructions para continuar con la siguiente intruccion
+                    operandoIzquierdo = memoriaActual.Valor(dirOperandoIzquierdo)
+                    resultado = operandoIzquierdo
+                    memoriaActual.ModificaValor(dirResultado, resultado)
+                    self.cantInstruccionesActuales += 1 #incrementa el contador deinstructions para continuar con la siguiente intruccion
 
             def IMPRIME():
-                    operando_izquierdo = memoria_actual.Valor(dir_operando_izquierdo)
-                    print(str(operando_izquierdo))
-                    self.cant_instrucciones_actuales += 1 #incrementa el contador deinstructions para continuar con la siguiente intruccion
+                    operandoIzquierdo = memoriaActual.Valor(dirOperandoIzquierdo)
+                    print(str(operandoIzquierdo))
+                    self.cantInstruccionesActuales += 1 #incrementa el contador deinstructions para continuar con la siguiente intruccion
 
             def GOTO():
-                    self.cant_instrucciones_actuales = dir_resultado - 1
+                    self.cantInstruccionesActuales = dirResultado - 1
 
             def GOTOF():
-                    operando_izquierdo = memoria_actual.Valor(dir_operando_izquierdo)
+                    operandoIzquierdo = memoriaActual.Valor(dirOperandoIzquierdo)
 
-                    if not operando_izquierdo:
-                        self.cant_instrucciones_actuales = dir_resultado - 1
+                    if not operandoIzquierdo:
+                        self.cantInstruccionesActuales = dirResultado - 1
                     else:
-                        self.cant_instrucciones_actuales += 1 #incrementa el contador deinstructions para continuar con la siguiente intruccion
+                        self.cantInstruccionesActuales += 1 #incrementa el contador deinstructions para continuar con la siguiente intruccion
 
             def GOTOV():
-                    operando_izquierdo = memoria_actual.Valor(dir_operando_izquierdo)
+                    operandoIzquierdo = memoriaActual.Valor(dirOperandoIzquierdo)
 
-                    if not operando_izquierdo:
-                        self.cant_instrucciones_actuales += 1
+                    if not operandoIzquierdo:
+                        self.cantInstruccionesActuales += 1
                     else:
-                        self.cant_instrucciones_actuales = dir_resultado - 1
+                        self.cantInstruccionesActuales = dirResultado - 1
 
 
             def RETURN():
-                    operando_izquierdo = memoria_actual.Valor(dir_operando_izquierdo)
-                    resultado = operando_izquierdo
-                    memoria_actual.ModificaValor(dir_resultado, resultado)
-                    self.cant_instrucciones_actuales += 1 #incrementa el contador deinstructions para continuar con la siguiente intruccion
+                    operandoIzquierdo = memoriaActual.Valor(dirOperandoIzquierdo)
+                    resultado = operandoIzquierdo
+                    memoriaActual.ModificaValor(dirResultado, resultado)
+                    self.cantInstruccionesActuales += 1 #incrementa el contador deinstructions para continuar con la siguiente intruccion
 
 
             #NOOOO FUNCIONAA ERAAAAAAA 
             def ERA():
                     # Crea un espacio en memoria donde guarda las variables locales y temporales de la funcion llamada
-                    funcion_llamada['function'] = self.dirFunciones.get_function(dir_operando_izquierdo)
-                    funcion_llamada['memoria'] = Memoria()
-                    actual_parameter = 0
+                    funcionLlamada['function'] = self.dirFunciones.get_function(dirOperandoIzquierdo)
+                    funcionLlamada['memoria'] = Memoria()
+                    parametroActual = 0
 
                     # Asigna la cantidad de variables locales y globales de la funcion
-                    self.request_local_addresses(funcion_llamada)
-                    self.request_temporal_addresses(funcion_llamada)
-                    self.cant_instrucciones_actuales += 1 #incrementa el contador deinstructions para continuar con la siguiente intruccion
+                    self.request_local_addresses(funcionLlamada)
+                    self.request_temporal_addresses(funcionLlamada)
+                    self.cantInstruccionesActuales += 1 #incrementa el contador deinstructions para continuar con la siguiente intruccion
 
             def IGUALIGUAL():
-                    operando_izquierdo = memoria_actual.Valor(dir_operando_izquierdo)
-                    operando_derecho = memoria_actual.Valor(dir_operando_derecho)
-                    resultado = operando_izquierdo == operando_derecho
-                    memoria_actual.ModificaValor(dir_resultado, resultado)
-                    self.cant_instrucciones_actuales += 1 #incrementa el contador deinstructions para continuar con la siguiente intruccion
+                    operandoIzquierdo = memoriaActual.Valor(dirOperandoIzquierdo)
+                    operandoDerecho = memoriaActual.Valor(dirOperandoDerecho)
+                    resultado = operandoIzquierdo == operandoDerecho
+                    memoriaActual.ModificaValor(dirResultado, resultado)
+                    self.cantInstruccionesActuales += 1 #incrementa el contador deinstructions para continuar con la siguiente intruccion
 
             def MENORQUE():
-                    operando_izquierdo = memoria_actual.Valor(dir_operando_izquierdo)
-                    operando_derecho = memoria_actual.Valor(dir_operando_derecho)
-                    resultado = operando_izquierdo < operando_derecho
-                    memoria_actual.ModificaValor(dir_resultado, resultado)
-                    self.cant_instrucciones_actuales += 1 #incrementa el contador deinstructions para continuar con la siguiente intruccion
+                    operandoIzquierdo = memoriaActual.Valor(dirOperandoIzquierdo)
+                    operandoDerecho = memoriaActual.Valor(dirOperandoDerecho)
+                    resultado = operandoIzquierdo < operandoDerecho
+                    memoriaActual.ModificaValor(dirResultado, resultado)
+                    self.cantInstruccionesActuales += 1 #incrementa el contador deinstructions para continuar con la siguiente intruccion
 
             def MAYORQUE():
-                    operando_izquierdo = memoria_actual.Valor(dir_operando_izquierdo)
-                    operando_derecho = memoria_actual.Valor(dir_operando_derecho)
-                    resultado = operando_izquierdo > operando_derecho
-                    memoria_actual.ModificaValor(dir_resultado, resultado)
-                    self.cant_instrucciones_actuales += 1 #incrementa el contador deinstructions para continuar con la siguiente intruccion
+                    operandoIzquierdo = memoriaActual.Valor(dirOperandoIzquierdo)
+                    operandoDerecho = memoriaActual.Valor(dirOperandoDerecho)
+                    resultado = operandoIzquierdo > operandoDerecho
+                    memoriaActual.ModificaValor(dirResultado, resultado)
+                    self.cantInstruccionesActuales += 1 #incrementa el contador deinstructions para continuar con la siguiente intruccion
 
             def MENORIGUAL():
-                    operando_izquierdo = memoria_actual.Valor(dir_operando_izquierdo)
-                    operando_derecho = memoria_actual.Valor(dir_operando_derecho)
-                    resultado = operando_izquierdo <= operando_derecho
-                    memoria_actual.ModificaValor(dir_resultado, resultado)
-                    self.cant_instrucciones_actuales += 1
+                    operandoIzquierdo = memoriaActual.Valor(dirOperandoIzquierdo)
+                    operandoDerecho = memoriaActual.Valor(dirOperandoDerecho)
+                    resultado = operandoIzquierdo <= operandoDerecho
+                    memoriaActual.ModificaValor(dirResultado, resultado)
+                    self.cantInstruccionesActuales += 1
 
             def MAYORIGUAL():
-                    operando_izquierdo = memoria_actual.Valor(dir_operando_izquierdo)
-                    operando_derecho = memoria_actual.Valor(dir_operando_derecho)
-                    resultado = operando_izquierdo >= operando_derecho
-                    memoria_actual.ModificaValor(dir_resultado, resultado)
-                    self.cant_instrucciones_actuales += 1
+                    operandoIzquierdo = memoriaActual.Valor(dirOperandoIzquierdo)
+                    operandoDerecho = memoriaActual.Valor(dirOperandoDerecho)
+                    resultado = operandoIzquierdo >= operandoDerecho
+                    memoriaActual.ModificaValor(dirResultado, resultado)
+                    self.cantInstruccionesActuales += 1
 
             def DIFERENTE():
-                    operando_izquierdo = memoria_actual.Valor(dir_operando_izquierdo)
-                    operando_derecho = memoria_actual.Valor(dir_operando_derecho)
-                    resultado = operando_izquierdo != operando_derecho
-                    memoria_actual.ModificaValor(dir_resultado, resultado)
-                    self.cant_instrucciones_actuales += 1
+                    operandoIzquierdo = memoriaActual.Valor(dirOperandoIzquierdo)
+                    operandoDerecho = memoriaActual.Valor(dirOperandoDerecho)
+                    resultado = operandoIzquierdo != operandoDerecho
+                    memoriaActual.ModificaValor(dirResultado, resultado)
+                    self.cantInstruccionesActuales += 1
 
           #  def PARAMETRO():
 
-          #          operando_izquierdo = memoria_actual.Valor(dir_operando_izquierdo)
+          #          operandoIzquierdo = memoriaActual.Valor(dirOperandoIzquierdo)
           #          direccionParametro = 
 
 #                    left_operand = current_memory.Valor(left_operand_address)
- #                   parameter_adress = funcion_llamada['function']['parameters']['addresses'][actual_parameter]
-  #                  actual_parameter += 1
+ #                   parameter_adress = funcionLlamada['function']['parameters']['addresses'][parametroActual]
+  #                  parametroActual += 1
 
                     # Stores the value of the parameter in its corresponding function
                     # segment menory
-   #                 funcion_llamada['memory'].ModificaValor(parameter_adress, left_operand)
+   #                 funcionLlamada['memory'].ModificaValor(parameter_adress, left_operand)
 
                     # Pass to the next quadruple
     #                self.number_of_current_instruction += 1
@@ -230,7 +227,7 @@ class MaquinaVirtual():
             }
 
             #llamada al switch
-            ans = opciones[instruccion_diccionario]
+            ans = opciones[instruccionDiccionario]
             ans()
 
         

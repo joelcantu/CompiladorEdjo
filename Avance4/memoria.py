@@ -41,6 +41,9 @@ class TipoSegmento():
 	def Valor(self, direccion):
 		return self.segmento[direccion]
 
+	def ModificaValor(self, direccion, valor):
+		self.segmento[direccion] = valor
+
 	def PideMemoriaArreglo(self, cantidad, valor):
 		if self.Disponible(cantidad):
 			direccionInicial = self.memoriaActual
@@ -118,6 +121,17 @@ class MemoriaSegmentada():
 			return self.segmentoString.Valor(direccion)
 		if tipoSegmento == 'Bool':
 			return self.segmentoBool.Valor(direccion)
+
+	def ModificaValor(self, direccion, valor):
+		tipoSegmento = self.TipoSegmento(direccion)
+		if tipoSegmento == 'Int':
+			return self.segmentoInt.ModificaValor(direccion, valor)
+		if tipoSegmento == 'Decimal':
+			return self.segmentoDecimal.ModificaValor(direccion, valor)
+		if tipoSegmento == 'String':
+			return self.segmentoString.ModificaValor(direccion, valor)
+		if tipoSegmento == 'Bool':
+			return self.segmentoBool.ModificaValor(direccion, valor)
 	
 	def TipoSegmento(self, direccion):
 		if direccion >= self.empiezaIntMem and direccion <= self.acabaIntMem:
@@ -185,6 +199,17 @@ class Memoria():
 		if tipoVariable == 'Temporal':
 			return self.memTemporales.Valor(direccion)
 
+	def ModificaValor(self, direccion, valor):
+		tipoVariable = self.TipoMemoria(direccion)
+		if tipoVariable == 'Global':
+			return self.memGlobales.ModificaValor(direccion, valor)
+		if tipoVariable == 'Local':
+			return self.memLocales.ModificaValor(direccion, valor)
+		if tipoVariable == 'Constante':
+			return self.memConstantes.ModificaValor(direccion, valor)
+		if tipoVariable == 'Temporal':
+			return self.memTemporales.ModificaValor(direccion, valor)
+	 
 	def TipoMemoria(self, direccion):
 		if direccion >= self.memGlobales.empiezaMem and direccion <= self.memGlobales.acabaMem:
 			return 'Global'
