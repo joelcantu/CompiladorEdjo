@@ -1,13 +1,11 @@
 start EDJO prueba;
 int a;
-func void hola(){
-	int x;
-}	
+	
 main(){
-	a = 3;
-	while(a<3){
-		print("hola");
-	}
+	a = 2;
+	a = a + 2;
+	print(a);
+
 Return zero;
 }
 

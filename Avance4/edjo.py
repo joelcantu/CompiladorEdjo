@@ -2,6 +2,7 @@ import ply.lex as lex
 import sys
 from core import Core
 from cuadruplo import Cuadruplo
+from maquinaVirtual import MaquinaVirtual
 
 #TOKENS#
 tokens = (
@@ -930,3 +931,11 @@ with open('prueba.txt','r') as f:
 	pp.pprint(parser.parse(input))
 	edjo.dirFuncion.printDirFuncion()
 	edjo.printCuadruplos()
+	maquinaVirtual = MaquinaVirtual(edjo.memoria, edjo.dirFuncion, edjo.cuadruplos)
+	maquinaVirtual.execute("Y")
+
+
+
+
+
+	
