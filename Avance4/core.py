@@ -22,6 +22,7 @@ class Core():
 		self.numCuadruplo = 1
 		self.tieneReturn = False
 		self.arreglos = {}
+		self.stackArreglos = []		
 
 	def printCuadruplos(self):
 		for cuadruplo in self.cuadruplos:

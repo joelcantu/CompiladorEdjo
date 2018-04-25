@@ -18,6 +18,7 @@ class TablaVariables():
 			return self.listaVariables[nombreVariable]
 		else:
 			return None
+
 	def AgregaArreglo(self, variable):
 		self.listaVariables[variable['Name']] = variable
 
