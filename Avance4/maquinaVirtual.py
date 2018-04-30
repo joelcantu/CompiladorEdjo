@@ -14,12 +14,36 @@ class MaquinaVirtual():
         self.instructions =instructions
         self.cantInstrucciones = len(self.instructions)
         self.cantInstruccionesActuales = 0
+        self.parametroActual = 0 # Es EL parametro de la funcion (guarda si es el primero, segundo o tercer parametro)
+        self.turtleActual = turtle.Turtle()
+
+    def MemoriaLocal(self, funcionLlamada):
+        for i in range (funcionLlamada['funcion']['LocalVariables']['int']):
+            funcionLlamada['memoria'].MemoriaLocal('int')
+        for i in range (funcionLlamada['funcion']['LocalVariables']['decimal']):
+            funcionLlamada['memoria'].MemoriaLocal('decimal')
+        for i in range (funcionLlamada['funcion']['LocalVariables']['string']):
+            funcionLlamada['memoria'].MemoriaLocal('string')
+        for i in range (funcionLlamada['funcion']['LocalVariables']['bool']):
+            funcionLlamada['memoria'].MemoriaLocal('bool')
+
+    def MemoriaTemporal(self, funcionLlamada):
+        for i in range (funcionLlamada['funcion']['TemporalVariables']['int']):
+            funcionLlamada['memoria'].MemoriaTemporal('int')
+        for i in range (funcionLlamada['funcion']['TemporalVariables']['decimal']):
+            funcionLlamada['memoria'].MemoriaTemporal('decimal')
+        for i in range (funcionLlamada['funcion']['TemporalVariables']['string']):
+            funcionLlamada['memoria'].MemoriaTemporal('string')
+        for i in range (funcionLlamada['funcion']['TemporalVariables']['bool']):
+            funcionLlamada['memoria'].MemoriaTemporal('bool')
 
 
     def execute(self, print_step_by_step):
         funcionLlamada = {} # Guarda la funcion cuando es llamada
-        parametroActual = 0 # Es EL parametro de la funcion (guarda si es el primero, segundo o tercer parametro)
         memoriaActual = self.memoria 
+        apuntadorLocalLista = []
+        apuntadorTempLista = []
+        numeroInstrucionLista = []
 
         # Imprime de nuevo los cuadruplos
         print("Quadruplos de VM")
@@ -136,13 +160,11 @@ class MaquinaVirtual():
             #NOOOO FUNCIONAA ERAAAAAAA 
             def ERA():
                     # Crea un espacio en memoria donde guarda las variables locales y temporales de la funcion llamada
-                    funcionLlamada['function'] = self.dirFunciones.get_function(dirOperandoIzquierdo)
+                    funcionLlamada['funcion'] = self.dirFunciones.RegresaFuncion(dirOperandoIzquierdo)
                     funcionLlamada['memoria'] = Memoria()
-                    parametroActual = 0
-
-                    # Asigna la cantidad de variables locales y globales de la funcion
-                    self.request_local_addresses(funcionLlamada)
-                    self.request_temporal_addresses(funcionLlamada)
+                    self.parametroActual = 0
+                    self.MemoriaLocal(funcionLlamada)
+                    self.MemoriaTemporal(funcionLlamada)
                     self.cantInstruccionesActuales += 1 #incrementa el contador deinstructions para continuar con la siguiente intruccion
 
             def IGUALIGUAL():
@@ -187,22 +209,113 @@ class MaquinaVirtual():
                     memoriaActual.ModificaValor(dirResultado, resultado)
                     self.cantInstruccionesActuales += 1
 
-          #  def PARAMETRO():
+            def PARAMETRO():
+                    operandoIzquierdo = memoriaActual.Valor(dirOperandoIzquierdo)
+                    direccionParametro = funcionLlamada['funcion']['Parameters']['Addresses'][self.parametroActual]
+                    self.parametroActual += 1
+                    funcionLlamada['memoria'].ModificaValor(direccionParametro, operandoIzquierdo)
+                    self.cantInstruccionesActuales += 1
 
-          #          operandoIzquierdo = memoriaActual.Valor(dirOperandoIzquierdo)
-          #          direccionParametro = 
+            def GOSUB():
+                    numeroInstrucionLista.append(self.cantInstruccionesActuales)
+                    apuntadorLocalLista.append(memoriaActual.memLocales)
+                    apuntadorTempLista.append(memoriaActual.memTemporales)
+                    memoriaActual.memLocales = funcionLlamada['memoria'].memLocales
+                    memoriaActual.memTemporales = funcionLlamada['memoria'].memTemporales
+                    self.cantInstruccionesActuales = dirResultado - 1
 
-#                    left_operand = current_memory.Valor(left_operand_address)
- #                   parameter_adress = funcionLlamada['function']['parameters']['addresses'][parametroActual]
-  #                  parametroActual += 1
+            def ENDPROC():
+                    funcionLlamada.clear()
+                    memoriaActual.memLocales = apuntadorLocalLista.pop()
+                    memoriaActual.memTemporales = apuntadorTempLista.pop()
+                    self.cantInstruccionesActuales = numeroInstrucionLista.pop() + 1
 
-                    # Stores the value of the parameter in its corresponding function
-                    # segment menory
-   #                 funcionLlamada['memory'].ModificaValor(parameter_adress, left_operand)
+            def CREATURTLE():
+                    self.turtleActual = turtle.Turtle()
+                    self.cantInstruccionesActuales += 1
 
-                    # Pass to the next quadruple
-    #                self.number_of_current_instruction += 1
+            def AVANZA():
+                    operandoIzquierdo = int(memoriaActual.Valor(dirOperandoIzquierdo))
+                    self.turtleActual.forward(operandoIzquierdo)
+                    self.cantInstruccionesActuales += 1
 
+            def TURDERECHA():
+                    operandoIzquierdo = memoriaActual.Valor(dirOperandoIzquierdo)
+                    self.turtleActual.right(90)
+                    self.turtleActual.forward(operandoIzquierdo)
+                    self.cantInstruccionesActuales += 1
+
+            def TURIZQUIERDA():
+                    operandoIzquierdo = memoriaActual.Valor(dirOperandoIzquierdo)
+                    self.turtleActual.left(90)
+                    self.turtleActual.forward(operandoIzquierdo)
+                    self.cantInstruccionesActuales += 1
+
+            def CIRCULO():
+                    operandoIzquierdo = memoriaActual.Valor(dirOperandoIzquierdo)
+                    self.turtleActual.circle(operandoIzquierdo)
+                    self.cantInstruccionesActuales += 1
+
+            def CUADRO():
+                    operandoIzquierdo = memoriaActual.Valor(dirOperandoIzquierdo)
+                    self.turtleActual.forward(operandoIzquierdo)
+                    self.turtleActual.left(90)
+                    self.turtleActual.forward(operandoIzquierdo)
+                    self.turtleActual.left(90)
+                    self.turtleActual.forward(operandoIzquierdo)
+                    self.turtleActual.left(90)
+                    self.turtleActual.forward(operandoIzquierdo)
+                    self.turtleActual.left(90)
+                    self.cantInstruccionesActuales += 1
+
+            def RECTANGULO():
+                    operandoIzquierdo = memoriaActual.Valor(dirOperandoIzquierdo)
+                    operandoDerecho = memoriaActual.Valor(dirOperandoDerecho)
+                    self.turtleActual.forward(operandoIzquierdo)
+                    self.turtleActual.left(90)
+                    self.turtleActual.forward(operandoDerecho)
+                    self.turtleActual.left(90)
+                    self.turtleActual.forward(operandoIzquierdo)
+                    self.turtleActual.left(90)
+                    self.turtleActual.forward(operandoDerecho)
+                    self.turtleActual.left(90)
+                    self.cantInstruccionesActuales += 1
+
+            def TRIANGULO():
+                    operandoIzquierdo = memoriaActual.Valor(dirOperandoIzquierdo)
+                    self.turtleActual.forward(operandoIzquierdo)
+                    self.turtleActual.left(120)
+                    self.turtleActual.forward(operandoIzquierdo)
+                    self.turtleActual.left(120)
+                    self.turtleActual.forward(operandoIzquierdo)
+                    self.cantInstruccionesActuales += 1
+
+            def INICIAFILL():
+                    self.turtleActual.begin_fill()
+                    self.cantInstruccionesActuales +=1
+
+            def TERMINAFILL():
+                    self.turtleActual.end_fill()
+                    self.cantInstruccionesActuales += 1
+
+            def TERMINATURTLE():
+                    turtle.done()
+                    self.cantInstruccionesActuales += 1
+                    
+
+            def FILL():
+                    operandoIzquierdo = memoriaActual.Valor(dirOperandoIzquierdo)
+                    nombreColor = operandoIzquierdo
+                    print(nombreColor)
+                    self.turtleActual.fillcolor(nombreColor)
+                    self.cantInstruccionesActuales += 1
+
+            def COLORPEN():
+                    operandoIzquierdo = memoriaActual.Valor(dirOperandoIzquierdo)
+                    nombreColor = operandoIzquierdo
+                    self.turtleActual.pencolor(nombreColor)
+                    self.cantInstruccionesActuales += 1
+                    
             #diccionario de funciones/instrucciones
             opciones = {
                         '+': SUMA,
@@ -222,8 +335,24 @@ class MaquinaVirtual():
                         '<=' : MENORIGUAL,
                         '>=' : MAYORIGUAL,
                         '!=' : DIFERENTE,
-           #             'PARAMETER' : PARAMETER,
-           #             'GOSUB' : GOSUB,
+                        'PARAMETER' : PARAMETRO,
+                        'GOSUB' : GOSUB,
+                        'ENDPROC' : ENDPROC,
+                        'TUR_INICIA' : CREATURTLE,
+                        'TUR_TERMINA' : TERMINATURTLE,
+                        'TUR_FORWARD' : AVANZA,
+                        'TUR_RIGHT' : TURDERECHA,
+                        'TUR_LEFT' : TURIZQUIERDA,
+                        'TUR_CIRCLE' : CIRCULO,
+                        'TUR_SQUARE' : CUADRO,
+                        'TUR_RECTANGLE' : RECTANGULO,
+                        'TUR_TRIANGLE' : TRIANGULO,
+                        'TUR_INICIAFILL' : INICIAFILL,
+                        'TERMINAFILL' : TERMINAFILL,
+                        'TUR_FILL' : FILL,
+                        'TUR_COLORPEN' : COLORPEN,
+                        'INICIAFILL'   : INICIAFILL,
+
             }
 
             #llamada al switch

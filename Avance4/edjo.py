@@ -60,7 +60,14 @@ tokens = (
 'ZERO',
 'RET',
 'FUNC',
-'FINISH'
+'FINISH',
+'BEGIN_FILL',
+'END_FILL',
+'COLOR',
+'SQUARE',
+'RECTANGLE',
+'TRIANGLE',
+'PENCOLOR'
 )
 
 #Palabras reservadas#
@@ -93,7 +100,14 @@ reserved = {
 'zero'		:	'ZERO',
 'Return'	:	'RET',
 'func'		:	'FUNC',
-'finish'	:	'FINISH'
+'finish'	:	'FINISH',
+'begin_fill'	: 'BEGIN_FILL',
+'end_fill'	:	'END_FILL',
+'color' 	: 	'COLOR',
+'square'	:	'SQUARE',
+'rectangle'	: 	'RECTANGLE',
+'triangle' 	: 	'TRIANGLE',
+'pencolor'	: 	'PENCOLOR'
 }
 
 #Expresiones regulares para los tokens simples#
@@ -833,6 +847,13 @@ def p_Turtle(p):
 			|	Position
 			|	IniciaTurtle
 			|	TerminaTurtle
+			|	iniciaFill
+			|	Square
+			|	Rectangle
+			|	Triangle
+			|	terminaFill
+			|	colorFill
+			|	colorPen
 	'''
 
 def p_Forward(p):
@@ -885,6 +906,90 @@ def p_crea_cuadruplo_circle(p):
 	edjo.cuadruplos.append(cuadruplo)
 	edjo.numCuadruplo += 1	
 
+def p_Square(p):
+	'''Square	:	TUR POINT SQUARE LPAREN ExpI RPAREN SEMICOLON crea_cuadruplo_square
+	'''
+
+def p_crea_cuadruplo_square(p):
+	'''crea_cuadruplo_square :
+	'''
+	operando = edjo.pilaOperandos.pop()
+	cuadruplo = Cuadruplo(edjo.numCuadruplo, 'TUR_SQUARE', operando, None, None)
+	edjo.cuadruplos.append(cuadruplo)
+	edjo.numCuadruplo += 1
+
+def p_Rectangle(p):
+	''' Rectangle	:	TUR POINT RECTANGLE LPAREN ExpI COMMA ExpI RPAREN SEMICOLON crea_cuadruplo_rectangle
+	'''
+
+def p_crea_cuadruplo_rectangle(p):
+	''' crea_cuadruplo_rectangle :
+	'''
+	altura = edjo.pilaOperandos.pop()
+	ancho =edjo.pilaOperandos.pop()
+
+	cuadruplo = Cuadruplo(edjo.numCuadruplo, 'TUR_RECTANGLE', altura, ancho, None)
+	edjo.cuadruplos.append(cuadruplo)
+	edjo.numCuadruplo += 1
+
+def p_Triangle(p):
+	''' Triangle	:	TUR POINT TRIANGLE LPAREN ExpI RPAREN SEMICOLON crea_cuadruplo_triangle
+	'''
+
+def p_crea_cuadruplo_triangle(p): 
+	'''crea_cuadruplo_triangle :
+	'''
+	operando = edjo.pilaOperandos.pop()
+	cuadruplo = Cuadruplo(edjo.numCuadruplo, 'TUR_TRIANGLE', operando, None, None)
+	edjo.cuadruplos.append(cuadruplo)
+	edjo.numCuadruplo += 1
+
+def p_iniciaFill(p):
+	''' iniciaFill 	:	TUR POINT BEGIN_FILL LPAREN RPAREN SEMICOLON crea_cuadruplo_iniciafill 
+	'''
+
+def p_crea_cuadruplo_iniciafill(p):
+	''' crea_cuadruplo_iniciafill :
+	'''
+	cuadruplo = Cuadruplo(edjo.numCuadruplo, 'INICIAFILL', None, None, None)
+	edjo.cuadruplos.append(cuadruplo)
+	edjo.numCuadruplo += 1
+
+def p_terminaFill(p):
+	''' terminaFill 	: 	TUR POINT END_FILL LPAREN RPAREN SEMICOLON crea_cuadruplo_terminafill
+	'''
+
+def p_crea_cuadruplo_terminafill(p):
+	''' crea_cuadruplo_terminafill : 
+	'''
+	cuadruplo = Cuadruplo(edjo.numCuadruplo, 'TERMINAFILL', None, None, None)
+	edjo.cuadruplos.append(cuadruplo)
+	edjo.numCuadruplo += 1
+
+def p_colorFill(p):
+	''' colorFill 	:	TUR POINT COLOR LPAREN ExpI RPAREN SEMICOLON crea_cuadruplo_colorFill
+	'''
+
+def p_crea_cuadruplo_colorFill(p):
+	'''	crea_cuadruplo_colorFill :
+	'''
+	operando = edjo.pilaOperandos.pop()
+	cuadruplo = Cuadruplo(edjo.numCuadruplo, 'TUR_FILL', operando, None, None)
+	edjo.cuadruplos.append(cuadruplo)
+	edjo.numCuadruplo += 1
+
+def p_colorPen(p):
+	''' colorPen 	: 	TUR POINT PENCOLOR LPAREN ExpI RPAREN SEMICOLON crea_cuadruplo_colorPen
+	'''
+
+def p_crea_cuadruplo_colorPen(p):
+	''' crea_cuadruplo_colorPen :
+	'''
+	operando = edjo.pilaOperandos.pop()
+	cuadruplo = Cuadruplo(edjo.numCuadruplo, 'TUR_COLORPEN', operando, None, None)
+	edjo.cuadruplos.append(cuadruplo)
+	edjo.numCuadruplo += 1
+
 def p_Position(p):
 	'''Position	:	TUR POINT POS LPAREN ExpI COMMA ExpI RPAREN SEMICOLON crea_cuadruplo_pos
 	'''
@@ -920,6 +1025,7 @@ def p_crea_cuadruplo_termina(p):
 	cuadruplo = Cuadruplo(edjo.numCuadruplo, 'TUR_TERMINA', None, None, None)
 	edjo.cuadruplos.append(cuadruplo)
 	edjo.numCuadruplo += 1
+
 
 import ply.yacc as yacc
 import pprint

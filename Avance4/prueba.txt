@@ -1,10 +1,18 @@
 start EDJO prueba;
 int a;
+
 	
 main(){
-	a = 2;
-	a = a + 2;
-	print(a);
+	 string c;
+	 int x;
+	 c = "red";
+	 turtle.Turtle();
+	 turtle.begin_fill();
+	 turtle.pencolor("red");
+	 turtle.color("blue");
+	 turtle.rectangle(30,50);
+	 turtle.end_fill();
+	 turtle.finish();
 
 Return zero;
 }
