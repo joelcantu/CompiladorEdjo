@@ -1,12 +1,26 @@
 start EDJO prueba;
-int a;
-func int prueba(int x){
-	return x+3;
-}
-main(){
-	int x;
-	x = 1;
-	x = prueba(x);
-Return zero;
+int i, j, a, b, res;
+
+func int fibonacci(int n){
+	if(n == 0){
+		return 0;
+	}
+	if(n == 1){
+		return 1;
+	}
+	else{
+		return fibonacci(n-1) + fibonacci(n-2);
+	}
+	
 }
 
+main(){
+	i = fibonacci(7);
+
+	print("Fibonacci Recursivo");
+	print(i);
+
+
+
+Return zero;
+}
