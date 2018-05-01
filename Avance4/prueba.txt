@@ -1,13 +1,12 @@
 start EDJO prueba;
 int a;
-func int hola(int x){
-	x = x + 1;
-	return x;
+func int prueba(int x){
+	return x+3;
 }
 main(){
 	int x;
-	x = 3;
-	x = hola(x);
+	x = 1;
+	x = prueba(x);
 Return zero;
 }
 
