@@ -1,0 +1,21 @@
+start EDJO prueba2;
+func int hola(int x){
+	x = 1;
+	if (x == 0){
+		print("hola");
+		return x;
+	}
+	if(x != 0){
+		return x + 1;
+	}
+	else {
+		print("esle");
+		return x;
+	}
+}
+main(){
+	int x;
+	x = hola(1);
+	print(x);
+	Return zero;
+}

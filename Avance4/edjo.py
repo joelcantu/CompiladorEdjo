@@ -291,7 +291,7 @@ def p_agrega_var_funcion(p):
 	del edjo.variablesTemp[:]
 
 def p_Asignacion(p):
-	'''Asignacion	:	VAR_ID push_var_PilaOperandos ASSIGN push_operador_PilaOperadores ExpI SEMICOLON resuelve_asignacion
+	'''Asignacion	:	VAR_ID push_var_PilaOperandos pos_arreglo ASSIGN push_operador_PilaOperadores ExpI SEMICOLON resuelve_asignacion
 	'''
 
 #Push el id a la pila operandos 
@@ -327,7 +327,7 @@ def p_resuelve_asignacion(p):
 		tipoOperandoDer = edjo.pilaTipos.pop()
 		operandoIzq = edjo.pilaOperandos.pop()
 		tipoOperandoIzq = edjo.pilaTipos.pop()
-		resultado = edjo.cuboSemantico.get_semantic_type(tipoOperandoIzq, tipoOperandoDer, operador)
+		resultado = edjo.cuboSemantico.Tipo(tipoOperandoIzq, tipoOperandoDer, operador)
 		if resultado != 'error':
 			cuadruplo = Cuadruplo(edjo.numCuadruplo, operador, operandoDer, None, operandoIzq)
 			edjo.cuadruplos.append(cuadruplo)
@@ -367,7 +367,7 @@ def resuelve_operacion(p):
 	tipoOperandoDer = edjo.pilaTipos.pop()
 	tipoOperandoIzq = edjo.pilaTipos.pop()
 	operador = edjo.pilaOperadores.pop()
-	resultado = edjo.cuboSemantico.get_semantic_type(tipoOperandoIzq, tipoOperandoDer, operador)
+	resultado = edjo.cuboSemantico.Tipo(tipoOperandoIzq, tipoOperandoDer, operador)
 	if resultado != 'error':
 		memTemp = edjo.memoria.MemoriaTemporal(resultado)
 		edjo.dirFuncion.AgregaTemporal(edjo.funcionLocal, resultado)
@@ -582,10 +582,59 @@ def p_guarda_resultado_funcion(p):
 	
 
 def p_pos_arreglo(p): #todavia no tenemos arreglos
-	'''pos_arreglo	:	SLBRACKET ExpI SRBRACKET
+	'''pos_arreglo	:	SLBRACKET checa_var_arr agrega_falso ExpI crea_cuadruplo_ver quita_falso SRBRACKET
 			| 
 	'''
 
+def p_crea_cuadruplo_ver(p):
+	'''crea_cuadruplo_ver	: 
+	'''
+	#El numero que va adentro de los []
+	numeroArreglo = edjo.pilaOperandos.pop()
+	#Tiene que ser int
+	tipoNumeroArreglo = edjo.pilaTipos.pop()
+	variable = edjo.stackArreglos.pop()
+	if tipoNumeroArreglo != 'int':
+		print("Error, array index must be integer")
+		sys.exit()
+	else:
+		cuadruplo = Cuadruplo(edjo.numCuadruplo, 'VER', numeroArreglo, variable['LimiteInferior'], variable['LimiteSuperior'])
+		edjo.cuadruplos.append(cuadruplo)
+		edjo.numCuadruplo += 1
+		dir = edjo.memoria.MemoriaGlobal('int', variable['MemoryAddress'])
+		resultado = edjo.memoria.MemoriaGlobal('int')
+		cuadruplo = Cuadruplo(edjo.numCuadruplo, '+', dir, numeroArreglo, resultado)
+		edjo.cuadruplos.append(cuadruplo)
+		edjo.numCuadruplo += 1
+		res = {'Direccion' : resultado}
+		edjo.pilaOperandos.append(res)
+		edjo.pilaTipos.append(variable['Type'])	
+
+def p_checa_var_arr(p):
+	'''checa_var_arr	: 
+	'''
+	nomVariable = p[-3]
+	edjo.pilaOperandos.pop()
+	variable = edjo.dirFuncion.RegresaVariableFuncion(edjo.funcionLocal, nomVariable)
+	if variable is None:
+		variable = edjo.dirFuncion.RegresaVariableFuncion(edjo.funcionGlobal, nomVariable)
+		if variable is None:
+			print("Variable " + nomVariable + " not declared")
+			sys.exit()
+		else:
+			if 'LimiteSuperior' in variable:
+				edjo.stackArreglos.append(variable)
+			else:
+				print("Variable " + nomVariable + " is not an array")
+				sys.exit()
+	else:
+		if 'LimiteSuperior' in variable:
+			edjo.stackArreglos.append(variable)
+		else:
+			print("Variable " + nomVariable + " is not an array")
+			sys.exit()
+			
+			
 
 def p_funciones(p):
 	'''funciones	:	FUNC tipo_funcion VAR_ID LPAREN param RPAREN agrega_funcion LBRACKET Vars reg_brack RBRACKET fin_func_cuad funciones
@@ -1039,7 +1088,6 @@ with open('prueba.txt','r') as f:
 	edjo.printCuadruplos()
 	maquinaVirtual = MaquinaVirtual(edjo.memoria, edjo.dirFuncion, edjo.cuadruplos)
 	maquinaVirtual.execute("Y")
-
 
 
 

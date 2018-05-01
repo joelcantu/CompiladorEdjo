@@ -52,7 +52,7 @@ class TipoSegmento():
 				self.memoriaActual += 1
 			return direccionInicial
 		else:
-			print("No more memoria space")
+			print("No more memory space")
 			sys.exit()
 			
 
@@ -140,7 +140,7 @@ class MemoriaSegmentada():
 			return 'Decimal'
 		if direccion >= self.empiezaStringMem and direccion <= self.acabaStringMem:
 			return 'String'
-		if direccion >= self. empiezaBoolMem and direccion <= self.empiezaBoolMem:
+		if direccion >= self. empiezaBoolMem and direccion <= self.acabaBoolMem:
 			return 'Bool' 
 
 	def PideMemoriaArreglo(self, tipoVariable, cantidad, valor = None):

@@ -6,16 +6,44 @@ import sys
 
 class MaquinaVirtual():
 
-    print("entro")
+    #print("entro")
 
     def __init__(self, memoria, dirFunciones, instructions):
         self.memoria = memoria
         self.dirFunciones = dirFunciones
         self.instructions =instructions
         self.cantInstrucciones = len(self.instructions)
-        self.cantInstruccionesActuales = 0
+        self.cantInstruccionesActuales = 0 
         self.parametroActual = 0 # Es EL parametro de la funcion (guarda si es el primero, segundo o tercer parametro)
-        self.turtleActual = turtle.Turtle()
+        self.turtle = False
+        if(turtle):
+            self.turtleActual = turtle.Turtle() #Inicializacion de Turtle
+
+    def recibeTipoInput(self, value):
+        try:
+            return type(literal_eval(value))
+        except (ValueError, SyntaxError):
+            return str
+
+    def ModificaTipoInput(self, value):
+        if self.recibeTipoInput(value) is int:
+            return int(value)
+        elif self.recibeTipoInput(value) is float:
+            return float(value)
+        elif self.recibeTipoInput(value) is str:
+            return str(value)
+        elif self.recibeTipoInput(value) is bool:
+            return bool(value)
+
+    def TipoInput(self, value):
+        if self.recibeTipoInput(value) is int:
+            return 'int'
+        elif self.recibeTipoInput(value) is float:
+            return 'decimal'
+        elif self.recibeTipoInput(value) is str:
+            return 'string'
+        elif self.recibeTipoInput(value) is bool:
+            return 'bool'
 
     def MemoriaLocal(self, funcionLlamada):
         for i in range (funcionLlamada['funcion']['LocalVariables']['int']):
@@ -61,23 +89,21 @@ class MaquinaVirtual():
                 print(instruccionActual)
 
             instruccionDiccionario = instruccionActual.operador # InstruccionDiccionario contiene la "instruccion" del cuadruplo (Ej. '+', 'GOTO', etc)
-            dirOperandoIzquierdo = instruccionActual.operandoIzq
+            dirOperandoIzquierdo = instruccionActual.operandoIzq 
             dirOperandoDerecho = instruccionActual.operandoDer
             dirResultado = instruccionActual.resultado # Direccion donde el resultado es guardado
 
-
-
             if isinstance(dirOperandoIzquierdo, dict):
                 dirOperandoIzquierdo = memoriaActual.Valor(
-                    dirOperandoIzquierdo['index_address'])
+                    dirOperandoIzquierdo['Direccion'])
 
             if isinstance(dirOperandoDerecho, dict):
                 dirOperandoDerecho = memoriaActual.Valor(
-                    dirOperandoDerecho['index_address'])
+                    dirOperandoDerecho['Direccion'])
 
             if isinstance(dirResultado, dict):
                 dirResultado = memoriaActual.Valor(
-                    dirResultado['index_address'])
+                    dirResultado['Direccion'])
 
 
             #AQUIIIII EMPIEZAAA MI MADAFUCKIN SWITCH
@@ -135,7 +161,6 @@ class MaquinaVirtual():
 
             def GOTOF():
                     operandoIzquierdo = memoriaActual.Valor(dirOperandoIzquierdo)
-
                     if not operandoIzquierdo:
                         self.cantInstruccionesActuales = dirResultado - 1
                     else:
@@ -209,6 +234,17 @@ class MaquinaVirtual():
                     memoriaActual.ModificaValor(dirResultado, resultado)
                     self.cantInstruccionesActuales += 1
 
+            def ARREGLO():
+                    indice = memoriaActual.Valor(dirOperandoIzquierdo)
+                    limInf = dirOperandoDerecho
+                    limSup = dirResultado
+
+                    if indice >= limInf and indice < limSup:
+                        self.cantInstruccionesActuales += 1
+                    else:
+                        print("Indice fuera de los limites")
+                        sys.exit()
+
             def PARAMETRO():
                     operandoIzquierdo = memoriaActual.Valor(dirOperandoIzquierdo)
                     direccionParametro = funcionLlamada['funcion']['Parameters']['Addresses'][self.parametroActual]
@@ -231,6 +267,7 @@ class MaquinaVirtual():
                     self.cantInstruccionesActuales = numeroInstrucionLista.pop() + 1
 
             def CREATURTLE():
+                    self.turtle = True
                     self.turtleActual = turtle.Turtle()
                     self.cantInstruccionesActuales += 1
 
@@ -315,8 +352,22 @@ class MaquinaVirtual():
                     nombreColor = operandoIzquierdo
                     self.turtleActual.pencolor(nombreColor)
                     self.cantInstruccionesActuales += 1
+
+            def INPUT():
+                    tipoVariable = dirOperandoIzquierdo
+                    mensaje = memoriaActual.Valor(dirOperandoDerecho)
+                    valorInput = input(str(mensaje) + "\n")
+                    TipoValorInput = self.TipoInput(valorInput)
+                    valorInput = self.ModificaTipoInput(valorInput)
+                    if TipoValorInput == tipoVariable
+                        memoriaActual.ModificaValor(dirResultado, valorInput)
+                    else:
+                        sys.exit()
+
+                    self.cantInstruccionesActuales += 1
+
                     
-            #diccionario de funciones/instrucciones
+            #Diccionario de funciones/instrucciones
             opciones = {
                         '+': SUMA,
                         '-' : RESTA,
@@ -335,6 +386,7 @@ class MaquinaVirtual():
                         '<=' : MENORIGUAL,
                         '>=' : MAYORIGUAL,
                         '!=' : DIFERENTE,
+                        'VER' : ARREGLO,
                         'PARAMETER' : PARAMETRO,
                         'GOSUB' : GOSUB,
                         'ENDPROC' : ENDPROC,
@@ -352,10 +404,11 @@ class MaquinaVirtual():
                         'TUR_FILL' : FILL,
                         'TUR_COLORPEN' : COLORPEN,
                         'INICIAFILL'   : INICIAFILL,
+                        'INPUT'     : INPUT,
 
             }
 
-            #llamada al switch
+            #Llamada al switch
             ans = opciones[instruccionDiccionario]
             ans()
 
