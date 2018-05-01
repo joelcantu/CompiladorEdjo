@@ -93,14 +93,15 @@ class MaquinaVirtual():
             dirOperandoDerecho = instruccionActual.operandoDer
             dirResultado = instruccionActual.resultado # Direccion donde el resultado es guardado
 
-            if isinstance(dirOperandoIzquierdo, dict):
+            # Recibe el valor de la direccion que esta guardado en memoria para el operando izquierdo
+            if isinstance(dirOperandoIzquierdo, dict): 
                 dirOperandoIzquierdo = memoriaActual.Valor(
                     dirOperandoIzquierdo['Direccion'])
-
+            # Recibe el valor de la direccion que esta guardado en memoria para el operando derecho
             if isinstance(dirOperandoDerecho, dict):
                 dirOperandoDerecho = memoriaActual.Valor(
                     dirOperandoDerecho['Direccion'])
-
+            # Recibe el valor de la direccion que esta guardado en memoria para la direccion que contiene el resultado
             if isinstance(dirResultado, dict):
                 dirResultado = memoriaActual.Valor(
                     dirResultado['Direccion'])
@@ -108,47 +109,47 @@ class MaquinaVirtual():
 
             #AQUIIIII EMPIEZAAA MI MADAFUCKIN SWITCH
             def SUMA():
-                    operandoIzquierdo = memoriaActual.Valor(dirOperandoIzquierdo)
-                    operandoDerecho = memoriaActual.Valor(dirOperandoDerecho)
-                    resultado = operandoIzquierdo + operandoDerecho
-                    memoriaActual.ModificaValor(dirResultado, resultado)
-                    self.cantInstruccionesActuales += 1 #incrementa el contador deinstructions para continuar con la siguiente intruccion
+                    operandoIzquierdo = memoriaActual.Valor(dirOperandoIzquierdo) #Mete el valor guardado en memoria al operando izquierdo
+                    operandoDerecho = memoriaActual.Valor(dirOperandoDerecho) # Mete el valor guardado en memoria al operando derecho 
+                    resultado = operandoIzquierdo + operandoDerecho # Guarda el valor resultado de la suma del operando izquiero y derecho
+                    memoriaActual.ModificaValor(dirResultado, resultado) # Modifica el valor en memoria con su direccion
+                    self.cantInstruccionesActuales += 1 # Incrementa el contador de instructions
 
             def RESTA():
-                    operandoIzquierdo = memoriaActual.Valor(dirOperandoIzquierdo)
-                    operandoDerecho = memoriaActual.Valor(dirOperandoDerecho)
-                    resultado = operandoIzquierdo - operandoDerecho
-                    memoriaActual.ModificaValor(dirResultado, resultado)
-                    self.cantInstruccionesActuales += 1 #incrementa el contador deinstructions para continuar con la siguiente intruccion
+                    operandoIzquierdo = memoriaActual.Valor(dirOperandoIzquierdo) #Mete el valor guardado en memoria al operando izquierdo
+                    operandoDerecho = memoriaActual.Valor(dirOperandoDerecho) # Mete el valor guardado en memoria al operando derecho
+                    resultado = operandoIzquierdo - operandoDerecho # Guarda el valor resultado del operando izquiero menos el operando derecho
+                    memoriaActual.ModificaValor(dirResultado, resultado) # Modifica el valor en memoria con su direccion
+                    self.cantInstruccionesActuales += 1 # Incrementa el contador de instructions
 
             def MULTIPLICACION():
-                    operandoIzquierdo = memoriaActual.Valor(dirOperandoIzquierdo)
-                    operandoDerecho = memoriaActual.Valor(dirOperandoDerecho)
-                    resultado = operandoIzquierdo * operandoDerecho
-                    memoriaActual.ModificaValor(dirResultado, resultado)
-                    self.cantInstruccionesActuales += 1 #incrementa el contador deinstructions para continuar con la siguiente intruccion
+                    operandoIzquierdo = memoriaActual.Valor(dirOperandoIzquierdo) #Mete el valor guardado en memoria al operando izquierdo
+                    operandoDerecho = memoriaActual.Valor(dirOperandoDerecho) # Mete el valor guardado en memoria al operando derecho
+                    resultado = operandoIzquierdo * operandoDerecho # Guarda el valor resultado del operando izquiero por el operando derecho
+                    memoriaActual.ModificaValor(dirResultado, resultado) # Modifica el valor en memoria con su direccion
+                    self.cantInstruccionesActuales += 1 # Incrementa el contador de instructions
 
             def DIVISION():
-                    operandoIzquierdo = memoriaActual.Valor(dirOperandoIzquierdo)
-                    operandoDerecho = memoriaActual.Valor(dirOperandoDerecho)
+                    operandoIzquierdo = memoriaActual.Valor(dirOperandoIzquierdo) #Mete el valor guardado en memoria al operando izquierdo
+                    operandoDerecho = memoriaActual.Valor(dirOperandoDerecho) # Mete el valor guardado en memoria al operando derecho
 
-                    # Valida que no se ejecute una division por 0
+                    # Valida que no se haga una division por 0
                     if operandoDerecho == 0:
                         print("ERROR! Division por 0 no es valido")
-                        sys.exit()
+                        sys.exit() # Termina el programa
                     else:
-                        if isinstance(operandoIzquierdo, float) or isinstance(operandoDerecho, float):
-                            resultado = operandoIzquierdo / operandoDerecho
+                        if isinstance(operandoIzquierdo, float) or isinstance(operandoDerecho, float): #Revisa que los valores sean flotantes
+                            resultado = operandoIzquierdo / operandoDerecho # Guarda el valor resultado del operando izquiero entre el operando derecho
                         else:
-                            resultado = int(operandoIzquierdo / operandoDerecho)
+                            resultado = int(operandoIzquierdo / operandoDerecho) # Guarda el valor resultado del operando izquiero entre el operando derecho
 
-                        memoriaActual.ModificaValor(dirResultado, resultado)
-                        self.cantInstruccionesActuales += 1 #incrementa el contador deinstructions para continuar con la siguiente intruccion
+                        memoriaActual.ModificaValor(dirResultado, resultado) # Modifica el valor en memoria con su direccion
+                        self.cantInstruccionesActuales += 1 # Incrementa el contador de instructions 
 
             def IGUAL():
-                    operandoIzquierdo = memoriaActual.Valor(dirOperandoIzquierdo)
-                    resultado = operandoIzquierdo
-                    memoriaActual.ModificaValor(dirResultado, resultado)
+                    operandoIzquierdo = memoriaActual.Valor(dirOperandoIzquierdo) #Mete el valor guardado en memoria en la direccion del operando izquierdo al operando izquierdo
+                    resultado = operandoIzquierdo # Guarda el valor en resultado
+                    memoriaActual.ModificaValor(dirResultado, resultado) #
                     self.cantInstruccionesActuales += 1 #incrementa el contador deinstructions para continuar con la siguiente intruccion
 
             def IMPRIME():
