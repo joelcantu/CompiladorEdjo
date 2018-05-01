@@ -359,7 +359,7 @@ class MaquinaVirtual():
                     valorInput = input(str(mensaje) + "\n")
                     TipoValorInput = self.TipoInput(valorInput)
                     valorInput = self.ModificaTipoInput(valorInput)
-                    if TipoValorInput == tipoVariable
+                    if TipoValorInput == tipoVariable:
                         memoriaActual.ModificaValor(dirResultado, valorInput)
                     else:
                         sys.exit()
