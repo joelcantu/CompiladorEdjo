@@ -2,24 +2,20 @@ start EDJO prueba;
 int i, j, a, b, res;
 
 func int fibonacci(int n){
-	print(n);
 	if(n == 0){
 		return 0;
 	}
 	if(n == 1){
-		print("entro");
 		return 1;
 	}
 	else{
-			return fibonacci(n-1) + fibonacci(n-2);
+		return fibonacci(n-1) + fibonacci(n-2);
 	}
 	
 }
 
 main(){
-	int x;
-	x = 15;
-	i = fibonacci(x);
+	i = fibonacci(7);
 
 	print("Fibonacci Recursivo");
 	print(i);

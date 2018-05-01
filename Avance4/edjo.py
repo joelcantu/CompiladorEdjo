@@ -218,6 +218,8 @@ def p_Vars(p):
 			|	Tipo VAR_ID SLBRACKET VAR_INT push_int_PilaOperandos SRBRACKET agrega_limites_arreglo agrega_arr_funcion SEMICOLON Vars
 			| 
 	'''
+
+#Mete el valor del int como limite superior, nuestros arreglos empieza siempre en 0
 def p_agrega_limites_arreglo(p):
 	'''agrega_limites_arreglo	: 
 	'''
@@ -235,6 +237,7 @@ def p_agrega_limites_arreglo(p):
 		'LimiteSuperior' : tamanoArreglo
 	}
 
+#Agrega el arreglo a la funcion actual
 def p_agrega_arr_funcion(p):
 	'''agrega_arr_funcion	: 
 	'''
