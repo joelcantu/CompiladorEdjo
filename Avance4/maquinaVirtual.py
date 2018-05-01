@@ -104,8 +104,6 @@ class MaquinaVirtual():
                 dirResultado = memoriaActual.Valor(
                     dirResultado['Direccion'])
 
-
-            #AQUIIIII EMPIEZAAA MI MADAFUCKIN SWITCH
             def SUMA():
                     operandoIzquierdo = memoriaActual.Valor(dirOperandoIzquierdo) #Mete el valor guardado en memoria al operando izquierdo
                     operandoDerecho = memoriaActual.Valor(dirOperandoDerecho) # Mete el valor guardado en memoria al operando derecho 
