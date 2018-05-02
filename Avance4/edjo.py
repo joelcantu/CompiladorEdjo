@@ -583,7 +583,7 @@ def p_guarda_resultado_funcion(p):
 	edjo.pilaTipos.append(tipoFuncion)
 	
 
-def p_pos_arreglo(p): #todavia no tenemos arreglos
+def p_pos_arreglo(p): 
 	'''pos_arreglo	:	SLBRACKET checa_var_arr agrega_falso ExpI crea_cuadruplo_ver quita_falso SRBRACKET
 			| 
 	'''
@@ -603,11 +603,13 @@ def p_crea_cuadruplo_ver(p):
 		cuadruplo = Cuadruplo(edjo.numCuadruplo, 'VER', numeroArreglo, variable['LimiteInferior'], variable['LimiteSuperior'])
 		edjo.cuadruplos.append(cuadruplo)
 		edjo.numCuadruplo += 1
+		#Se utilizo dos espacios de memorioa global para poder hacer las operacones de los arreglos	
 		dir = edjo.memoria.MemoriaGlobal('int', variable['MemoryAddress'])
 		resultado = edjo.memoria.MemoriaGlobal('int')
 		cuadruplo = Cuadruplo(edjo.numCuadruplo, '+', dir, numeroArreglo, resultado)
 		edjo.cuadruplos.append(cuadruplo)
 		edjo.numCuadruplo += 1
+		#La nueva direccion con el valor
 		res = {'Address' : resultado}
 		edjo.pilaOperandos.append(res)
 		edjo.pilaTipos.append(variable['Type'])	
@@ -795,6 +797,7 @@ def p_Print(p):
 	'''Print	:	PRINT LPAREN ExpI RPAREN SEMICOLON crea_print
 	'''
 
+#Crea el cuadruplo del print
 def p_crea_print(p):
 	'''crea_print	: 
 	'''
@@ -827,6 +830,7 @@ def p_While(p):
 	'''While	:	WHILE guarda_numero_cuadruplo LPAREN ExpI RPAREN crea_GOTOF LBRACKET reg_brack RBRACKET regresa_inicio_while
 	'''
 
+#Aqui guarda el numero del cuadruplo para despues regresar a el
 def p_guarda_numero_cuadruplo(p):
 	'''guarda_numero_cuadruplo	: 
 	'''
@@ -847,6 +851,7 @@ def p_DoWhile(p):
 	'''DoWhile	:	DO guarda_numero_cuadruplo LBRACKET reg_brack RBRACKET WHILE LPAREN ExpI RPAREN SEMICOLON crea_GOTOV
 	'''
 
+#Crea cuadruplo de GOTOV
 def p_crea_GOTOV(p):
 	'''crea_GOTOV	: 
 	'''
@@ -881,6 +886,7 @@ def p_Main(p):
 	'''Main		:	MAIN agrega_main_funcion LPAREN RPAREN LBRACKET Vars reg_brack RET ZERO SEMICOLON RBRACKET
 	'''
 
+#Crea cuadruplo main
 def p_agrega_main_funcion(p):
 	'''agrega_main_funcion	: 
 	'''
@@ -889,6 +895,9 @@ def p_agrega_main_funcion(p):
 	edjo.dirFuncion.AsignaNumeroCuadruplo(edjo.funcionLocal, edjo.numCuadruplo)
 	cuadruplo = edjo.cuadruplos[0]
 	cuadruplo.LlenaResultado(edjo.numCuadruplo)
+
+
+#Inicia todo lo de turtle con sus gramatica y sus cuadruplos
 
 def p_Turtle(p):
 	'''Turtle	:	Forward
