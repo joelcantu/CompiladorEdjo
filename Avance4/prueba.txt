@@ -1,4 +1,4 @@
-start EDJO prueba2;
+start EDJO prueba;
 main(){
 	int x;
 	x = 4;
