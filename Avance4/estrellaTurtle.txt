@@ -1,0 +1,18 @@
+start EDJO estrellaTurtle;
+main(){
+	int c;
+	c = 0;
+	turtle.Turtle();
+	
+	turtle.pencolor("blue");
+	while(c < 20){
+                turtle.forward(c * 20);
+                turtle.right(144);
+        c = c + 1;
+	}
+
+	
+	turtle.finish();
+
+	Return zero;
+}

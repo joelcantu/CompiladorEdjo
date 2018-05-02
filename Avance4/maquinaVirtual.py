@@ -273,14 +273,12 @@ class MaquinaVirtual():
 
             def TURDERECHA(): #Recibe los grados en el cual la tortuga girará hacia la derecha y la gira
                     operandoIzquierdo = memoriaActual.Valor(dirOperandoIzquierdo)
-                    self.turtleActual.right(90)
-                    self.turtleActual.forward(operandoIzquierdo)
+                    self.turtleActual.right(operandoIzquierdo)
                     self.cantInstruccionesActuales += 1
 
             def TURIZQUIERDA(): #Recibe los grados en el cual la tortuga girará hacia la izquierda y la gira
                     operandoIzquierdo = memoriaActual.Valor(dirOperandoIzquierdo)
-                    self.turtleActual.left(90)
-                    self.turtleActual.forward(operandoIzquierdo)
+                    self.turtleActual.left(operandoIzquierdo)
                     self.cantInstruccionesActuales += 1
 
             def CIRCULO(): #Recibe el radio del circulo a crear, y crea un ciruclo

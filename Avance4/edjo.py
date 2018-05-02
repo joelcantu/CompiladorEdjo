@@ -183,7 +183,7 @@ def t_VAR_ID(t):
 
 
 lexer = lex.lex()
-file = open('prueba.txt','r')
+file = open('fibonacci.txt','r')
 lexer.input(file.read())
 
 #while True:
@@ -1092,7 +1092,7 @@ import pprint
 parser = yacc.yacc()
 pp = pprint.PrettyPrinter(indent=4)
 
-with open('prueba2.txt','r') as f:
+with open('fibonacci.txt','r') as f:
 	input = f.read()
 	pp.pprint(parser.parse(input))
 	edjo.dirFuncion.printDirFuncion()

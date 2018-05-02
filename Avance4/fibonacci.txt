@@ -1,4 +1,4 @@
-start EDJO prueba;
+start EDJO fibonacci;
 int i, j, a, b, res;
 
 func int fibonacci(int n){
@@ -11,9 +11,10 @@ func int fibonacci(int n){
 	else{
 		return fibonacci(n-1) + fibonacci(n-2);
 	}
-	
 }
+
 main(){
+	int i;
 	i = fibonacci(7);
 	print("Fibonacci Recursivo");
 	print(i);

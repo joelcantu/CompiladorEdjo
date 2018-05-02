@@ -1,0 +1,31 @@
+start EDJO figuraTurtle;
+main(){
+	int c;
+	c = 0;
+	turtle.Turtle();
+	
+	turtle.pencolor("blue");
+	while(c < 120){
+		turtle.forward(200);
+        turtle.right(61);
+        turtle.forward(200);
+        turtle.right(61);
+        turtle.forward(200);
+        turtle.right(61);
+        turtle.forward(200);
+        turtle.right(61);
+        turtle.forward(200);
+        turtle.right(61);
+        turtle.forward(200);
+        turtle.right(61);
+
+        turtle.right(11.1111);
+
+        c = c + 1;
+	}
+
+	
+	turtle.finish();
+
+	Return zero;
+}

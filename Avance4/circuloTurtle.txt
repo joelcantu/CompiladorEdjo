@@ -1,0 +1,13 @@
+start EDJO circuloTurtle;
+main(){
+	
+	turtle.Turtle();
+	turtle.begin_fill();
+	turtle.pencolor("green");
+	turtle.circle(90);
+	turtle.color("red");
+	turtle.end_fill();
+	turtle.finish();
+
+	Return zero;
+}
