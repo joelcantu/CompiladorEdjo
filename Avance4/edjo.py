@@ -606,7 +606,7 @@ def p_crea_cuadruplo_ver(p):
 		cuadruplo = Cuadruplo(edjo.numCuadruplo, '+', dir, numeroArreglo, resultado)
 		edjo.cuadruplos.append(cuadruplo)
 		edjo.numCuadruplo += 1
-		res = {'Direccion' : resultado}
+		res = {'Address' : resultado}
 		edjo.pilaOperandos.append(res)
 		edjo.pilaTipos.append(variable['Type'])	
 
@@ -1081,7 +1081,7 @@ import pprint
 parser = yacc.yacc()
 pp = pprint.PrettyPrinter(indent=4)
 
-with open('fibonacci.txt','r') as f:
+with open('arreglosFactorial.txt','r') as f:
 	input = f.read()
 	pp.pprint(parser.parse(input))
 	edjo.dirFuncion.printDirFuncion()
