@@ -2,9 +2,6 @@ start EDJO prueba2;
 main(){
 	int x;
 	x = 4;
-	while(x >= 1){
-		x = x - 1;
-	}
 	print(x);
 	Return zero;
 }
