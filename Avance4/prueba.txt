@@ -1,7 +1,7 @@
 start EDJO prueba;
 main(){
 	int x;
-	x = 4;
+	x = read("Mete el valor de x");
 	if(x < 3){
 		print(x);
 	}

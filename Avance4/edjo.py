@@ -67,7 +67,8 @@ tokens = (
 'SQUARE',
 'RECTANGLE',
 'TRIANGLE',
-'PENCOLOR'
+'PENCOLOR',
+'READ'
 )
 
 #Palabras reservadas#
@@ -101,13 +102,14 @@ reserved = {
 'Return'	:	'RET',
 'func'		:	'FUNC',
 'finish'	:	'FINISH',
-'begin_fill'	: 'BEGIN_FILL',
+'begin_fill'	: 	'BEGIN_FILL',
 'end_fill'	:	'END_FILL',
 'color' 	: 	'COLOR',
 'square'	:	'SQUARE',
 'rectangle'	: 	'RECTANGLE',
 'triangle' 	: 	'TRIANGLE',
-'pencolor'	: 	'PENCOLOR'
+'pencolor'	: 	'PENCOLOR',
+'read'		:	'READ'
 }
 
 #Expresiones regulares para los tokens simples#
@@ -292,7 +294,20 @@ def p_agrega_var_funcion(p):
 
 def p_Asignacion(p):
 	'''Asignacion	:	VAR_ID push_var_PilaOperandos pos_arreglo ASSIGN push_operador_PilaOperadores ExpI SEMICOLON resuelve_asignacion
+			|	VAR_ID push_var_PilaOperandos pos_arreglo ASSIGN push_operador_PilaOperadores READ LPAREN ExpI RPAREN crea_cuadruplo_read SEMICOLON resuelve_asignacion
 	'''
+def p_crea_cuadruplo_read(p):
+	'''crea_cuadruplo_read	: 
+	'''
+	direccionRead = edjo.pilaOperandos.pop()
+	edjo.pilaTipos.pop()
+	tipoVariable = edjo.pilaTipos[-1]
+	dirTemporal = edjo.memoria.MemoriaTemporal(tipoVariable)
+	edjo.pilaOperandos.append(dirTemporal)
+	edjo.pilaTipos.append(tipoVariable)
+	cuadruplo = Cuadruplo(edjo.numCuadruplo, 'INPUT', tipoVariable, direccionRead, dirTemporal)
+	edjo.cuadruplos.append(cuadruplo)
+	edjo.numCuadruplo += 1 
 
 #Push el id a la pila operandos 
 def p_push_var_PilaOperandos(p):
@@ -1081,7 +1096,7 @@ import pprint
 parser = yacc.yacc()
 pp = pprint.PrettyPrinter(indent=4)
 
-with open('arreglosFactorial.txt','r') as f:
+with open('prueba.txt','r') as f:
 	input = f.read()
 	pp.pprint(parser.parse(input))
 	edjo.dirFuncion.printDirFuncion()
