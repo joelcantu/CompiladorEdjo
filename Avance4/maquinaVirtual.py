@@ -14,8 +14,8 @@ class MaquinaVirtual():
         self.cantInstruccionesActuales = 0  #Inicializa contador
         self.parametroActual = 0 # Es EL parametro de la funcion (guarda si es el primero, segundo o tercer parametro)
         self.turtle = False
-        if(turtle): # If que la ventana de python turtle graphics no abra siempre, que solo se abra cuando se haya creado una tortuga
-            self.turtleActual = turtle.Turtle() #Inicializacion de Turtle
+        if(turtle == True): # If que la ventana de python turtle graphics no abra siempre, que solo se abra cuando se haya creado una tortuga
+             self.turtleActual = turtle.Turtle() #Inicializacion de Turtle
 
     def recibeTipoInput(self, value): # Recibe el tipo de variable del input (int, string, decimal etc)
         try:
