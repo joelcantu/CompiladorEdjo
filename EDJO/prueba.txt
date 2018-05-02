@@ -1,4 +1,8 @@
 start EDJO prueba;
+int x;
+func void hola(int n){
+	n = 3;
+}
 main(){
 	int x;
 	x = read("Mete el valor de x");

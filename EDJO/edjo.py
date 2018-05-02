@@ -684,6 +684,9 @@ def p_agrega_funcion(p):
 	edjo.funcionLocal = p[-4]
 	tipoFuncion = p[-5]
 	memoriaParametros = []
+	if edjo.dirFuncion.TieneFuncion(edjo.funcionLocal):
+		print("Function already declared")
+		sys.exit()
 	edjo.dirFuncion.AgregaFuncion(edjo.funcionLocal, tipoFuncion)
 	edjo.dirFuncion.AsignaNumeroCuadruplo(edjo.funcionLocal, edjo.numCuadruplo)
 	if tipoFuncion != 'void':
@@ -1096,7 +1099,7 @@ import pprint
 parser = yacc.yacc()
 pp = pprint.PrettyPrinter(indent=4)
 
-with open('circuloTurtle.txt','r') as f:
+with open('prueba.txt','r') as f:
 	input = f.read()
 	pp.pprint(parser.parse(input))
 	edjo.dirFuncion.printDirFuncion()
