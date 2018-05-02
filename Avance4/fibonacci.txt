@@ -1,7 +1,7 @@
 start EDJO fibonacci;
 int i, j, a, b, res;
 
-func int fibonacci(int n){
+func int fibo(int n){
 	if(n == 0){
 		return 0;
 	}
@@ -9,14 +9,33 @@ func int fibonacci(int n){
 		return 1;
 	}
 	else{
-		return fibonacci(n-1) + fibonacci(n-2);
+		return fibo(n-1) + fibo(n-2);
 	}
 }
 
+func int fiboItera(int n){
+	int x, t, c, y;
+	x = 0;
+	y = 1;
+	c = 1;
+	t = 0;
+
+	while(c < n){
+		t = x + y;
+		x = y;
+		y = t;
+		c = c + 1;
+	}
+	return y;
+}
+
 main(){
-	int i;
-	i = fibonacci(7);
+	i = fibo(7);
+	j = fiboItera(7);
 	print("Fibonacci Recursivo");
 	print(i);
+	print("Fibonacci Iterativo");
+	print(j);
+
 Return zero;
 }
