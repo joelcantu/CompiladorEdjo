@@ -2,6 +2,11 @@ start EDJO prueba2;
 main(){
 	int x;
 	x = 4;
-	print(x);
+	if(x < 3){
+		print(x);
+	}
+	else{
+		print("hola");
+	}
 	Return zero;
 }

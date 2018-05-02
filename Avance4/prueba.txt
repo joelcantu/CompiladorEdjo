@@ -13,14 +13,9 @@ func int fibonacci(int n){
 	}
 	
 }
-
 main(){
 	i = fibonacci(7);
-
 	print("Fibonacci Recursivo");
 	print(i);
-
-
-
 Return zero;
 }

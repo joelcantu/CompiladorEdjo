@@ -71,6 +71,7 @@ class MemoriaSegmentada():
 		self.tamanoSeg = int(cantidadMem / 4)
 		self.empiezaMem = empiezaMem
 		self.acabaMem = empiezaMem + cantidadMem - 1
+		#Calcula las direccion inicial y final por cada segmento de memoria
 		self.empiezaIntMem = empiezaMem
 		self.acabaIntMem = empiezaMem + self.tamanoSeg - 1
 		self.empiezaDecimalMem = empiezaMem + self.tamanoSeg
@@ -79,6 +80,7 @@ class MemoriaSegmentada():
 		self.acabaStringMem = empiezaMem + (self.tamanoSeg * 3) - 1
 		self.empiezaBoolMem = empiezaMem + (self.tamanoSeg * 3)
 		self.acabaBoolMem = empiezaMem + (self.tamanoSeg * 4) - 1
+		#Crea los tipos de segmentos
 		self.segmentoInt = TipoSegmento('Integer', self.empiezaIntMem, self.acabaIntMem)
 		self.segmentoDecimal = TipoSegmento('Decimal', self.empiezaDecimalMem, self.acabaDecimalMem)
 		self.segmentoString = TipoSegmento('String', self.empiezaStringMem, self.acabaStringMem)
