@@ -218,6 +218,6 @@ class CuboSemantico():
                 }
             }
         }
-
+    #Regresa el resultado de dicha operacion
     def Tipo(self, operadorTipoIzq, operadorTipoDer, operador):
         return self.cubo[operadorTipoIzq][operadorTipoDer][operador]

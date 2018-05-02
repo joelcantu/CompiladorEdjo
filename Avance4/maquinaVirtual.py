@@ -94,15 +94,15 @@ class MaquinaVirtual():
             # Recibe el valor de la direccion que esta guardado en memoria para el operando izquierdo
             if isinstance(dirOperandoIzquierdo, dict): 
                 dirOperandoIzquierdo = memoriaActual.Valor(
-                    dirOperandoIzquierdo['Direccion'])
+                    dirOperandoIzquierdo['Address'])
             # Recibe el valor de la direccion que esta guardado en memoria para el operando derecho
             if isinstance(dirOperandoDerecho, dict):
                 dirOperandoDerecho = memoriaActual.Valor(
-                    dirOperandoDerecho['Direccion'])
+                    dirOperandoDerecho['Address'])
             # Recibe el valor de la direccion que esta guardado en memoria para la direccion que contiene el resultado
             if isinstance(dirResultado, dict):
                 dirResultado = memoriaActual.Valor(
-                    dirResultado['Direccion'])
+                    dirResultado['Address'])
 
             def SUMA():
                     operandoIzquierdo = memoriaActual.Valor(dirOperandoIzquierdo) #Mete el valor guardado en memoria al operando izquierdo
