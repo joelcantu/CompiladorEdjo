@@ -1092,11 +1092,13 @@ import pprint
 parser = yacc.yacc()
 pp = pprint.PrettyPrinter(indent=4)
 
-with open('prueba.txt','r') as f:
+with open('prueba2.txt','r') as f:
 	input = f.read()
 	pp.pprint(parser.parse(input))
 	edjo.dirFuncion.printDirFuncion()
+	print("Cuadruplos compilador")
 	edjo.printCuadruplos()
+	print("Cuadruplos VM")
 	maquinaVirtual = MaquinaVirtual(edjo.memoria, edjo.dirFuncion, edjo.cuadruplos)
 	maquinaVirtual.execute("Y")
 

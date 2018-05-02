@@ -83,7 +83,7 @@ class MaquinaVirtual():
 
             if print_step_by_step == 'Y':
                 #Imprime de nuevo los cuadruplos
-                print("Quadruplos de VM")
+               # print("Quadruplos de VM")
                 print(instruccionActual)
 
             instruccionDiccionario = instruccionActual.operador # InstruccionDiccionario contiene la "instruccion" del cuadruplo (Ej. '+', 'GOTO', etc)
