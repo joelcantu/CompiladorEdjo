@@ -81,10 +81,10 @@ class MaquinaVirtual():
         while self.cantInstruccionesActuales < self.cantInstrucciones:
             instruccionActual = self.instructions[self.cantInstruccionesActuales]
 
-            if print_step_by_step == 'Y':
+            #if print_step_by_step == 'Y':
                 #Imprime de nuevo los cuadruplos
-               # print("Quadruplos de VM")
-                print(instruccionActual)
+                #print("Quadruplos de VM")
+                #print(instruccionActual)
 
             instruccionDiccionario = instruccionActual.operador # InstruccionDiccionario contiene la "instruccion" del cuadruplo (Ej. '+', 'GOTO', etc)
             dirOperandoIzquierdo = instruccionActual.operandoIzq # Direccion del operando izquierdo de la instruccion actual
