@@ -6,6 +6,7 @@ class Cuadruplo():
 		self.operandoDer = operandoDer
 		self.resultado = resultado
 
+	#Llena el salto para ir a otro cuadruplo
 	def LlenaResultado(self, numCuadruplo):
 		self.resultado = numCuadruplo
 

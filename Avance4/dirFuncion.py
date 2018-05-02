@@ -3,6 +3,7 @@ class TablaVariables():
 	def __init__(self):
 		self.listaVariables = {}
 
+	#Mete variable
 	def AgregaVariable(self, tipoVariable, nombreVariable, memoriaVariable = 0):
 		self.listaVariables[nombreVariable] = {
 			'Type' : tipoVariable,
@@ -10,15 +11,18 @@ class TablaVariables():
 			'MemoryAddress' : memoriaVariable
 		}
 
+	#Verifica si la variable existe
 	def TieneVariable(self, nombreVariable):
 		return nombreVariable in self.listaVariables.keys()
 
+	#Regresa la variable
 	def RegresaVariable(self, nombreVariable):
 		if self.TieneVariable(nombreVariable):
 			return self.listaVariables[nombreVariable]
 		else:
 			return None
 
+	#Mete arreglo dentro de la tabla de variable
 	def AgregaArreglo(self, variable):
 		self.listaVariables[variable['Name']] = variable
 
@@ -30,6 +34,7 @@ class DirFuncion():
 	def __init__(self):
 		self.listaFunciones = {}
 
+	#Agrega una nueva funcion al diccionario
 	def AgregaFuncion(self, nombreFuncion, tipoFuncion, tipoParametros = [], nombreParametros = [], memoriaParametros = []):
 		self.listaFunciones[nombreFuncion] = {
 			'Name' : nombreFuncion,
@@ -56,9 +61,11 @@ class DirFuncion():
 			}
 		}
 
+	#Checa si exisite cierta funcion
 	def TieneFuncion(self, nombreFuncion):
 		return nombreFuncion in self.listaFunciones.keys()
 
+	#Regresa toda la funcion
 	def RegresaFuncion(self, nombreFuncion):
 		if self.TieneFuncion(nombreFuncion):
 			return self.listaFunciones[nombreFuncion]
@@ -66,6 +73,7 @@ class DirFuncion():
 			print("The function doesn't exist")
 			return None
 
+	#Agrega parametros a la funcionn
 	def AgregaParametros(self, nombreFuncion, tipoParametros, nombreParametros, memoriaParametros):
 		funcion = self.RegresaFuncion(nombreFuncion)
 		if funcion is not None:
@@ -75,6 +83,7 @@ class DirFuncion():
 		else:
 			print("The function doesn't exist")
 
+	#Agrega una variable a la funcion
 	def AgregaVariableFuncion(self, nombreFuncion, tipoVariable, nombreVariable, memoriaVariable=0):
 		funcion = self.RegresaFuncion(nombreFuncion)
 		if funcion is not None:
@@ -87,6 +96,7 @@ class DirFuncion():
 			print("The function doesnt exists")
 
 
+	#Checa si la funcion tiene cierta variable	
 	def ChecaVariable(self, nombreFuncion, nombreVariable):
 		funcion = self.RegresaFuncion(nombreFuncion)
 		if funcion is not None:
@@ -97,6 +107,7 @@ class DirFuncion():
 		else:
 			print("The variable " + nombreVariable + " has been already declared")
 
+	#Agrega una temporal a la funcion
 	def AgregaTemporal(self, nombreFuncion, tipoTemporal):
 		funcion = self.RegresaFuncion(nombreFuncion)
 		if funcion is not None:
@@ -104,6 +115,7 @@ class DirFuncion():
 		else:
 			print("The function doesnt exists")
 
+	#Regresa alguna variable de cierta funcion	
 	def RegresaVariableFuncion(self, nombreFuncion, nombreVariable):
 		funcion = self.RegresaFuncion(nombreFuncion)
 		if funcion is not None:
@@ -115,6 +127,7 @@ class DirFuncion():
 		else:
 			print("The function doesn't exists")
 
+	#Regresa el tipo de funcion
 	def RegresaTipoFuncion(self, nombreFuncion):
 		funcion = self.RegresaFuncion(nombreFuncion)
 		if funcion is not None:
@@ -123,13 +136,15 @@ class DirFuncion():
 		else:
 			print("The function doesn't exists")
 
+	#Regresa los parametros de una funcion
 	def RegresaParametrosFuncion(self, nombreFuncion):
 		funcion = self.RegresaFuncion(nombreFuncion)
 		if funcion is not None:
 			return funcion['Parameters']
 		else:
 			print("The function doesn't exists")
-
+	
+	#Asinga el numero del cuadruplo de la funcion
 	def AsignaNumeroCuadruplo(self, nombreFuncion, numCuadruplo):
 		funcion = self.RegresaFuncion(nombreFuncion)
 		if funcion is not None:
@@ -137,6 +152,7 @@ class DirFuncion():
 		else:
 			print("The function doesn't exists")
 
+	#Si la funcion es de tipo no void, asigna una direccion de memoria al return del final
 	def AsignaMemoriaFuncion(self, nombreFuncion, memoria):
 		funcion = self.RegresaFuncion(nombreFuncion)
 		if funcion is not None:
@@ -144,6 +160,7 @@ class DirFuncion():
 		else:
 			print("The function doesn't exists")
 
+	#Regresa el numero de cuadruplo
 	def RegresaNumeroCuadruplo(self, nombreFuncion):
 		funcion = self.RegresaFuncion(nombreFuncion)
 		if funcion is not None:
@@ -151,6 +168,7 @@ class DirFuncion():
 		else:
 			print("The function doesn't exists")
 
+	#Aregrega Arreglos a una funcion
 	def AgregaArregloFuncion(self, nombreFuncion, variable):
 		funcion = self.RegresaFuncion(nombreFuncion)
 		if funcion is not None:

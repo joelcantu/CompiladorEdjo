@@ -429,7 +429,6 @@ def p_ExpF(p):
 			|	VAR_ID push_var_PilaOperandos pos_arreglo
 			|	llama_funcion 
 	'''
-	#falta arreglos
 
 def p_VAR_CTE(p):
 	'''VAR_CTE	:	VAR_INT push_int_PilaOperandos
